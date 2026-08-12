@@ -189,40 +189,62 @@
             text-align: center;
         }
 
-        .countdown-grid {
-            display: flex;
-            gap: 1.25rem;
+        /* ------------------------------------------------------------- */
+        /* MODIFIED COUNTDOWN STYLES (Creative, Glassmorphic, Huge Glow)  */
+        /* ------------------------------------------------------------- */
+        .countdown-grid-creative {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.75rem;
             justify-content: center;
-            margin-top: 1.25rem;
+            margin-top: 1.5rem;
+            width: 100%;
         }
 
-        .countdown-item {
+        .countdown-card-item {
+            background: linear-gradient(135deg, rgba(255, 101, 132, 0.08) 0%, rgba(217, 70, 239, 0.04) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 101, 132, 0.25);
+            border-radius: 1rem;
+            padding: 1rem 0.5rem;
             display: flex;
             flex-direction: column;
             align-items: center;
-        }
-
-        .countdown-number {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 2.25rem;
-            font-weight: 700;
-            color: #fff;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 0.75rem;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
             justify-content: center;
-            margin-bottom: 0.35rem;
+            box-shadow: 0 0 20px rgba(255, 101, 132, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .countdown-label {
-            font-size: 0.7rem;
+        .countdown-card-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(255, 101, 132, 0.3);
+            border-color: rgba(255, 101, 132, 0.5);
+        }
+
+        .countdown-number-huge {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff 0%, #ff6584 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.1;
+            margin-bottom: 0.25rem;
+        }
+
+        @media (min-width: 640px) {
+            .countdown-number-huge { font-size: 2.75rem; }
+        }
+
+        .countdown-label-text {
+            font-size: 0.65rem;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: #9ca3af;
+            letter-spacing: 0.15em;
+            color: #ffb3c1;
+            font-weight: 600;
         }
 
         .quran-box {
@@ -293,6 +315,158 @@
         }
 
         .main-btn:hover { opacity: 0.95; transform: translateY(-1px); }
+
+        /* ------------------------------------------------------------- */
+        /* NEW LOVE MESSAGES SECTION STYLES                              */
+        /* ------------------------------------------------------------- */
+        .love-messages-container {
+            max-width: 44rem;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .love-msg-card {
+            background: rgba(20, 21, 30, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 101, 132, 0.3);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(255, 101, 132, 0.12);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .love-msg-display {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #fff;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+
+        .love-msg-display.fade-out {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        /* ------------------------------------------------------------- */
+        /* NEW TODO LIST SECTION STYLES                                  */
+        /* ------------------------------------------------------------- */
+        .todo-container {
+            max-width: 44rem;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 6rem 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .todo-card {
+            background: rgba(20, 21, 30, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .todo-input-group {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .todo-input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .todo-input:focus {
+            border-color: #ff6584;
+        }
+
+        .todo-list-items {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            max-height: 350px;
+            overflow-y: auto;
+            padding-right: 0.25rem;
+        }
+
+        .todo-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 0.85rem;
+            padding: 0.85rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            animation: fadeInItem 0.3s ease;
+            transition: background 0.2s;
+        }
+
+        .todo-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        @keyframes fadeInItem {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .todo-item-content {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex: 1;
+            word-break: break-word;
+            cursor: pointer;
+        }
+
+        .todo-item input[type="checkbox"] {
+            accent-color: #ff6584;
+            width: 1.1rem;
+            height: 1.1rem;
+            cursor: pointer;
+        }
+
+        .todo-item.completed span {
+            text-decoration: line-through;
+            color: #6b7280;
+        }
+
+        .todo-delete-btn {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 0.25rem;
+            transition: color 0.2s;
+        }
+
+        .todo-delete-btn:hover {
+            color: #f87171;
+        }
 
         .gallery-container {
             max-width: 72rem;
@@ -695,25 +869,25 @@
     </div>
 
     <div class="home-dashboard">
-        <!-- COUNTDOWN CARD -->
+        <!-- COUNTDOWN CARD WITH MODIFIED CREATIVE LAYOUT -->
         <div class="dash-card">
-            <h3 class="font-serif" style="font-size: 1.3rem; color: #fff;">Together Since April 8, 2026 ❤️</h3>
-            <div class="countdown-grid">
-                <div class="countdown-item">
-                    <div class="countdown-number" id="daysCount">00</div>
-                    <span class="countdown-label">Days</span>
+            <h3 class="font-serif" style="font-size: 1.25rem; color: #fff;">Together Since April 8, 2026 ❤️</h3>
+            <div class="countdown-grid-creative">
+                <div class="countdown-card-item">
+                    <div class="countdown-number-huge" id="daysCount">00</div>
+                    <span class="countdown-label-text">Days</span>
                 </div>
-                <div class="countdown-item">
-                    <div class="countdown-number" id="hoursCount">00</div>
-                    <span class="countdown-label">Hours</span>
+                <div class="countdown-card-item">
+                    <div class="countdown-number-huge" id="hoursCount">00</div>
+                    <span class="countdown-label-text">Hours</span>
                 </div>
-                <div class="countdown-item">
-                    <div class="countdown-number" id="minsCount">00</div>
-                    <span class="countdown-label">Mins</span>
+                <div class="countdown-card-item">
+                    <div class="countdown-number-huge" id="minsCount">00</div>
+                    <span class="countdown-label-text">Mins</span>
                 </div>
-                <div class="countdown-item">
-                    <div class="countdown-number" id="secsCount">00</div>
-                    <span class="countdown-label">Secs</span>
+                <div class="countdown-card-item">
+                    <div class="countdown-number-huge" id="secsCount">00</div>
+                    <span class="countdown-label-text">Secs</span>
                 </div>
             </div>
         </div>
@@ -725,6 +899,37 @@
                 <div class="quran-text" id="dailyQuranText">"وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ"</div>
                 <div class="quran-ref" id="dailyQuranRef">— سورة الطلاق (65:3)</div>
             </div>
+        </div>
+    </div>
+</section>
+
+<!-- NEW LOVE MESSAGES SECTION -->
+<section class="love-messages-container">
+    <div class="section-title" style="margin-bottom: 2rem;">
+        <p>Words from my heart</p>
+        <h2>Love <span>Messages</span></h2>
+    </div>
+    <div class="love-msg-card">
+        <div class="love-msg-display" id="loveMsgDisplay">"أنا جنبك على طول ❤️"</div>
+        <button class="main-btn" onclick="nextLoveMessage()">
+            Another ❤️
+        </button>
+    </div>
+</section>
+
+<!-- NEW TODO LIST SECTION -->
+<section class="todo-container">
+    <div class="section-title" style="margin-bottom: 2rem;">
+        <p>Our Special Plans</p>
+        <h2>Our <span>Todo List</span></h2>
+    </div>
+    <div class="todo-card">
+        <div class="todo-input-group">
+            <input type="text" id="todoInput" class="todo-input" placeholder="Add a new sweet task or plan..." onkeypress="handleTodoKeypress(event)">
+            <button class="main-btn" onclick="addTodoItem()">Add</button>
+        </div>
+        <div class="todo-list-items" id="todoListContainer">
+            <!-- Populated via JS -->
         </div>
     </div>
 </section>
@@ -827,13 +1032,15 @@
     window.addEventListener('DOMContentLoaded', () => {
         initCountdown();
         loadDailyQuran();
+        initLoveMessages();
+        initTodoList();
         renderGallery(photos);
         renderTimedMessages();
         createFloatingHearts();
         initLeithAuto();
     });
 
-    // Countdown Logic
+    // Countdown Logic (Using existing IDs: daysCount, hoursCount, minsCount, secsCount)
     function initCountdown() {
         const startDate = new Date('2026-04-08T00:00:00');
         setInterval(() => {
@@ -861,6 +1068,144 @@
         document.getElementById('dailyQuranRef').textContent = `— ${q.ref}`;
     }
 
+    // -------------------------------------------------------------
+    // NEW LOVE MESSAGES LOGIC & ARRAY
+    // -------------------------------------------------------------
+    const loveMessagesArray = [
+        "أنا جنبك على طول ❤️",
+        "أنا مش هسيبك.",
+        "بحبك لو أطول مني.",
+        "بحبك لو أبوكي رفضني، هحاول أكون موجود دايمًا.",
+        "هفضل موجود عشانك.",
+        "بحبك أكتر مما أقدر أوصف.",
+        "وجودك في حياتي أحلى حاجة حصلتلي.",
+        "مهما حصل، هفضل أختارك.",
+        "أنا وإنتِ.. مهما الدنيا عملت.",
+        "بحبك النهاردة وبكرة وكل يوم."
+    ];
+
+    let currentLoveMsgIndex = 0;
+    let loveMsgInterval;
+
+    function initLoveMessages() {
+        const display = document.getElementById('loveMsgDisplay');
+        if (!display) return;
+        
+        display.textContent = `"${loveMessagesArray[currentLoveMsgIndex]}"`;
+
+        // Automatically change every 6 seconds smoothly
+        loveMsgInterval = setInterval(() => {
+            nextLoveMessage();
+        }, 6000);
+    }
+
+    function nextLoveMessage() {
+        const display = document.getElementById('loveMsgDisplay');
+        if (!display) return;
+
+        display.classList.add('fade-out');
+        setTimeout(() => {
+            currentLoveMsgIndex = (currentLoveMsgIndex + 1) % loveMessagesArray.length;
+            display.textContent = `"${loveMessagesArray[currentLoveMsgIndex]}"`;
+            display.classList.remove('fade-out');
+        }, 500);
+    }
+
+    // -------------------------------------------------------------
+    // NEW TODO LIST LOGIC WITH LOCALSTORAGE
+    // -------------------------------------------------------------
+    let todoItems = [];
+
+    function initTodoList() {
+        const saved = localStorage.getItem('lola_todos');
+        if (saved) {
+            try {
+                todoItems = JSON.parse(saved);
+            } catch(e) {
+                todoItems = [
+                    { id: 1, text: "Drink water and smile ❤️", completed: false },
+                    { id: 2, text: "Talk to Youssef ✨", completed: true }
+                ];
+            }
+        } else {
+            todoItems = [
+                { id: 1, text: "Drink water and smile ❤️", completed: false },
+                { id: 2, text: "Talk to Youssef ✨", completed: true }
+            ];
+        }
+        renderTodoList();
+    }
+
+    function saveTodoList() {
+        localStorage.setItem('lola_todos', JSON.stringify(todoItems));
+    }
+
+    function renderTodoList() {
+        const container = document.getElementById('todoListContainer');
+        if (!container) return;
+
+        if (todoItems.length === 0) {
+            container.innerHTML = `<p style="text-align: center; color: #9ca3af; font-size: 0.9rem; padding: 1rem;">No tasks yet. Add something sweet above! ❤️</p>`;
+            return;
+        }
+
+        container.innerHTML = '';
+        todoItems.forEach((item) => {
+            container.innerHTML += `
+                <div class="todo-item ${item.completed ? 'completed' : ''}">
+                    <div class="todo-item-content" onclick="toggleTodoItem(${item.id})">
+                        <input type="checkbox" ${item.completed ? 'checked' : ''} onclick="event.stopPropagation(); toggleTodoItem(${item.id})">
+                        <span style="font-size: 0.95rem; color: #f3f4f6;">${escapeHtml(item.text)}</span>
+                    </div>
+                    <button class="todo-delete-btn" onclick="deleteTodoItem(${item.id})" aria-label="Delete task">×</button>
+                </div>
+            `;
+        });
+    }
+
+    function addTodoItem() {
+        const input = document.getElementById('todoInput');
+        if (!input) return;
+        const text = input.value.trim();
+        if (!text) return;
+
+        const newItem = {
+            id: Date.now(),
+            text: text,
+            completed: false
+        };
+
+        todoItems.unshift(newItem);
+        input.value = '';
+        saveTodoList();
+        renderTodoList();
+    }
+
+    function handleTodoKeypress(e) {
+        if (e.key === 'Enter') {
+            addTodoItem();
+        }
+    }
+
+    function toggleTodoItem(id) {
+        const item = todoItems.find(t => t.id === id);
+        if (item) {
+            item.completed = !item.completed;
+            saveTodoList();
+            renderTodoList();
+        }
+    }
+
+    function deleteTodoItem(id) {
+        todoItems = todoItems.filter(t => t.id !== id);
+        saveTodoList();
+        renderTodoList();
+    }
+
+    function escapeHtml(str) {
+        return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
     // Gallery Data & Lightbox State
     const photos = [
         { id: "photo-1", file: "images/alaa-childhood.jpg", title: "Childhood Photo", description: "The sweetest smile from long ago ❤️", category: "special" },
@@ -872,8 +1217,9 @@
 
     function renderGallery(list) {
         const grid = document.getElementById('photoGrid');
+        if (!grid) return;
         grid.innerHTML = '';
-        list.forEach((photo, idx) => {
+        list.forEach((photo) => {
             const originalIndex = photos.findIndex(p => p.id === photo.id);
             grid.innerHTML += `
                 <div class="photo-card" onclick="openLightbox(${originalIndex})">
@@ -932,6 +1278,7 @@
 
     function renderTimedMessages() {
         const grid = document.getElementById('timedMsgGrid');
+        if (!grid) return;
         grid.innerHTML = '';
         const now = new Date();
 
@@ -998,6 +1345,7 @@
     // Floating Hearts
     function createFloatingHearts() {
         const container = document.getElementById('heartsContainer');
+        if (!container) return;
         setInterval(() => {
             const heart = document.createElement('div');
             heart.classList.add('floating-heart');
