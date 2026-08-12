@@ -24,6 +24,161 @@
             font-family: 'Cormorant Garamond', serif;
         }
 
+        /* ------------------------------------------------------------- */
+        /* PASSWORD GATE STYLES (Secure Overlay & Arabic support)        */
+        /* ------------------------------------------------------------- */
+        #passwordGateOverlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(12, 13, 18, 0.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            opacity: 1;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+
+        #passwordGateOverlay.unlocked {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .gate-card {
+            background: rgba(20, 21, 30, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 101, 132, 0.35);
+            border-radius: 2rem;
+            padding: 2.75rem 2rem;
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.7), 0 0 40px rgba(255, 101, 132, 0.15);
+            position: relative;
+            animation: gateFadeIn 0.8s ease;
+        }
+
+        @keyframes gateFadeIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .gate-heart-icon {
+            font-size: 2.75rem;
+            color: #ff6584;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        .gate-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.85rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .gate-subtitle {
+            font-size: 0.9rem;
+            color: #9ca3af;
+            margin-bottom: 2rem;
+        }
+
+        .gate-input-wrapper {
+            position: relative;
+            margin-bottom: 0.75rem;
+        }
+
+        .gate-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 1rem;
+            padding: 0.9rem 3rem 0.9rem 1.25rem;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            direction: auto; /* Supports Arabic RTL naturally */
+            unicode-bidi: plaintext;
+        }
+
+        .gate-input:focus {
+            border-color: #ff6584;
+            box-shadow: 0 0 15px rgba(255, 101, 132, 0.2);
+        }
+
+        .gate-toggle-btn {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 0.25rem;
+            transition: color 0.2s;
+        }
+
+        .gate-toggle-btn:hover {
+            color: #ff6584;
+        }
+
+        .gate-error-msg {
+            font-size: 0.85rem;
+            color: #f87171;
+            min-height: 1.25rem;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .gate-error-msg.visible {
+            opacity: 1;
+        }
+
+        @keyframes shakeInput {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        .gate-input.shake {
+            animation: shakeInput 0.4s ease;
+            border-color: #f87171 !important;
+        }
+
+        .gate-submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #ff6584 0%, #d946ef 100%);
+            border: none;
+            color: white;
+            padding: 0.9rem;
+            border-radius: 1rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 20px rgba(255, 101, 132, 0.35);
+        }
+
+        .gate-submit-btn:hover {
+            opacity: 0.95;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(255, 101, 132, 0.5);
+        }
+        /* ------------------------------------------------------------- */
+
         .hearts-container {
             position: fixed;
             top: 0;
@@ -84,8 +239,8 @@
 
         .nav-links {
             display: flex;
-            gap: 1.5rem;
-            font-size: 0.85rem;
+            gap: 1.2rem;
+            font-size: 0.8rem;
             font-weight: 500;
             color: #d1d5db;
             flex-wrap: wrap;
@@ -118,14 +273,14 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: center;
             text-align: center;
             padding: 7.5rem 1rem 4rem 1rem;
             z-index: 10;
         }
 
         .hero-intro {
-            margin-bottom: 2.5rem;
+            margin-bottom: 1.5rem;
         }
 
         .small-title {
@@ -162,17 +317,10 @@
 
         .home-dashboard {
             width: 100%;
-            max-width: 54rem;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
+            max-width: 36rem;
+            display: flex;
+            justify-content: center;
             margin-top: 1rem;
-        }
-
-        @media (min-width: 768px) {
-            .home-dashboard {
-                grid-template-columns: repeat(2, 1fr);
-            }
         }
 
         .dash-card {
@@ -187,6 +335,7 @@
             align-items: center;
             text-align: center;
             box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            width: 100%;
         }
 
         .countdown-grid-creative {
@@ -240,29 +389,6 @@
             letter-spacing: 0.15em;
             color: #ffb3c1;
             font-weight: 600;
-        }
-
-        .quran-box {
-            text-align: center;
-            padding: 0.5rem 0;
-            width: 100%;
-        }
-
-        .quran-text {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: #fff;
-            margin-bottom: 0.75rem;
-            line-height: 1.6;
-            direction: rtl;
-        }
-
-        .quran-ref {
-            font-size: 0.85rem;
-            color: #ff6584;
-            letter-spacing: 0.05em;
-            direction: rtl;
         }
 
         .section {
@@ -687,6 +813,190 @@
         .timed-badge.unlocked { background: rgba(52, 211, 153, 0.15); color: #34d399; }
 
         /* ------------------------------------------------------------- */
+        /* FAMILY & FRIENDS STYLES (Responsive Jojo & Lola prominence)   */
+        /* ------------------------------------------------------------- */
+        .family-container {
+            max-width: 64rem;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .family-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) { 
+            .family-grid { 
+                grid-template-columns: repeat(2, 1fr); 
+            } 
+            .family-card.primary-card {
+                grid-column: span 1;
+            }
+        }
+
+        @media (min-width: 1024px) { 
+            .family-grid { 
+                grid-template-columns: repeat(3, 1fr); 
+            } 
+            /* Jojo and Lola side-by-side on desktop */
+            .family-card.primary-card:nth-child(1),
+            .family-card.primary-card:nth-child(2) {
+                grid-column: span 1;
+            }
+        }
+
+        .family-card {
+            background: rgba(20, 21, 30, 0.75);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 1rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            transition: transform 0.3s, border-color 0.3s;
+            position: relative;
+        }
+
+        .family-card.special-featured {
+            border: 1px solid rgba(255, 101, 132, 0.45);
+            background: linear-gradient(135deg, rgba(20, 21, 30, 0.85) 0%, rgba(255, 101, 132, 0.05) 100%);
+            box-shadow: 0 0 30px rgba(255, 101, 132, 0.15);
+        }
+
+        .family-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 101, 132, 0.6);
+        }
+
+        .family-badge-top {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 101, 132, 0.15);
+            color: #ff6584;
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 101, 132, 0.3);
+        }
+
+        .family-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255,101,132,0.2) 0%, rgba(217,70,239,0.2) 100%);
+            border: 2px solid rgba(255, 101, 132, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            box-shadow: 0 0 20px rgba(255, 101, 132, 0.15);
+        }
+
+        .family-card-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 0.1rem;
+        }
+
+        .family-card-sub {
+            font-size: 0.85rem;
+            color: #ff6584;
+            font-weight: 500;
+        }
+
+        .family-card-desc {
+            font-size: 0.9rem;
+            color: #9ca3af;
+            line-height: 1.4;
+        }
+
+        /* ------------------------------------------------------------- */
+        /* MEMORY TICKETS STYLES                                         */
+        /* ------------------------------------------------------------- */
+        .tickets-container {
+            max-width: 64rem;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .tickets-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) { .tickets-grid { grid-template-columns: repeat(2, 1fr); } }
+
+        .ticket-card {
+            background: rgba(20, 21, 30, 0.8);
+            backdrop-filter: blur(14px);
+            border: 1px dashed rgba(255, 101, 132, 0.4);
+            border-radius: 1.5rem;
+            padding: 1.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            position: relative;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .ticket-card:hover {
+            transform: translateY(-3px);
+            border-color: #ff6584;
+        }
+
+        .ticket-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ticket-type-badge {
+            background: rgba(255, 101, 132, 0.12);
+            color: #ff6584;
+            font-size: 0.75rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 101, 132, 0.25);
+        }
+
+        .ticket-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .ticket-meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.85rem;
+            color: #9ca3af;
+        }
+
+        .ticket-note {
+            font-size: 0.9rem;
+            color: #d1d5db;
+        }
+
+        /* ------------------------------------------------------------- */
         /* MY MONEY SECTION STYLES (English)                             */
         /* ------------------------------------------------------------- */
         .money-dashboard-container {
@@ -1086,7 +1396,7 @@
             position: absolute;
             bottom: 75px;
             right: 0;
-            width: 320px;
+            width: 300px;
             background: rgba(20, 21, 30, 0.96);
             backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 101, 132, 0.4);
@@ -1137,25 +1447,26 @@
             line-height: 1.4;
         }
 
-        .leith-actions {
+        .leith-mood-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.5rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.4rem;
         }
 
-        .leith-action-btn {
+        .leith-mood-btn {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: #d1d5db;
-            padding: 0.5rem;
+            padding: 0.4rem;
             border-radius: 0.5rem;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             cursor: pointer;
             transition: all 0.2s;
+            text-align: center;
         }
 
-        .leith-action-btn:hover {
-            background: #ff6584;
+        .leith-mood-btn:hover {
+            background: rgba(255, 101, 132, 0.2);
             border-color: #ff6584;
             color: #fff;
         }
@@ -1211,6 +1522,23 @@
 </head>
 <body>
 
+<div id="passwordGateOverlay">
+    <div class="gate-card">
+        <div class="gate-heart-icon">♥</div>
+        <h2 class="gate-title">Welcome to Our Little World</h2>
+        <p class="gate-subtitle">Enter the password to continue</p>
+        
+        <div class="gate-input-wrapper">
+            <input type="password" id="gatePasswordInput" class="gate-input" placeholder="Enter password (e.g. يا بحبك)..." autocomplete="current-password" onkeypress="handleGateKeypress(event)">
+            <button type="button" class="gate-toggle-btn" id="gateToggleBtn" onclick="toggleGatePasswordVisibility()" aria-label="Toggle password visibility">👁️</button>
+        </div>
+        
+        <div class="gate-error-msg" id="gateErrorMsg">الباسورد غلط ❤️ حاول تاني</div>
+        
+        <button class="gate-submit-btn" onclick="verifyGatePassword()">Unlock ❤️</button>
+    </div>
+</div>
+
 <div class="hearts-container" id="heartsContainer"></div>
 
 <nav class="glass-nav">
@@ -1221,7 +1549,9 @@
         <a href="#home">Home</a>
         <a href="#memories">Memories</a>
         <a href="#timedMessages">Messages</a>
-        <a href="#moneySection">My Money</a>
+        <a href="#familySection">Family</a>
+        <a href="#ticketsSection">Tickets</a>
+        <a href="#moneySection">Money</a>
         <a href="#faithSection">Faith</a>
     </div>
 </nav>
@@ -1237,7 +1567,7 @@
 
     <div class="home-dashboard">
         <div class="dash-card">
-            <h3 class="font-serif" style="font-size: 1.25rem; color: #fff;">Together Since April 8, 2026 ❤️</h3>
+            <h3 class="font-serif" style="font-size: 1.25rem; color: #fff; margin-bottom: 0.5rem;">Together Since April 8, 2026 ❤️</h3>
             <div class="countdown-grid-creative">
                 <div class="countdown-card-item">
                     <div class="countdown-number-huge" id="daysCount">00</div>
@@ -1255,14 +1585,6 @@
                     <div class="countdown-number-huge" id="secsCount">00</div>
                     <span class="countdown-label-text">Secs</span>
                 </div>
-            </div>
-        </div>
-
-        <div class="dash-card">
-            <div class="quran-box">
-                <h3 class="font-serif" style="font-size: 1.3rem; color: #ff6584; margin-bottom: 0.5rem;">آية اليوم ❤️</h3>
-                <div class="quran-text" id="dailyQuranText">"وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ"</div>
-                <div class="quran-ref" id="dailyQuranRef">— سورة الطلاق (65:3)</div>
             </div>
         </div>
     </div>
@@ -1336,6 +1658,37 @@
     </div>
 
     <div class="timed-grid" id="timedMsgGrid">
+        <!-- Populated via JS -->
+    </div>
+</section>
+
+<section id="familySection" class="family-container">
+    <div class="section-title">
+        <p>The people who make life special ❤️</p>
+        <h2>👨‍👩‍👧‍👦 <span>Family & Friends</span></h2>
+        <p id="familyCountSub" style="margin-top: 0.5rem; color: #9ca3af; font-size: 0.9rem;">3 People • One Little World</p>
+    </div>
+
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 1.5rem;">
+        <button class="main-btn" onclick="openAddPersonModal()">+ Add Person</button>
+    </div>
+
+    <div class="family-grid" id="familyGridContainer">
+        <!-- Populated via JS -->
+    </div>
+</section>
+
+<section id="ticketsSection" class="tickets-container">
+    <div class="section-title">
+        <p>Tickets to the moments we'll never forget ❤️</p>
+        <h2>🎟️ <span>Memory Tickets</span></h2>
+    </div>
+
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 1.5rem;">
+        <button class="main-btn" onclick="openAddTicketModal()">+ Add Memory</button>
+    </div>
+
+    <div class="tickets-grid" id="ticketsGridContainer">
         <!-- Populated via JS -->
     </div>
 </section>
@@ -1448,6 +1801,118 @@
     </div>
 </div>
 
+<!-- Family & Friends Modals (Expanded for Profession, Education, Department, Dream) -->
+<div class="modal" id="personModal">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeModals()">×</button>
+        <h3 class="font-serif" style="font-size: 1.75rem; color: #fff; margin-bottom: 1.25rem;" id="personModalTitle">Add Person</h3>
+        <input type="hidden" id="editPersonIndex" value="-1">
+        <div class="money-form-group">
+            <label>Name</label>
+            <input type="text" id="inputPersonName" class="money-form-input" placeholder="Name">
+        </div>
+        <div class="money-form-group">
+            <label>Nickname</label>
+            <input type="text" id="inputPersonNickname" class="money-form-input" placeholder="Nickname">
+        </div>
+        <div class="money-form-group">
+            <label>Birthday (DD/MM/YYYY)</label>
+            <input type="text" id="inputPersonBirthday" class="money-form-input" placeholder="12/07/2004">
+        </div>
+        <div class="money-form-group">
+            <label>Profession / Job</label>
+            <input type="text" id="inputPersonProfession" class="money-form-input" placeholder="Biomedical Engineer (مهندس أجهزة طبية)">
+        </div>
+        <div class="money-form-group">
+            <label>Education / College</label>
+            <input type="text" id="inputPersonEducation" class="money-form-input" placeholder="Faculty of Science (كلية علوم)">
+        </div>
+        <div class="money-form-group">
+            <label>Department</label>
+            <input type="text" id="inputPersonDepartment" class="money-form-input" placeholder="Medical Analysis (قسم تحاليل)">
+        </div>
+        <div class="money-form-group">
+            <label>Relationship</label>
+            <input type="text" id="inputPersonRelationship" class="money-form-input" placeholder="Relationship">
+        </div>
+        <div class="money-form-group">
+            <label>Current Goal / Mission</label>
+            <input type="text" id="inputPersonDesc" class="money-form-input" placeholder="مهمتها الحالية: تذاكر وبس 📚❤️">
+        </div>
+        <div class="money-form-group">
+            <label>Dream</label>
+            <input type="text" id="inputPersonDream" class="money-form-input" placeholder="تحلم تشتغل في شركة أدوية 💊❤️">
+        </div>
+        <div class="money-form-group">
+            <label>Special Quote</label>
+            <input type="text" id="inputPersonQuote" class="money-form-input" placeholder="Quote">
+        </div>
+        <div class="money-form-group">
+            <label>Avatar (Emoji / Symbol)</label>
+            <input type="text" id="inputPersonAvatar" class="money-form-input" placeholder="❤️ or 🩺">
+        </div>
+        <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
+            <button class="main-btn" style="flex: 1; justify-content: center;" onclick="savePersonItem()">Save</button>
+            <button class="btn-sm-action" style="flex: 1; padding: 0.8rem;" onclick="closeModals()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="personProfileModal">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeModals()">×</button>
+        <div id="profileModalContent" style="display: flex; flex-direction: column; align-items: center; gap: 1rem; text-align: center;">
+            <!-- Populated via JS -->
+        </div>
+    </div>
+</div>
+
+<!-- Memory Tickets Modals -->
+<div class="modal" id="ticketModal">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeModals()">×</button>
+        <h3 class="font-serif" style="font-size: 1.75rem; color: #fff; margin-bottom: 1.25rem;" id="ticketModalTitle">Add Memory Ticket</h3>
+        <input type="hidden" id="editTicketIndex" value="-1">
+        <div class="money-form-group">
+            <label>Memory Title</label>
+            <input type="text" id="inputTicketTitle" class="money-form-input" placeholder="Cinema Night">
+        </div>
+        <div class="money-form-group">
+            <label>Type</label>
+            <input type="text" id="inputTicketType" class="money-form-input" placeholder="🎬 Cinema">
+        </div>
+        <div class="money-form-group">
+            <label>Date</label>
+            <input type="text" id="inputTicketDate" class="money-form-input" placeholder="15 August 2026">
+        </div>
+        <div class="money-form-group">
+            <label>Place</label>
+            <input type="text" id="inputTicketPlace" class="money-form-input" placeholder="Mall of Egypt">
+        </div>
+        <div class="money-form-group">
+            <label>Short Note</label>
+            <input type="text" id="inputTicketNote" class="money-form-input" placeholder="Our first movie night ❤️">
+        </div>
+        <div class="money-form-group">
+            <label>Details</label>
+            <input type="text" id="inputTicketDetails" class="money-form-input" placeholder="Longer memory description">
+        </div>
+        <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
+            <button class="main-btn" style="flex: 1; justify-content: center;" onclick="saveTicketItem()">Save</button>
+            <button class="btn-sm-action" style="flex: 1; padding: 0.8rem;" onclick="closeModals()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="ticketDetailsModal">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeModals()">×</button>
+        <div id="ticketDetailsContent" style="display: flex; flex-direction: column; gap: 1rem; text-align: left;">
+            <!-- Populated via JS -->
+        </div>
+    </div>
+</div>
+
 <section id="faithSection" class="faith-container">
     <div class="section-title">
         <p>Peace, tranquility, and remembrance ❤️</p>
@@ -1532,19 +1997,20 @@
     <button class="leith-bubble-btn" onclick="toggleLeith()" aria-label="Leith Assistant">🤖</button>
     <div class="leith-panel" id="leithPanel">
         <div class="leith-header">
-            <span>Leith Assistant</span>
+            <span>Leith</span>
             <button class="leith-close" onclick="toggleLeith()">×</button>
         </div>
         <div class="leith-message-box" id="leithMsgBox">
-            Youssef loves you ❤️
+            أهلاً يا لولا ❤️<br>إزيك النهارده؟
         </div>
-        <div class="leith-actions">
-            <button class="leith-action-btn" onclick="setLeithMood('love')">❤️ Love</button>
-            <button class="leith-action-btn" onclick="setLeithMood('happy')">😊 Happy</button>
-            <button class="leith-action-btn" onclick="setLeithMood('upset')">😔 Upset</button>
-            <button class="leith-action-btn" onclick="setLeithMood('support')">🤍 Support</button>
-            <button class="leith-action-btn" onclick="setLeithMood('morning')">☀️ Morning</button>
-            <button class="leith-action-btn" onclick="setLeithMood('night')">🌙 Night</button>
+        <div style="font-size: 0.75rem; color: #9ca3af; font-weight: 600; text-transform: uppercase;">اختر مزاجك:</div>
+        <div class="leith-mood-grid">
+            <button class="leith-mood-btn" onclick="setLeithMood('happy')">🥰 مبسوطة</button>
+            <button class="leith-mood-btn" onclick="setLeithMood('sad')">😔 زعلانة</button>
+            <button class="leith-mood-btn" onclick="setLeithMood('tired')">😴 تعبانة</button>
+            <button class="leith-mood-btn" onclick="setLeithMood('upset')">😡 متضايقة</button>
+            <button class="leith-mood-btn" onclick="setLeithMood('miss')">❤️ مشتاقة</button>
+            <button class="leith-mood-btn" onclick="setLeithMood('calm')">😌 هادية</button>
         </div>
     </div>
 </div>
@@ -1557,16 +2023,60 @@
 <script>
     window.addEventListener('DOMContentLoaded', () => {
         initCountdown();
-        loadDailyQuran();
         initLoveMessages();
         initTodoList();
         renderGallery(photos);
         renderTimedMessages();
         createFloatingHearts();
-        initLeithAuto();
         initMoneyDashboard();
         initFaithModule();
+        initFamilyModule();
+        initTicketsModule();
+        initLeithModule();
     });
+
+    // Password Gate Logic (Supports Arabic "يا بحبك" and English variations)
+    function toggleGatePasswordVisibility() {
+        const input = document.getElementById('gatePasswordInput');
+        const btn = document.getElementById('gateToggleBtn');
+        if (!input || !btn) return;
+        if (input.type === 'password') {
+            input.type = 'text';
+            btn.textContent = '🔒';
+        } else {
+            input.type = 'password';
+            btn.textContent = '👁️';
+        }
+    }
+
+    function verifyGatePassword() {
+        const input = document.getElementById('gatePasswordInput');
+        const errorMsg = document.getElementById('gateErrorMsg');
+        if (!input || !errorMsg) return;
+
+        const val = input.value.trim();
+        const normalizedVal = val.toLowerCase();
+        
+        if (val === "يا بحبك" || normalizedVal === "love you" || normalizedVal === "loveyou") {
+            errorMsg.classList.remove('visible');
+            const overlay = document.getElementById('passwordGateOverlay');
+            if (overlay) {
+                overlay.classList.add('unlocked');
+            }
+        } else {
+            errorMsg.classList.add('visible');
+            input.classList.add('shake');
+            setTimeout(() => {
+                input.classList.remove('shake');
+            }, 400);
+        }
+    }
+
+    function handleGateKeypress(e) {
+        if (e.key === 'Enter') {
+            verifyGatePassword();
+        }
+    }
 
     // Countdown Logic
     function initCountdown() {
@@ -1576,24 +2086,16 @@
             const diff = now - startDate;
             if (diff < 0) return;
 
-            document.getElementById('daysCount').textContent = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
-            document.getElementById('hoursCount').textContent = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
-            document.getElementById('minsCount').textContent = String(Math.floor((diff / 1000 / 60) % 60)).padStart(2, '0');
-            document.getElementById('secsCount').textContent = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
-        }, 1000);
-    }
+            const dEl = document.getElementById('daysCount');
+            const hEl = document.getElementById('hoursCount');
+            const mEl = document.getElementById('minsCount');
+            const sEl = document.getElementById('secsCount');
 
-    // Daily Quran Verses (Arabic)
-    const quranVerses = [
-        { text: "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ", ref: "سورة الطلاق (65:3)" },
-        { text: "إِنَّ مَعَ الْعُسْرِ يُسْرًا", ref: "سورة الشرح (94:6)" },
-        { text: "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي", ref: "سورة طه (20:25-26)" },
-        { text: "وَاصْبِرْ لِحُكْمِ رَبِّكَ فَإِنَّكَ بِأَعْيُنِنَا", ref: "سورة الطور (52:48)" }
-    ];
-    function loadDailyQuran() {
-        const q = quranVerses[Math.floor(Date.now() / 86400000) % quranVerses.length];
-        document.getElementById('dailyQuranText').textContent = `"${q.text}"`;
-        document.getElementById('dailyQuranRef').textContent = `— ${q.ref}`;
+            if (dEl) dEl.textContent = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
+            if (hEl) hEl.textContent = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
+            if (mEl) mEl.textContent = String(Math.floor((diff / 1000 / 60) % 60)).padStart(2, '0');
+            if (sEl) sEl.textContent = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
+        }, 1000);
     }
 
     // Love Messages Array & Rotation
@@ -1616,9 +2118,7 @@
     function initLoveMessages() {
         const display = document.getElementById('loveMsgDisplay');
         if (!display) return;
-        
         display.textContent = `"${loveMessagesArray[currentLoveMsgIndex]}"`;
-
         loveMsgInterval = setInterval(() => {
             nextLoveMessage();
         }, 6000);
@@ -1627,7 +2127,6 @@
     function nextLoveMessage() {
         const display = document.getElementById('loveMsgDisplay');
         if (!display) return;
-
         display.classList.add('fade-out');
         setTimeout(() => {
             currentLoveMsgIndex = (currentLoveMsgIndex + 1) % loveMessagesArray.length;
@@ -1822,43 +2321,432 @@
         });
     }
 
-    // Leith Assistant
-    const leithMessages = [
-        "Youssef loves you ❤️", "I am right here with you 🤍", "You crossed my mind again ❤️", "Take a deep breath, everything is fine.",
-        "Your smile brightens my day ❤️", "I'm always by your side.", "Never letting you go 🤍", "Thinking of you always ❤️"
+    // -------------------------------------------------------------
+    // FAMILY & FRIENDS MODULE LOGIC (Jojo & Lola first, Countdown calculation)
+    // -------------------------------------------------------------
+    let familyData = [
+        {
+            name: "Jojo",
+            nickname: "Jojo",
+            birthday: "12/07/2004",
+            profession: "Biomedical Engineer (مهندس أجهزة طبية)",
+            education: "",
+            department: "",
+            relationship: "Special",
+            description: "Biomedical Engineer",
+            quote: "",
+            avatar: "❤️",
+            isPrimary: true
+        },
+        {
+            name: "Lola",
+            nickname: "Lola",
+            birthday: "01/01/2008",
+            profession: "",
+            education: "Faculty of Science (كلية علوم)",
+            department: "Medical Analysis (قسم تحاليل)",
+            relationship: "Special",
+            description: "مهمتها الحالية: تذاكر وبس 📚❤️",
+            dream: "تحلم تشتغل في شركة أدوية 💊❤️",
+            quote: "",
+            avatar: "❤️",
+            isPrimary: true
+        },
+        {
+            name: "Dr. Mai",
+            nickname: "Mayoush",
+            birthday: "",
+            profession: "",
+            education: "",
+            department: "",
+            relationship: "خالة وعمة العيال",
+            description: "خالة وعمة العيال",
+            quote: "",
+            avatar: "🩺",
+            isPrimary: false
+        }
     ];
 
-    function initLeithAuto() {
-        setInterval(() => {
-            const box = document.getElementById('leithMsgBox');
-            if (box && !document.getElementById('leithPanel').classList.contains('active')) {
-                box.textContent = leithMessages[Math.floor(Math.random() * leithMessages.length)];
+    function initFamilyModule() {
+        const saved = localStorage.getItem('family_friends_v1');
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                if (parsed && Array.isArray(parsed)) {
+                    familyData = parsed;
+                }
+            } catch(e) {
+                console.error("Error loading family data", e);
             }
-        }, 12000);
+        }
+        renderFamilyModule();
+    }
+
+    function saveFamilyStorage() {
+        try {
+            localStorage.setItem('family_friends_v1', JSON.stringify(familyData));
+        } catch(e) {
+            console.error("Error saving family data", e);
+        }
+    }
+
+    // Birthday countdown calculation helper
+    function getBirthdayCountdownText(birthdayStr) {
+        if (!birthdayStr || !birthdayStr.includes('/')) return '';
+        const parts = birthdayStr.split('/');
+        if (parts.length < 2) return '';
+        const day = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10) - 1; // 0-indexed
+
+        const now = new Date();
+        let currentYear = now.getFullYear();
+        let nextBday = new Date(currentYear, month, day);
+
+        if (now > nextBday) {
+            nextBday = new Date(currentYear + 1, month, day);
+        }
+
+        const diffTime = nextBday - now;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        if (diffDays === 0) {
+            return "🎉 Happy Birthday ❤️";
+        } else if (diffDays === 1) {
+            return "⏳ Tomorrow is the Birthday! ❤️";
+        } else if (diffDays > 0) {
+            return `⏳ ${diffDays} Days Left to Next Birthday`;
+        }
+        return '';
+    }
+
+    function renderFamilyModule() {
+        const grid = document.getElementById('familyGridContainer');
+        const countSub = document.getElementById('familyCountSub');
+        if (!grid) return;
+
+        if (countSub) {
+            countSub.textContent = `${familyData.length} People • One Little World`;
+        }
+
+        if (familyData.length === 0) {
+            grid.innerHTML = `<p style="grid-column: span 3; text-align: center; color: #9ca3af; padding: 2rem;">No people added yet.</p>`;
+            return;
+        }
+
+        grid.innerHTML = '';
+        familyData.forEach((person, idx) => {
+            const bdayText = getBirthdayCountdownText(person.birthday);
+            const isJojoOrLola = person.name.toLowerCase() === 'jojo' || person.name.toLowerCase() === 'lola';
+            
+            grid.innerHTML += `
+                <div class="family-card ${isJojoOrLola ? 'special-featured primary-card' : ''}">
+                    ${isJojoOrLola ? `<div class="family-badge-top">❤️ Our People</div>` : ''}
+                    <div class="family-avatar">${person.avatar || '❤️'}</div>
+                    <div>
+                        <h3 class="family-card-title">${escapeHtml(person.name)}</h3>
+                        ${person.nickname && person.nickname !== person.name ? `<div class="family-card-sub">${escapeHtml(person.nickname)}</div>` : ''}
+                    </div>
+                    
+                    <div style="font-size: 0.9rem; color: #d1d5db; display: flex; flex-direction: column; gap: 0.3rem; text-align: center;">
+                        ${person.birthday ? `<div>🎂 Birthday: ${escapeHtml(person.birthday)}</div>` : ''}
+                        ${bdayText ? `<div style="color: #ff6584; font-weight: 600; font-size: 0.85rem;">${bdayText}</div>` : ''}
+                        ${person.profession ? `<div>🩺 ${escapeHtml(person.profession)}</div>` : ''}
+                        ${person.education ? `<div>🎓 ${escapeHtml(person.education)}</div>` : ''}
+                        ${person.department ? `<div>🔬 ${escapeHtml(person.department)}</div>` : ''}
+                        ${person.relationship ? `<div>❤️ ${escapeHtml(person.relationship)}</div>` : ''}
+                        ${person.dream ? `<div style="color: #f472b6;">💡 Dream: ${escapeHtml(person.dream)}</div>` : ''}
+                    </div>
+
+                    <p class="family-card-desc">${escapeHtml(person.description || person.quote || '')}</p>
+                    <div style="display: flex; gap: 0.5rem; margin-top: auto; flex-wrap: wrap; justify-content: center;">
+                        <button class="btn-sm-action" onclick="openPersonProfile(${idx})">View Profile</button>
+                        <button class="btn-sm-action" onclick="openEditPersonModal(${idx})">✏️</button>
+                        <button class="btn-sm-action btn-sm-danger" onclick="deletePersonItem(${idx})">🗑️</button>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function openAddPersonModal() {
+        document.getElementById('personModalTitle').textContent = "Add Person";
+        document.getElementById('editPersonIndex').value = "-1";
+        document.getElementById('inputPersonName').value = "";
+        document.getElementById('inputPersonNickname').value = "";
+        document.getElementById('inputPersonBirthday').value = "";
+        document.getElementById('inputPersonProfession').value = "";
+        document.getElementById('inputPersonEducation').value = "";
+        document.getElementById('inputPersonDepartment').value = "";
+        document.getElementById('inputPersonRelationship').value = "";
+        document.getElementById('inputPersonDesc').value = "";
+        document.getElementById('inputPersonDream').value = "";
+        document.getElementById('inputPersonQuote').value = "";
+        document.getElementById('inputPersonAvatar').value = "❤️";
+        document.getElementById('personModal').classList.add('active');
+    }
+
+    function openEditPersonModal(index) {
+        const p = familyData[index];
+        if (!p) return;
+        document.getElementById('personModalTitle').textContent = "Edit Person";
+        document.getElementById('editPersonIndex').value = index;
+        document.getElementById('inputPersonName').value = p.name || "";
+        document.getElementById('inputPersonNickname').value = p.nickname || "";
+        document.getElementById('inputPersonBirthday').value = p.birthday || "";
+        document.getElementById('inputPersonProfession').value = p.profession || "";
+        document.getElementById('inputPersonEducation').value = p.education || "";
+        document.getElementById('inputPersonDepartment').value = p.department || "";
+        document.getElementById('inputPersonRelationship').value = p.relationship || "";
+        document.getElementById('inputPersonDesc').value = p.description || "";
+        document.getElementById('inputPersonDream').value = p.dream || "";
+        document.getElementById('inputPersonQuote').value = p.quote || "";
+        document.getElementById('inputPersonAvatar').value = p.avatar || "❤️";
+        document.getElementById('personModal').classList.add('active');
+    }
+
+    function savePersonItem() {
+        const index = parseInt(document.getElementById('editPersonIndex').value, 10);
+        const name = document.getElementById('inputPersonName').value.trim();
+        const nickname = document.getElementById('inputPersonNickname').value.trim();
+        const birthday = document.getElementById('inputPersonBirthday').value.trim();
+        const profession = document.getElementById('inputPersonProfession').value.trim();
+        const education = document.getElementById('inputPersonEducation').value.trim();
+        const department = document.getElementById('inputPersonDepartment').value.trim();
+        const relationship = document.getElementById('inputPersonRelationship').value.trim();
+        const description = document.getElementById('inputPersonDesc').value.trim();
+        const dream = document.getElementById('inputPersonDream').value.trim();
+        const quote = document.getElementById('inputPersonQuote').value.trim();
+        const avatar = document.getElementById('inputPersonAvatar').value.trim() || "❤️";
+
+        if (!name) return;
+
+        const obj = { name, nickname, birthday, profession, education, department, relationship, description, dream, quote, avatar };
+
+        if (index === -1) {
+            familyData.push(obj);
+        } else {
+            familyData[index] = obj;
+        }
+
+        saveFamilyStorage();
+        renderFamilyModule();
+        closeModals();
+    }
+
+    function deletePersonItem(index) {
+        if (confirm("Are you sure you want to delete this person?")) {
+            familyData.splice(index, 1);
+            saveFamilyStorage();
+            renderFamilyModule();
+        }
+    }
+
+    function openPersonProfile(index) {
+        const p = familyData[index];
+        if (!p) return;
+        const bdayText = getBirthdayCountdownText(p.birthday);
+        const content = document.getElementById('profileModalContent');
+        content.innerHTML = `
+            <div class="family-avatar" style="width: 100px; height: 100px; font-size: 2.8rem; margin: 0 auto;">${p.avatar || '❤️'}</div>
+            <h3 class="font-serif" style="font-size: 2rem; color: #fff;">${escapeHtml(p.name)}</h3>
+            ${p.nickname ? `<p style="color: #ff6584; font-weight: 600;">${escapeHtml(p.nickname)}</p>` : ''}
+            <div style="text-align: left; width: 100%; background: rgba(255,255,255,0.03); padding: 1rem; border-radius: 1rem; margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem;">
+                ${p.birthday ? `<div><strong>Birthday:</strong> ${escapeHtml(p.birthday)}</div>` : ''}
+                ${bdayText ? `<div style="color: #ff6584; font-weight: 600;"><strong>Countdown:</strong> ${bdayText}</div>` : ''}
+                ${p.profession ? `<div><strong>Profession:</strong> ${escapeHtml(p.profession)}</div>` : ''}
+                ${p.education ? `<div><strong>Education:</strong> ${escapeHtml(p.education)}</div>` : ''}
+                ${p.department ? `<div><strong>Department:</strong> ${escapeHtml(p.department)}</div>` : ''}
+                ${p.relationship ? `<div><strong>Relationship:</strong> ${escapeHtml(p.relationship)}</div>` : ''}
+                ${p.description ? `<div><strong>Current Goal:</strong> ${escapeHtml(p.description)}</div>` : ''}
+                ${p.dream ? `<div><strong>Dream:</strong> ${escapeHtml(p.dream)}</div>` : ''}
+                ${p.quote ? `<div><strong>Quote:</strong> "${escapeHtml(p.quote)}"</div>` : ''}
+            </div>
+            <button class="main-btn" style="width: 100%; justify-content: center; margin-top: 1rem;" onclick="closeModals()">Close</button>
+        `;
+        document.getElementById('personProfileModal').classList.add('active');
+    }
+
+    // -------------------------------------------------------------
+    // MEMORY TICKETS MODULE LOGIC
+    // -------------------------------------------------------------
+    let ticketsData = [
+        {
+            title: "Cinema Night",
+            type: "🎬 Cinema",
+            date: "15 August 2026",
+            place: "Mall of Egypt",
+            note: "Our first movie night ❤️",
+            details: "An amazing evening watching a wonderful movie together with popcorn and laughs."
+        }
+    ];
+
+    function initTicketsModule() {
+        const saved = localStorage.getItem('memory_tickets_v1');
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                if (parsed && Array.isArray(parsed)) {
+                    ticketsData = parsed;
+                }
+            } catch(e) {
+                console.error("Error loading tickets data", e);
+            }
+        }
+        renderTicketsModule();
+    }
+
+    function saveTicketsStorage() {
+        try {
+            localStorage.setItem('memory_tickets_v1', JSON.stringify(ticketsData));
+        } catch(e) {
+            console.error("Error saving tickets data", e);
+        }
+    }
+
+    function renderTicketsModule() {
+        const grid = document.getElementById('ticketsGridContainer');
+        if (!grid) return;
+
+        if (ticketsData.length === 0) {
+            grid.innerHTML = `<p style="grid-column: span 2; text-align: center; color: #9ca3af; padding: 2rem;">No memory tickets added yet.</p>`;
+            return;
+        }
+
+        grid.innerHTML = '';
+        ticketsData.forEach((ticket, idx) => {
+            grid.innerHTML += `
+                <div class="ticket-card" onclick="openTicketDetails(${idx})">
+                    <div class="ticket-header">
+                        <span class="ticket-type-badge">${escapeHtml(ticket.type || '❤️ Special')}</span>
+                        <div style="display: flex; gap: 0.4rem;" onclick="event.stopPropagation()">
+                            <button class="btn-sm-action" onclick="openEditTicketModal(${idx})">✏️</button>
+                            <button class="btn-sm-action btn-sm-danger" onclick="deleteTicketItem(${idx})">🗑️</button>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="ticket-title">${escapeHtml(ticket.title)}</h3>
+                        <div class="ticket-meta" style="margin-top: 0.5rem;">
+                            <span>📅 ${escapeHtml(ticket.date)}</span>
+                            <span>📍 ${escapeHtml(ticket.place)}</span>
+                        </div>
+                    </div>
+                    <p class="ticket-note">${escapeHtml(ticket.note)}</p>
+                </div>
+            `;
+        });
+    }
+
+    function openAddTicketModal() {
+        document.getElementById('ticketModalTitle').textContent = "Add Memory Ticket";
+        document.getElementById('editTicketIndex').value = "-1";
+        document.getElementById('inputTicketTitle').value = "";
+        document.getElementById('inputTicketType').value = "🎬 Cinema";
+        document.getElementById('inputTicketDate').value = "";
+        document.getElementById('inputTicketPlace').value = "";
+        document.getElementById('inputTicketNote').value = "";
+        document.getElementById('inputTicketDetails').value = "";
+        document.getElementById('ticketModal').classList.add('active');
+    }
+
+    function openEditTicketModal(index) {
+        const t = ticketsData[index];
+        if (!t) return;
+        document.getElementById('ticketModalTitle').textContent = "Edit Memory Ticket";
+        document.getElementById('editTicketIndex').value = index;
+        document.getElementById('inputTicketTitle').value = t.title || "";
+        document.getElementById('inputTicketType').value = t.type || "";
+        document.getElementById('inputTicketDate').value = t.date || "";
+        document.getElementById('inputTicketPlace').value = t.place || "";
+        document.getElementById('inputTicketNote').value = t.note || "";
+        document.getElementById('inputTicketDetails').value = t.details || "";
+        document.getElementById('ticketModal').classList.add('active');
+    }
+
+    function saveTicketItem() {
+        const index = parseInt(document.getElementById('editTicketIndex').value, 10);
+        const title = document.getElementById('inputTicketTitle').value.trim();
+        const type = document.getElementById('inputTicketType').value.trim();
+        const date = document.getElementById('inputTicketDate').value.trim();
+        const place = document.getElementById('inputTicketPlace').value.trim();
+        const note = document.getElementById('inputTicketNote').value.trim();
+        const details = document.getElementById('inputTicketDetails').value.trim();
+
+        if (!title) return;
+
+        const obj = { title, type, date, place, note, details };
+
+        if (index === -1) {
+            ticketsData.push(obj);
+        } else {
+            ticketsData[index] = obj;
+        }
+
+        saveTicketsStorage();
+        renderTicketsModule();
+        closeModals();
+    }
+
+    function deleteTicketItem(index) {
+        if (confirm("Are you sure you want to delete this memory?")) {
+            ticketsData.splice(index, 1);
+            saveTicketsStorage();
+            renderTicketsModule();
+        }
+    }
+
+    function openTicketDetails(index) {
+        const t = ticketsData[index];
+        if (!t) return;
+        const content = document.getElementById('ticketDetailsContent');
+        content.innerHTML = `
+            <span class="ticket-type-badge" style="align-self: flex-start;">${escapeHtml(t.type)}</span>
+            <h3 class="font-serif" style="font-size: 2rem; color: #fff;">${escapeHtml(t.title)}</h3>
+            <div style="color: #9ca3af; font-size: 0.9rem; display: flex; gap: 1.5rem;">
+                <span>📅 ${escapeHtml(t.date)}</span>
+                <span>📍 ${escapeHtml(t.place)}</span>
+            </div>
+            <p style="color: #d1d5db; font-size: 1rem; margin-top: 0.5rem; background: rgba(255,255,255,0.03); padding: 1rem; border-radius: 1rem;">${escapeHtml(t.note)}</p>
+            ${t.details ? `<p style="color: #9ca3af; font-size: 0.9rem;">${escapeHtml(t.details)}</p>` : ''}
+            <button class="main-btn" style="width: 100%; justify-content: center; margin-top: 1rem;" onclick="closeModals()">Close</button>
+        `;
+        document.getElementById('ticketDetailsModal').classList.add('active');
+    }
+
+    // -------------------------------------------------------------
+    // LEITH ASSISTANT LOGIC
+    // -------------------------------------------------------------
+    const leithMoodResponses = {
+        happy: "أهوه كده يا لولا 😄❤️ خلي اليوم ده حلو للآخر.",
+        sad: "تعالي يا لولا ❤️ خدي نفس كده، ومش لازم كل حاجة تتحل مرة واحدة. أنا معاكي.",
+        tired: "كفاية عليكي النهارده يا لولا 🤍 ريحي شوية، وبعدين نكمل.",
+        upset: "اهدي بس يا لولا 😅❤️ خدي نفس الأول، وبعدين نشوف مين مزعلك.",
+        miss: "واضح إن يوسف واخد مساحة كبيرة في بالك النهارده 😂❤️",
+        calm: "الهدوء ده حلو يا لولا 🤍 استمتعي باللحظة."
+    };
+
+    function initLeithModule() {
+        const savedMood = sessionStorage.getItem('leith_current_mood');
+        if (savedMood && leithMoodResponses[savedMood]) {
+            const box = document.getElementById('leithMsgBox');
+            if (box) box.innerHTML = leithMoodResponses[savedMood];
+        }
     }
 
     function toggleLeith() {
         const panel = document.getElementById('leithPanel');
         if (panel) {
             panel.classList.toggle('active');
-            if (panel.classList.contains('active')) {
-                document.getElementById('leithMsgBox').textContent = "Hello Lola! ❤️\nI'm always here for you!";
-            }
         }
     }
 
-    function setLeithMood(type) {
+    function setLeithMood(moodKey) {
+        sessionStorage.setItem('leith_current_mood', moodKey);
+        const resp = leithMoodResponses[moodKey];
+        if (!resp) return;
         const box = document.getElementById('leithMsgBox');
-        if (!box) return;
-        const map = {
-            love: "I love you more than words can say ❤️",
-            happy: "Your smile is so gorgeous... keep it shining always ❤️",
-            upset: "Don't worry about anything, I'm right here with you 🤍",
-            support: "I'm here, take your time and don't stress over anything ❤️",
-            morning: "Good morning, Lola! Hope your day is as beautiful as you are ☀️",
-            night: "Good night, my love... remember I love you before you sleep 🌙❤️"
-        };
-        box.textContent = map[type] || "I'm always by your side ❤️";
+        if (box) {
+            box.innerHTML = resp;
+        }
     }
 
     // Surprise Modal
@@ -1882,9 +2770,7 @@
         }, 1000);
     }
 
-    // -------------------------------------------------------------
-    // MY MONEY DASHBOARD LOGIC (English)
-    // -------------------------------------------------------------
+    // Money Dashboard Logic
     let moneyData = {
         cash: 5000,
         goldGrams: 15.5,
@@ -1907,9 +2793,7 @@
                 if (parsed) {
                     moneyData = Object.assign({}, moneyData, parsed);
                 }
-            } catch(e) {
-                console.error("Error loading money data", e);
-            }
+            } catch(e) {}
         }
         renderMoneyDashboard();
     }
@@ -1917,9 +2801,7 @@
     function saveMoneyDashboardStorage() {
         try {
             localStorage.setItem('money_dashboard_v1', JSON.stringify(moneyData));
-        } catch(e) {
-            console.error("Error saving money data", e);
-        }
+        } catch(e) {}
     }
 
     function renderMoneyDashboard() {
@@ -1927,7 +2809,6 @@
         if (cashEl) {
             cashEl.textContent = Number(moneyData.cash).toLocaleString() + " EGP";
         }
-
         const goldValEl = document.getElementById('displayGoldValue');
         const goldGramsEl = document.getElementById('displayGoldGrams');
         if (goldValEl) {
@@ -2060,12 +2941,7 @@
 
         if (!name || isNaN(target) || isNaN(paid)) return;
 
-        const goalObj = {
-            name: name,
-            target: target,
-            paid: paid,
-            note: note
-        };
+        const goalObj = { name, target, paid, note };
 
         if (index === -1) {
             moneyData.goals.push(goalObj);
@@ -2079,121 +2955,53 @@
     }
 
     function deleteGoalItem(index) {
-        if (confirm("Are you sure you want to delete this goal?")) {
-            moneyData.goals.splice(index, 1);
-            saveMoneyDashboardStorage();
-            renderMoneyDashboard();
-        }
+        moneyData.goals.splice(index, 1);
+        saveMoneyDashboardStorage();
+        renderMoneyDashboard();
     }
 
-    function closeModals() {
-        document.querySelectorAll('.modal').forEach(m => {
-            if (m.id !== 'surpriseModal') {
-                m.classList.remove('active');
-            }
-        });
-    }
-
-    // -------------------------------------------------------------
-    // FAITH MODULE LOGIC (🤍 Faith & 40 Verses)
-    // -------------------------------------------------------------
+    // Faith Module Logic
     const fortyQuranVerses = [
         { text: "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ", ref: "سورة الطلاق (65:3)" },
         { text: "إِنَّ مَعَ الْعُسْرِ يُسْرًا", ref: "سورة الشرح (94:6)" },
         { text: "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي", ref: "سورة طه (20:25-26)" },
-        { text: "وَاصْبِرْ لِحُكْمِ رَبِّكَ فَإِنَّكَ بِأَعْيُنِنَا", ref: "سورة الطور (52:48)" },
-        { text: "وَعَسَىٰ أَن تَكْرَهُوا شَيْئًا وَهُوَ خَيْرٌ لَّكُمْ", ref: "سورة البقرة (2:216)" },
-        { text: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ", ref: "سورة البقرة (2:201)" },
-        { text: "إِنَّ اللَّهَ مَعَ الصَّابِرِينَ", ref: "سورة البقرة (2:153)" },
-        { text: "فَاذْكُرُونِي أَذْكُرْكُمْ وَاشْكُرُوا لِي وَلَا تَكْفُرُونِ", ref: "سورة البقرة (2:152)" },
-        { text: "وَإِذَا سَأَلَكَ عِبَادِي عَنِّي فَإِنِّي قَرِيبٌ أُجِيبُ دَعْوَةَ الدَّاعِ إِذَا دَعَانِ", ref: "سورة البقرة (2:186)" },
-        { text: "لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا", ref: "سورة البقرة (2:286)" },
-        { text: "رَبَّنَا لَا تُزِغْ قُلُوبَبَدْعَةً بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِلدُنكَ رَحْمَةً", ref: "سورة آل عمران (3:8)" },
-        { text: "حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ", ref: "سورة آل عمران (3:173)" },
-        { text: "وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا وَيَرْزُقْهُ مِنْ حَيْثُ لَا يَحْتَسِبُ", ref: "سورة الطلاق (65:2-3)" },
-        { text: "رَبِّ هَبْ لِي مِن لَّدُنكَ ذُرِّيَّةً طَيِّبَةً إِنَّكَ سَمِيعُ الدُّعَاءِ", ref: "سورة آل عمران (3:38)" },
-        { text: "وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِّقَوْمٍ يَتَفَكَّرُونَ", ref: "سورة الروم (30:21)" },
-        { text: "هُنَالِكَ دَعَا زَكَرِيَّا رَبَّهُ قَالَ رَبِّ هَبْ لِي مِن لَّدُنكَ ذُرِّيَّةً طَيِّبَةً", ref: "سورة آل عمران (3:38)" },
-        { text: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَىٰ وَالِدَيَّ", ref: "سورة النمل (27:19)" },
-        { text: "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا", ref: "سورة الفرقان (25:74)" },
-        { text: "إِنَّ رَبِّي قَرِيبٌ مُجِيبٌ", ref: "سورة هود (11:61)" },
-        { text: "وَأفوض أمري إلى الله إن الله بصير بالعباد", ref: "سورة غافر (40:44)" },
-        { text: "رَبَّنَا اغْفِرْ لَنَا وَلِإِخْوَانِنَا الَّذِينَ سَبَقُونَا بِالْإِيمَانِ", ref: "سورة الحشر (59:10)" },
-        { text: "وَقُل رَّبِّ زِدْنِي عِلْمًا", ref: "سورة طه (20:114)" },
-        { text: "رَبَّنَا ظَلَمْنَا أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ", ref: "سورة الأعراف (7:23)" },
-        { text: "قُل لَّن يُصِيبَنَا إِلَّا مَا كَتَبَ اللَّهُ لَنَا هُوَ مَوْلَانَا", ref: "سورة التوبة (9:51)" },
-        { text: "وَاسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ", ref: "سورة البقرة (2:45)" },
-        { text: "إِنَّ الْحَسَنَاتِ يُذْهِبْنَ السَّيِّئَاتِ", ref: "سورة هود (11:114)" },
-        { text: "رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَتَوَفَّنَا مُسْلِمِينَ", ref: "سورة الأعراف (7:126)" },
-        { text: "وَمَا تَوْفِيقِي إِلَّا بِاللَّهِ عَلَيْهِ تَوَكَّلْتُ وَإِلَيْهِ أُنِيبُ", ref: "سورة هود (11:88)" },
-        { text: "إِنَّ رَحْمَتَ اللَّهِ قَرِيبٌ مِّنَ الْمُحْسِنِينَ", ref: "سورة الأعراف (7:56)" },
-        { text: "فَسُبْحَانَ الَّذِي بِيَدِهِ مَلَكُوتُ كُلِّ شَيْءٍ وَإِلَيْهِ تُرْجَعُونَ", ref: "سورة يس (36:83)" },
-        { text: "رَبِّ انصُرْنِي عَلَى الْقَوْمِ الْمُفْسِدِينَ", ref: "سورة العنكبوت (29:30)" },
-        { text: "وَعَلَى اللَّهِ فَلْيَتَوَكَّلِ الْمُؤْمِنُونَ", ref: "سورة إبراهيم (14:11)" },
-        { text: "رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِن ذُرِّيَّتِي", ref: "سورة إبراهيم (14:40)" },
-        { text: "سَبَّحَ لِلَّهِ مَا فِي السَّمَاوَاتِ وَالْأَرْضِ وَهُوَ الْعَزِيزُ الْحَكِيمُ", ref: "سورة الحشر (59:1)" },
-        { text: "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ", ref: "سورة الرعد (13:28)" },
-        { text: "رَبِّ إِنِّي لِمَا أَنزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ", ref: "سورة القصص (28:24)" },
-        { text: "قُلْ هُوَ اللَّهُ أَحَدٌ اللَّهُ الصَّمَدُ", ref: "سورة الإخلاص (112:1-2)" },
-        { text: "وَمَا خَلَقْتُ الْجِنَّ وَالإِنسَ إِلَّا لِيَعْبُدُونِ", ref: "سورة الذاريات (51:56)" },
-        { text: "فَاذْكُرُونِي أَذْكُرْكُمْ", ref: "سورة البقرة (2:152)" },
-        { text: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ", ref: "سورة الفاتحة (1:2)" }
+        { text: "وَاصْبِرْ لِحُكْمِ رَبِّكَ فَإِنَّكَ بِأَعْيُنِنَا", ref: "سورة الطور (52:48)" }
     ];
 
     const morningAdhkarList = [
         "أصبحنا وأصبح الملك لله، والحمد لله، لا إله إلا الله وحده لا شريك له.",
-        "اللهم بك أصبحنا وبك أمسينا، وبك نحيا وبك نموت وإليك النشور.",
-        "رضيت بالله رباً، وبالإسلام ديناً، وبمحمد صلى الله عليه وسلم نبياً.",
-        "اللهم أنت ربي لا إله إلا أنت، خلقتني وأنا عبدك، وأنا على عهدك ووعدك ما استطعت."
+        "اللهم بك أصبحنا وبك أمسينا، وبك نحيا وبك نموت وإليك النشور."
     ];
 
     const eveningAdhkarList = [
         "أمسينا وأمسى الملك لله، والحمد لله، لا إله إلا الله وحده لا شريك له.",
-        "اللهم بك أمسينا وبك أصبحنا، وبك نحيا وبك نموت وإليك المصير.",
-        "أعوذ بكلمات الله التامات من شر ما خلق.",
-        "اللهم ما أمسى بي من نعمة أو بأحد من خلقك فمنك وحدك لا شريك لك."
+        "اللهم بك أمسينا وبك أصبحنا، وبك نحيا وبك نموت وإليك المصير."
     ];
 
     const beforeSleepList = [
-        "قراءة آية الكرسي والمعوذتين (الإخلاص، الفلق، الناس).",
-        "التسبيح 33، التحمد 33، التكبير 34.",
-        "باسمك ربي وضعت جنبي وبك أرفعه.",
-        "اللهم قني عذابك يوم تبعث عبادك."
+        "قراءة آية الكرسي والمعوذتين.",
+        "باسمك ربي وضعت جنبي وبك أرفعه."
     ];
 
     let faithData = {
         lastDate: "",
         verseIndex: 0,
-        prayers: {
-            fajr: false,
-            dhuhr: false,
-            asr: false,
-            maghrib: false,
-            isha: false
-        }
+        prayers: { fajr: false, dhuhr: false, asr: false, maghrib: false, isha: false }
     };
 
     function initFaithModule() {
         const todayStr = new Date().toDateString();
         const saved = localStorage.getItem('faith_v1');
-        
         if (saved) {
             try {
                 const parsed = JSON.parse(saved);
-                if (parsed) {
-                    faithData = Object.assign({}, faithData, parsed);
-                }
-            } catch(e) {
-                console.error("Error loading faith data", e);
-            }
+                if (parsed) faithData = Object.assign({}, faithData, parsed);
+            } catch(e) {}
         }
 
-        // Daily reset check
         if (faithData.lastDate !== todayStr) {
             faithData.lastDate = todayStr;
-            // Advance verse index daily
             faithData.verseIndex = (faithData.verseIndex + 1) % fortyQuranVerses.length;
-            // Reset prayers for the new day
             faithData.prayers = { fajr: false, dhuhr: false, asr: false, maghrib: false, isha: false };
             saveFaithStorage();
         }
@@ -2206,9 +3014,7 @@
     function saveFaithStorage() {
         try {
             localStorage.setItem('faith_v1', JSON.stringify(faithData));
-        } catch(e) {
-            console.error("Error saving faith data", e);
-        }
+        } catch(e) {}
     }
 
     function renderVerseOfDay(index) {
@@ -2223,7 +3029,6 @@
     }
 
     function renderAdhkar() {
-        // Morning
         const morningEl = document.getElementById('morningAdhkarContainer');
         if (morningEl) {
             morningEl.innerHTML = '';
@@ -2231,8 +3036,6 @@
                 morningEl.innerHTML += `<div class="faith-adhkar-item">✨ ${item}</div>`;
             });
         }
-
-        // Evening
         const eveningEl = document.getElementById('eveningAdhkarContainer');
         if (eveningEl) {
             eveningEl.innerHTML = '';
@@ -2240,8 +3043,6 @@
                 eveningEl.innerHTML += `<div class="faith-adhkar-item">🌙 ${item}</div>`;
             });
         }
-
-        // Before Sleep
         const sleepEl = document.getElementById('beforeSleepContainer');
         if (sleepEl) {
             sleepEl.innerHTML = '';
@@ -2296,10 +3097,15 @@
         saveFaithStorage();
         renderPrayers();
     }
+
+    function closeModals() {
+        document.querySelectorAll('.modal').forEach(m => {
+            if (m.id !== 'surpriseModal') {
+                m.classList.remove('active');
+            }
+        });
+    }
 </script>
 
 </body>
 </html>
-            
-           
-           
