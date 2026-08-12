@@ -25,7 +25,7 @@
         }
 
         /* ------------------------------------------------------------- */
-        /* PASSWORD GATE STYLES (Secure Overlay & Arabic support)        */
+        /* PASSWORD GATE STYLES (Secure Overlay)                         */
         /* ------------------------------------------------------------- */
         #passwordGateOverlay {
             position: fixed;
@@ -106,7 +106,7 @@
             font-size: 1rem;
             outline: none;
             transition: border-color 0.2s, box-shadow 0.2s;
-            direction: auto; /* Supports Arabic RTL naturally */
+            direction: auto;
             unicode-bidi: plaintext;
         }
 
@@ -813,7 +813,7 @@
         .timed-badge.unlocked { background: rgba(52, 211, 153, 0.15); color: #34d399; }
 
         /* ------------------------------------------------------------- */
-        /* FAMILY & FRIENDS STYLES (Responsive Jojo & Lola prominence)   */
+        /* FAMILY & FRIENDS STYLES                                       */
         /* ------------------------------------------------------------- */
         .family-container {
             max-width: 64rem;
@@ -833,16 +833,12 @@
             .family-grid { 
                 grid-template-columns: repeat(2, 1fr); 
             } 
-            .family-card.primary-card {
-                grid-column: span 1;
-            }
         }
 
         @media (min-width: 1024px) { 
             .family-grid { 
                 grid-template-columns: repeat(3, 1fr); 
             } 
-            /* Jojo and Lola side-by-side on desktop */
             .family-card.primary-card:nth-child(1),
             .family-card.primary-card:nth-child(2) {
                 grid-column: span 1;
@@ -997,7 +993,7 @@
         }
 
         /* ------------------------------------------------------------- */
-        /* MY MONEY SECTION STYLES (English)                             */
+        /* MY MONEY SECTION STYLES                                       */
         /* ------------------------------------------------------------- */
         .money-dashboard-container {
             max-width: 64rem;
@@ -1233,7 +1229,7 @@
         }
 
         /* ------------------------------------------------------------- */
-        /* FAITH SECTION STYLES (🤍 Faith - Peaceful & Spiritual)        */
+        /* FAITH SECTION STYLES                                          */
         /* ------------------------------------------------------------- */
         .faith-container {
             max-width: 64rem;
@@ -1396,7 +1392,7 @@
             position: absolute;
             bottom: 75px;
             right: 0;
-            width: 300px;
+            width: min(320px, calc(100vw - 2rem));
             background: rgba(20, 21, 30, 0.96);
             backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 101, 132, 0.4);
@@ -1430,17 +1426,52 @@
             font-size: 1.25rem;
         }
 
+        /* Enhanced Leith Current Mood Box */
+        .leith-current-mood-display {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 101, 132, 0.25);
+            border-radius: 1rem;
+            padding: 1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: box-shadow 0.4s ease, border-color 0.4s ease;
+        }
+
+        .mood-indicator-ring {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin: 0 auto 0.5rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            position: relative;
+            background: rgba(20, 21, 30, 0.9);
+            box-shadow: 0 0 15px rgba(255, 101, 132, 0.4);
+            transition: all 0.4s ease;
+        }
+
+        .mood-name-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.25rem;
+        }
+
         .leith-message-box {
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 0.85rem;
-            padding: 1rem;
+            padding: 0.85rem;
             text-align: center;
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 600;
-            color: #fff;
-            min-height: 70px;
+            color: #f3f4f6;
+            min-height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1449,20 +1480,21 @@
 
         .leith-mood-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.4rem;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.35rem;
         }
 
         .leith-mood-btn {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: #d1d5db;
-            padding: 0.4rem;
+            padding: 0.4rem 0.2rem;
             border-radius: 0.5rem;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             cursor: pointer;
             transition: all 0.2s;
             text-align: center;
+            white-space: nowrap;
         }
 
         .leith-mood-btn:hover {
@@ -1492,7 +1524,7 @@
             border: 1px solid rgba(255, 101, 132, 0.35);
             border-radius: 1.5rem;
             padding: 2.5rem;
-            max-width: 400px;
+            max-width: min(400px, 92vw);
             width: 100%;
             text-align: center;
             position: relative;
@@ -1529,11 +1561,11 @@
         <p class="gate-subtitle">Enter the password to continue</p>
         
         <div class="gate-input-wrapper">
-            <input type="password" id="gatePasswordInput" class="gate-input" placeholder="Enter password (e.g. يا بحبك)..." autocomplete="current-password" onkeypress="handleGateKeypress(event)">
+            <input type="password" id="gatePasswordInput" class="gate-input" placeholder="اكتب كلمة المرور (بحبك)..." autocomplete="current-password" onkeypress="handleGateKeypress(event)">
             <button type="button" class="gate-toggle-btn" id="gateToggleBtn" onclick="toggleGatePasswordVisibility()" aria-label="Toggle password visibility">👁️</button>
         </div>
         
-        <div class="gate-error-msg" id="gateErrorMsg">الباسورد غلط ❤️ حاول تاني</div>
+        <div class="gate-error-msg" id="gateErrorMsg">Wrong Password ❤️ حاول تاني</div>
         
         <button class="gate-submit-btn" onclick="verifyGatePassword()">Unlock ❤️</button>
     </div>
@@ -1801,7 +1833,7 @@
     </div>
 </div>
 
-<!-- Family & Friends Modals (Expanded for Profession, Education, Department, Dream) -->
+<!-- Family & Friends Modals -->
 <div class="modal" id="personModal">
     <div class="modal-content">
         <button class="close-modal" onclick="closeModals()">×</button>
@@ -1821,35 +1853,35 @@
         </div>
         <div class="money-form-group">
             <label>Profession / Job</label>
-            <input type="text" id="inputPersonProfession" class="money-form-input" placeholder="Biomedical Engineer (مهندس أجهزة طبية)">
+            <input type="text" id="inputPersonProfession" class="money-form-input" placeholder="Biomedical Engineer">
         </div>
         <div class="money-form-group">
             <label>Education / College</label>
-            <input type="text" id="inputPersonEducation" class="money-form-input" placeholder="Faculty of Science (كلية علوم)">
+            <input type="text" id="inputPersonEducation" class="money-form-input" placeholder="Faculty of Science">
         </div>
         <div class="money-form-group">
             <label>Department</label>
-            <input type="text" id="inputPersonDepartment" class="money-form-input" placeholder="Medical Analysis (قسم تحاليل)">
+            <input type="text" id="inputPersonDepartment" class="money-form-input" placeholder="Medical Analysis">
         </div>
         <div class="money-form-group">
             <label>Relationship</label>
             <input type="text" id="inputPersonRelationship" class="money-form-input" placeholder="Relationship">
         </div>
         <div class="money-form-group">
-            <label>Current Goal / Mission</label>
-            <input type="text" id="inputPersonDesc" class="money-form-input" placeholder="مهمتها الحالية: تذاكر وبس 📚❤️">
+            <label>Description / Goal</label>
+            <input type="text" id="inputPersonDesc" class="money-form-input" placeholder="Description">
         </div>
         <div class="money-form-group">
             <label>Dream</label>
-            <input type="text" id="inputPersonDream" class="money-form-input" placeholder="تحلم تشتغل في شركة أدوية 💊❤️">
+            <input type="text" id="inputPersonDream" class="money-form-input" placeholder="Dream">
         </div>
         <div class="money-form-group">
             <label>Special Quote</label>
             <input type="text" id="inputPersonQuote" class="money-form-input" placeholder="Quote">
         </div>
         <div class="money-form-group">
-            <label>Avatar (Emoji / Symbol)</label>
-            <input type="text" id="inputPersonAvatar" class="money-form-input" placeholder="❤️ or 🩺">
+            <label>Avatar (Emoji)</label>
+            <input type="text" id="inputPersonAvatar" class="money-form-input" placeholder="❤️">
         </div>
         <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
             <button class="main-btn" style="flex: 1; justify-content: center;" onclick="savePersonItem()">Save</button>
@@ -2000,17 +2032,29 @@
             <span>Leith</span>
             <button class="leith-close" onclick="toggleLeith()">×</button>
         </div>
+        
+        <!-- Current Mood Display Widget -->
+        <div class="leith-current-mood-display" id="leithMoodDisplayBox">
+            <div style="font-size: 0.75rem; letter-spacing: 0.1em; color: #ff6584; text-transform: uppercase; font-weight: 600; margin-bottom: 0.5rem;">حالتها دلوقتي ❤️</div>
+            <div class="mood-indicator-ring" id="moodIndicatorRing">
+                <span id="leithCurrentEmoji">🥰</span>
+            </div>
+            <div class="mood-name-text" id="leithCurrentMoodName">Happy</div>
+        </div>
+
         <div class="leith-message-box" id="leithMsgBox">
             أهلاً يا لولا ❤️<br>إزيك النهارده؟
         </div>
         <div style="font-size: 0.75rem; color: #9ca3af; font-weight: 600; text-transform: uppercase;">اختر مزاجك:</div>
         <div class="leith-mood-grid">
-            <button class="leith-mood-btn" onclick="setLeithMood('happy')">🥰 مبسوطة</button>
-            <button class="leith-mood-btn" onclick="setLeithMood('sad')">😔 زعلانة</button>
-            <button class="leith-mood-btn" onclick="setLeithMood('tired')">😴 تعبانة</button>
-            <button class="leith-mood-btn" onclick="setLeithMood('upset')">😡 متضايقة</button>
-            <button class="leith-mood-btn" onclick="setLeithMood('miss')">❤️ مشتاقة</button>
-            <button class="leith-mood-btn" onclick="setLeithMood('calm')">😌 هادية</button>
+            <button class="leith-mood-btn" onclick="setLeithMood('happy')">😊 Happy</button>
+            <button class="leith-mood-btn" onclick="setLeithMood('calm')">😌 Calm</button>
+            <button class="leith-mood-btn" onclick="setLeithMood('inlove')">😍 In Love</button>
+            <button class="leith-mood-btn" onclick="setLeithMood('sad')">😔 Sad</button>
+            <button class="leith-mood-btn" onclick="setLeithMood('angry')">😡 Angry</button>
+            <button class="leith-mood-btn" onclick="setLeithMood('tired')">😴 Tired</button>
+            <button class="leith-mood-btn" onclick="setLeithMood('stressed')">😰 Stressed</button>
+            <button class="leith-mood-btn" onclick="setLeithMood('neutral')">🤍 Neutral</button>
         </div>
     </div>
 </div>
@@ -2035,7 +2079,7 @@
         initLeithModule();
     });
 
-    // Password Gate Logic (Supports Arabic "يا بحبك" and English variations)
+    // Password Gate Logic (Supports exact new password "بحبك")
     function toggleGatePasswordVisibility() {
         const input = document.getElementById('gatePasswordInput');
         const btn = document.getElementById('gateToggleBtn');
@@ -2057,13 +2101,14 @@
         const val = input.value.trim();
         const normalizedVal = val.toLowerCase();
         
-        if (val === "يا بحبك" || normalizedVal === "love you" || normalizedVal === "loveyou") {
+        if (val === "بحبك" || normalizedVal === "love you" || normalizedVal === "loveyou") {
             errorMsg.classList.remove('visible');
             const overlay = document.getElementById('passwordGateOverlay');
             if (overlay) {
                 overlay.classList.add('unlocked');
             }
         } else {
+            errorMsg.textContent = "Wrong Password ❤️ حاول تاني";
             errorMsg.classList.add('visible');
             input.classList.add('shake');
             setTimeout(() => {
@@ -2322,7 +2367,7 @@
     }
 
     // -------------------------------------------------------------
-    // FAMILY & FRIENDS MODULE LOGIC (Jojo & Lola first, Countdown calculation)
+    // FAMILY & FRIENDS MODULE LOGIC (Jojo & Lola first with countdowns)
     // -------------------------------------------------------------
     let familyData = [
         {
@@ -2375,9 +2420,7 @@
                 if (parsed && Array.isArray(parsed)) {
                     familyData = parsed;
                 }
-            } catch(e) {
-                console.error("Error loading family data", e);
-            }
+            } catch(e) {}
         }
         renderFamilyModule();
     }
@@ -2385,21 +2428,18 @@
     function saveFamilyStorage() {
         try {
             localStorage.setItem('family_friends_v1', JSON.stringify(familyData));
-        } catch(e) {
-            console.error("Error saving family data", e);
-        }
+        } catch(e) {}
     }
 
-    // Birthday countdown calculation helper
     function getBirthdayCountdownText(birthdayStr) {
         if (!birthdayStr || !birthdayStr.includes('/')) return '';
         const parts = birthdayStr.split('/');
         if (parts.length < 2) return '';
         const day = parseInt(parts[0], 10);
-        const month = parseInt(parts[1], 10) - 1; // 0-indexed
+        const month = parseInt(parts[1], 10) - 1;
 
         const now = new Date();
-        let currentYear = now.getFullYear();
+        const currentYear = now.getFullYear();
         let nextBday = new Date(currentYear, month, day);
 
         if (now > nextBday) {
@@ -2409,7 +2449,7 @@
         const diffTime = nextBday - now;
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-        if (diffDays === 0) {
+        if (diffDays === 0 || diffDays === 365) {
             return "🎉 Happy Birthday ❤️";
         } else if (diffDays === 1) {
             return "⏳ Tomorrow is the Birthday! ❤️";
@@ -2557,7 +2597,7 @@
                 ${p.education ? `<div><strong>Education:</strong> ${escapeHtml(p.education)}</div>` : ''}
                 ${p.department ? `<div><strong>Department:</strong> ${escapeHtml(p.department)}</div>` : ''}
                 ${p.relationship ? `<div><strong>Relationship:</strong> ${escapeHtml(p.relationship)}</div>` : ''}
-                ${p.description ? `<div><strong>Current Goal:</strong> ${escapeHtml(p.description)}</div>` : ''}
+                ${p.description ? `<div><strong>Description:</strong> ${escapeHtml(p.description)}</div>` : ''}
                 ${p.dream ? `<div><strong>Dream:</strong> ${escapeHtml(p.dream)}</div>` : ''}
                 ${p.quote ? `<div><strong>Quote:</strong> "${escapeHtml(p.quote)}"</div>` : ''}
             </div>
@@ -2588,9 +2628,7 @@
                 if (parsed && Array.isArray(parsed)) {
                     ticketsData = parsed;
                 }
-            } catch(e) {
-                console.error("Error loading tickets data", e);
-            }
+            } catch(e) {}
         }
         renderTicketsModule();
     }
@@ -2598,9 +2636,7 @@
     function saveTicketsStorage() {
         try {
             localStorage.setItem('memory_tickets_v1', JSON.stringify(ticketsData));
-        } catch(e) {
-            console.error("Error saving tickets data", e);
-        }
+        } catch(e) {}
     }
 
     function renderTicketsModule() {
@@ -2713,23 +2749,22 @@
     }
 
     // -------------------------------------------------------------
-    // LEITH ASSISTANT LOGIC
+    // LEITH ASSISTANT — MOOD SYSTEM (leith_mood_v1)
     // -------------------------------------------------------------
-    const leithMoodResponses = {
-        happy: "أهوه كده يا لولا 😄❤️ خلي اليوم ده حلو للآخر.",
-        sad: "تعالي يا لولا ❤️ خدي نفس كده، ومش لازم كل حاجة تتحل مرة واحدة. أنا معاكي.",
-        tired: "كفاية عليكي النهارده يا لولا 🤍 ريحي شوية، وبعدين نكمل.",
-        upset: "اهدي بس يا لولا 😅❤️ خدي نفس الأول، وبعدين نشوف مين مزعلك.",
-        miss: "واضح إن يوسف واخد مساحة كبيرة في بالك النهارده 😂❤️",
-        calm: "الهدوء ده حلو يا لولا 🤍 استمتعي باللحظة."
+    const leithMoodsConfig = {
+        happy: { name: "Happy", emoji: "😊", message: "حلو إنك مبسوطة النهارده ❤️", glow: "rgba(52, 211, 153, 0.4)", anim: "pulse 2s infinite" },
+        calm: { name: "Calm", emoji: "😌", message: "الهدوء لايق عليكي ❤️", glow: "rgba(96, 165, 250, 0.4)", anim: "none" },
+        inlove: { name: "In Love", emoji: "😍", message: "واضح إن الحب واخد اليوم كله 😂❤️", glow: "rgba(255, 101, 132, 0.6)", anim: "pulse 1.5s infinite" },
+        sad: { name: "Sad", emoji: "😔", message: "تعالي هنا ❤️ أنا معاكي.", glow: "rgba(156, 163, 175, 0.4)", anim: "none" },
+        angry: { name: "Angry", emoji: "😡", message: "اهدي بس واحكيلي إيه اللي حصل ❤️", glow: "rgba(248, 113, 113, 0.5)", anim: "none" },
+        tired: { name: "Tired", emoji: "😴", message: "شكلك محتاجة ترتاحي شوية 😴❤️", glow: "rgba(167, 139, 250, 0.4)", anim: "none" },
+        stressed: { name: "Stressed", emoji: "😰", message: "خدي نفس... واحدة واحدة ❤️", glow: "rgba(251, 191, 36, 0.4)", anim: "none" },
+        neutral: { name: "Neutral", emoji: "🤍", message: "أنا معاكي كالعادة 🤖❤️", glow: "rgba(255, 255, 255, 0.2)", anim: "none" }
     };
 
     function initLeithModule() {
-        const savedMood = sessionStorage.getItem('leith_current_mood');
-        if (savedMood && leithMoodResponses[savedMood]) {
-            const box = document.getElementById('leithMsgBox');
-            if (box) box.innerHTML = leithMoodResponses[savedMood];
-        }
+        const savedMood = localStorage.getItem('leith_mood_v1') || 'inlove';
+        applyLeithMood(savedMood, false);
     }
 
     function toggleLeith() {
@@ -2740,12 +2775,26 @@
     }
 
     function setLeithMood(moodKey) {
-        sessionStorage.setItem('leith_current_mood', moodKey);
-        const resp = leithMoodResponses[moodKey];
-        if (!resp) return;
-        const box = document.getElementById('leithMsgBox');
-        if (box) {
-            box.innerHTML = resp;
+        localStorage.setItem('leith_mood_v1', moodKey);
+        applyLeithMood(moodKey, true);
+    }
+
+    function applyLeithMood(moodKey, animate) {
+        const config = leithMoodsConfig[moodKey] || leithMoodsConfig['inlove'];
+        
+        const emojiEl = document.getElementById('leithCurrentEmoji');
+        const nameEl = document.getElementById('leithCurrentMoodName');
+        const ringEl = document.getElementById('moodIndicatorRing');
+        const msgBox = document.getElementById('leithMsgBox');
+
+        if (emojiEl) emojiEl.textContent = config.emoji;
+        if (nameEl) nameEl.textContent = config.name;
+        if (ringEl) {
+            ringEl.style.boxShadow = `0 0 20px ${config.glow}`;
+            ringEl.style.animation = config.anim;
+        }
+        if (msgBox) {
+            msgBox.innerHTML = config.message;
         }
     }
 
