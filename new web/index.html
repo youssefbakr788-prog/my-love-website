@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0c0d12;
+            color: #f3f4f6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, .font-serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .floating-heart {
+            position: absolute;
+            color: rgba(255, 101, 132, 0.2);
+            animation: floatUp 8s linear infinite;
+            bottom: -50px;
+            font-size: 1.5rem;
+            user-select: none;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 0; }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.8; }
+            100% { transform: translateY(-105vh) rotate(360deg) scale(1.2); opacity: 0; }
+        }
+
+        .glass-nav {
+            background: rgba(12, 13, 18, 0.8);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .glow-effect {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255,101,132,0.15) 0%, rgba(217,70,239,0.05) 50%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+            filter: blur(60px);
+            pointer-events: none;
+        }
+
+        nav.glass-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo span {
+            color: #ff6584;
+            animation: pulse 2s infinite;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #d1d5db;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ff6584;
+        }
+
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            text-align: center;
+            padding: 7rem 1rem 4rem 1rem;
+            z-index: 10;
+        }
+
+        .hero-intro {
+            margin-bottom: 2.5rem;
+        }
+
+        .small-title {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            color: #ff6584;
+            background: rgba(255, 101, 132, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 101, 132, 0.2);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-size: 2.75rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-lola {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff6584 0%, #fb7185 50%, #d946ef 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .home-dashboard {
+            width: 100%;
+            max-width: 50rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .home-dashboard {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .dash-card {
+            background: rgba(20, 21, 30, 0.65);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .countdown-grid {
+            display: flex;
+            gap: 1.25rem;
+            justify-content: center;
+            margin-top: 1.25rem;
+        }
+
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .countdown-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 0.75rem;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.35rem;
+        }
+
+        .countdown-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #9ca3af;
+        }
+
+        .quran-box {
+            text-align: center;
+            padding: 0.5rem 0;
+            width: 100%;
+        }
+
+        .quran-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 0.75rem;
+            line-height: 1.6;
+            direction: rtl;
+        }
+
+        .quran-ref {
+            font-size: 0.85rem;
+            color: #ff6584;
+            letter-spacing: 0.05em;
+            direction: rtl;
+        }
+
+        .section {
+            position: relative;
+            padding: 6rem 1.5rem;
+            max-width: 64rem;
+            margin: 0 auto;
+            z-index: 10;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title p {
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            color: #ff6584;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .section-title h2 span { color: #ff6584; }
+
+        .main-btn {
+            background: linear-gradient(135deg, #ff6584 0%, #d946ef 100%);
+            border: none;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .main-btn:hover { opacity: 0.95; transform: translateY(-1px); }
+
+        .gallery-container {
+            max-width: 72rem;
+            margin: 0 auto;
+            padding: 6rem 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .gallery-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+        }
+
+        .tab-btn {
+            background: rgba(20, 21, 30, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #d1d5db;
+            padding: 0.5rem 1.25rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active, .tab-btn:hover {
+            background: #ff6584;
+            border-color: #ff6584;
+            color: white;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 640px) { .photo-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .photo-grid { grid-template-columns: repeat(3, 1fr); } }
+
+        .photo-card {
+            background: rgba(20, 21, 30, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.25rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .photo-card:hover { transform: translateY(-5px); border-color: rgba(255, 101, 132, 0.4); }
+
+        .photo-img-wrapper {
+            width: 100%;
+            height: 240px;
+            overflow: hidden;
+            background: #181922;
+            position: relative;
+        }
+
+        .photo-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .photo-card:hover .photo-img-wrapper img { transform: scale(1.05); }
+
+        .photo-info {
+            padding: 1.25rem;
+        }
+
+        .photo-info h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .photo-info p {
+            font-size: 0.85rem;
+            color: #9ca3af;
+        }
+
+        .lightbox-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(12, 13, 18, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .lightbox-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-container {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .lightbox-image-wrapper {
+            position: relative;
+            max-width: 85vw;
+            max-height: 70vh;
+            overflow: hidden;
+            border-radius: 1rem;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8);
+            background: #14151e;
+        }
+
+        .lightbox-image-wrapper img {
+            max-width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+            display: block;
+        }
+
+        .lightbox-caption {
+            margin-top: 1rem;
+            max-width: 600px;
+        }
+
+        .lightbox-caption h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 0.25rem;
+        }
+
+        .lightbox-caption p { color: #9ca3af; font-size: 0.9rem; }
+
+        .lightbox-close {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .lightbox-close:hover { background: rgba(255, 101, 132, 0.3); }
+
+        .lightbox-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(20, 21, 30, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            font-size: 1.25rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, transform 0.2s;
+            z-index: 10;
+        }
+
+        .lightbox-nav-btn:hover {
+            background: #ff6584;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .lightbox-prev { left: -20px; }
+        @media (min-width: 768px) { .lightbox-prev { left: -70px; } }
+        .lightbox-next { right: -20px; }
+        @media (min-width: 768px) { .lightbox-next { right: -70px; } }
+
+        .timed-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        @media (min-width: 640px) { .timed-grid { grid-template-columns: repeat(2, 1fr); } }
+
+        .timed-card {
+            background: rgba(20, 21, 30, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.5rem;
+            padding: 1.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .timed-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-weight: 600;
+        }
+        .timed-badge.locked { background: rgba(248, 113, 113, 0.15); color: #f87171; }
+        .timed-badge.unlocked { background: rgba(52, 211, 153, 0.15); color: #34d399; }
+
+        #leithAssistant {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 60;
+        }
+
+        .leith-bubble-btn {
+            background: linear-gradient(135deg, #ff6584 0%, #d946ef 100%);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 0 25px rgba(255, 101, 132, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .leith-bubble-btn:hover { transform: scale(1.1); }
+
+        .leith-panel {
+            position: absolute;
+            bottom: 75px;
+            right: 0;
+            width: 320px;
+            background: rgba(20, 21, 30, 0.95);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 101, 132, 0.4);
+            border-radius: 1.25rem;
+            padding: 1.25rem;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+            display: none;
+            flex-direction: column;
+            gap: 1rem;
+            font-size: 0.9rem;
+            z-index: 70;
+        }
+
+        .leith-panel.active { display: flex; }
+
+        .leith-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #ff6584;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding-bottom: 0.5rem;
+        }
+
+        .leith-close {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            font-size: 1.25rem;
+        }
+
+        .leith-message-box {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 0.85rem;
+            padding: 1rem;
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #fff;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.4;
+        }
+
+        .leith-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+
+        .leith-action-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #d1d5db;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .leith-action-btn:hover {
+            background: #ff6584;
+            border-color: #ff6584;
+            color: #fff;
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal.active { opacity: 1; pointer-events: auto; }
+
+        .modal-content {
+            background: rgba(20, 21, 30, 0.95);
+            border: 1px solid rgba(255, 101, 132, 0.3);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: #9ca3af;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        footer {
+            padding: 3rem 1.5rem;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+        footer span { color: #ff6584; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    </style>
+</head>
+<body>
+
+<div class="hearts-container" id="heartsContainer"></div>
+
+<nav class="glass-nav">
+    <div class="logo" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+        For You <span>♥</span>
+    </div>
+    <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#memories">Memories</a>
+        <a href="#timedMessages">Messages</a>
+    </div>
+</nav>
+
+<section id="home" class="hero">
+    <div class="glow-effect" style="top: -20px; left: -20px;"></div>
+    
+    <div class="hero-intro">
+        <p class="small-title">The best coincidence of my life</p>
+        <h1>To the girl who makes my world beautiful</h1>
+        <div class="hero-lola">Lola ❤️</div>
+    </div>
+
+    <div class="home-dashboard">
+        <!-- COUNTDOWN CARD -->
+        <div class="dash-card">
+            <h3 class="font-serif" style="font-size: 1.3rem; color: #fff;">Together Since April 8, 2026 ❤️</h3>
+            <div class="countdown-grid">
+                <div class="countdown-item">
+                    <div class="countdown-number" id="daysCount">00</div>
+                    <span class="countdown-label">Days</span>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="hoursCount">00</div>
+                    <span class="countdown-label">Hours</span>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="minsCount">00</div>
+                    <span class="countdown-label">Mins</span>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="secsCount">00</div>
+                    <span class="countdown-label">Secs</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- DAILY QURAN VERSE CARD (ARABIC) -->
+        <div class="dash-card">
+            <div class="quran-box">
+                <h3 class="font-serif" style="font-size: 1.3rem; color: #ff6584; margin-bottom: 0.5rem;">آية اليوم ❤️</h3>
+                <div class="quran-text" id="dailyQuranText">"وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ"</div>
+                <div class="quran-ref" id="dailyQuranRef">— سورة الطلاق (65:3)</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="memories" class="gallery-container">
+    <div class="section-title">
+        <p>Moments I want to keep forever</p>
+        <h2>Our <span>Memories</span></h2>
+    </div>
+
+    <div class="gallery-tabs">
+        <button class="tab-btn active" onclick="filterGallery('all', event)">All Photos</button>
+        <button class="tab-btn" onclick="filterGallery('special', event)">Special ❤️</button>
+    </div>
+
+    <div class="photo-grid" id="photoGrid">
+        <!-- Populated via JS -->
+    </div>
+</section>
+
+<!-- LIGHTBOX MODAL FOR ENLARGING PHOTOS -->
+<div class="lightbox-modal" id="lightboxModal">
+    <div class="lightbox-container">
+        <button class="lightbox-close" onclick="closeLightbox()">×</button>
+        <button class="lightbox-nav-btn lightbox-prev" onclick="prevPhoto()">‹</button>
+        <button class="lightbox-nav-btn lightbox-next" onclick="nextPhoto()">›</button>
+        
+        <div class="lightbox-image-wrapper">
+            <img id="lightboxImg" src="" alt="Enlarged memory" onerror="this.src='https://placehold.co/800x600/1e1b2e/ff6584?text=Photo';">
+        </div>
+        <div class="lightbox-caption">
+            <h3 id="lightboxTitle"></h3>
+            <p id="lightboxDesc"></p>
+        </div>
+    </div>
+</div>
+
+<section id="timedMessages" class="section">
+    <div class="section-title">
+        <p>Messages waiting for the right moment</p>
+        <h2>Timed <span>Messages</span></h2>
+    </div>
+
+    <div class="timed-grid" id="timedMsgGrid">
+        <!-- Populated via JS -->
+    </div>
+</section>
+
+<section class="section" style="text-align: center; padding-bottom: 8rem;">
+    <p class="small-title">One last thing...</p>
+    <h2 style="font-size: 2.5rem; margin-bottom: 2rem; font-family: 'Cormorant Garamond', serif;">
+        There's something I want to tell you
+    </h2>
+    <button class="main-btn" onclick="openSurprise()">
+        Open Surprise ❤️
+    </button>
+</section>
+
+<div class="modal" id="surpriseModal">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeSurprise()">×</button>
+        <div style="font-size: 3rem; color: #ff6584; margin-bottom: 1rem;">♥</div>
+        <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 2rem; margin-bottom: 1rem;">I Choose You.</h3>
+        <p style="color: #d1d5db; line-height: 1.6; margin-bottom: 1.5rem;">
+            Today.<br>Tomorrow.<br>And in every beautiful moment to come.
+        </p>
+        <button class="main-btn" style="width: 100%; justify-content: center;" onclick="closeSurprise()">
+            I Love You ❤️
+        </button>
+    </div>
+</div>
+
+<div id="leithAssistant">
+    <button class="leith-bubble-btn" onclick="toggleLeith()" aria-label="Leith Assistant">🤖</button>
+    <div class="leith-panel" id="leithPanel">
+        <div class="leith-header">
+            <span>Leith Assistant</span>
+            <button class="leith-close" onclick="toggleLeith()">×</button>
+        </div>
+        <div class="leith-message-box" id="leithMsgBox">
+            Youssef loves you ❤️
+        </div>
+        <div class="leith-actions">
+            <button class="leith-action-btn" onclick="setLeithMood('love')">❤️ Love</button>
+            <button class="leith-action-btn" onclick="setLeithMood('happy')">😊 Happy</button>
+            <button class="leith-action-btn" onclick="setLeithMood('upset')">😔 Upset</button>
+            <button class="leith-action-btn" onclick="setLeithMood('support')">🤍 Support</button>
+            <button class="leith-action-btn" onclick="setLeithMood('morning')">☀️ Morning</button>
+            <button class="leith-action-btn" onclick="setLeithMood('night')">🌙 Night</button>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>Designed with love, just for you.</p>
+    <span>♥</span>
+</footer>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        initCountdown();
+        loadDailyQuran();
+        renderGallery(photos);
+        renderTimedMessages();
+        createFloatingHearts();
+        initLeithAuto();
+    });
+
+    // Countdown Logic
+    function initCountdown() {
+        const startDate = new Date('2026-04-08T00:00:00');
+        setInterval(() => {
+            const now = new Date();
+            const diff = now - startDate;
+            if (diff < 0) return;
+
+            document.getElementById('daysCount').textContent = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
+            document.getElementById('hoursCount').textContent = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
+            document.getElementById('minsCount').textContent = String(Math.floor((diff / 1000 / 60) % 60)).padStart(2, '0');
+            document.getElementById('secsCount').textContent = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
+        }, 1000);
+    }
+
+    // Daily Quran Verses (Arabic)
+    const quranVerses = [
+        { text: "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ", ref: "سورة الطلاق (65:3)" },
+        { text: "إِنَّ مَعَ الْعُسْرِ يُسْرًا", ref: "سورة الشرح (94:6)" },
+        { text: "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي", ref: "سورة طه (20:25-26)" },
+        { text: "وَاصْبِرْ لِحُكْمِ رَبِّكَ فَإِنَّكَ بِأَعْيُنِنَا", ref: "سورة الطور (52:48)" }
+    ];
+    function loadDailyQuran() {
+        const q = quranVerses[Math.floor(Date.now() / 86400000) % quranVerses.length];
+        document.getElementById('dailyQuranText').textContent = `"${q.text}"`;
+        document.getElementById('dailyQuranRef').textContent = `— ${q.ref}`;
+    }
+
+    // Gallery Data & Lightbox State
+    const photos = [
+        { id: "photo-1", file: "images/alaa-childhood.jpg", title: "Childhood Photo", description: "The sweetest smile from long ago ❤️", category: "special" },
+        { id: "photo-2", file: "images/alaa-eyes.jpg", title: "Your Eyes", description: "The eyes that light up my entire world ❤️", category: "special" },
+        { id: "photo-3", file: "images/our-photo-1.jpg", title: "Together", description: "Every moment together is precious", category: "special" }
+    ];
+
+    let activeLightboxIndex = 0;
+
+    function renderGallery(list) {
+        const grid = document.getElementById('photoGrid');
+        grid.innerHTML = '';
+        list.forEach((photo, idx) => {
+            const originalIndex = photos.findIndex(p => p.id === photo.id);
+            grid.innerHTML += `
+                <div class="photo-card" onclick="openLightbox(${originalIndex})">
+                    <div class="photo-img-wrapper">
+                        <img src="${photo.file}" alt="${photo.title}" loading="lazy" onerror="this.src='https://placehold.co/600x400/1e1b2e/ff6584?text=Photo';">
+                    </div>
+                    <div class="photo-info">
+                        <h3>${photo.title}</h3>
+                        <p>${photo.description}</p>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function filterGallery(category, event) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+        if (category === 'all') renderGallery(photos);
+        else renderGallery(photos.filter(p => p.category === category));
+    }
+
+    function openLightbox(index) {
+        activeLightboxIndex = index;
+        updateLightboxContent();
+        document.getElementById('lightboxModal').classList.add('active');
+    }
+
+    function closeLightbox() {
+        document.getElementById('lightboxModal').classList.remove('active');
+    }
+
+    function updateLightboxContent() {
+        const photo = photos[activeLightboxIndex];
+        if (!photo) return;
+        document.getElementById('lightboxImg').src = photo.file;
+        document.getElementById('lightboxTitle').textContent = photo.title;
+        document.getElementById('lightboxDesc').textContent = photo.description;
+    }
+
+    function prevPhoto() {
+        activeLightboxIndex = (activeLightboxIndex - 1 + photos.length) % photos.length;
+        updateLightboxContent();
+    }
+
+    function nextPhoto() {
+        activeLightboxIndex = (activeLightboxIndex + 1) % photos.length;
+        updateLightboxContent();
+    }
+
+    // Timed Messages
+    const timedMessages = [
+        { id: 1, title: 'When you miss me', message: 'I am always thinking of you and right by your side ❤️', date: '2026-08-08', time: '08:00' },
+        { id: 2, title: 'Special Note', message: 'You are the best thing that ever happened to me ✨', date: '2026-08-10', time: '12:00' }
+    ];
+
+    function renderTimedMessages() {
+        const grid = document.getElementById('timedMsgGrid');
+        grid.innerHTML = '';
+        const now = new Date();
+
+        timedMessages.forEach(msg => {
+            const targetDate = new Date(`${msg.date}T${msg.time}:00`);
+            const isUnlocked = now >= targetDate;
+            grid.innerHTML += `
+                <div class="timed-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-weight: 600; color: #ff6584;">${msg.title}</span>
+                        <span class="timed-badge ${isUnlocked ? 'unlocked' : 'locked'}">${isUnlocked ? '💌 Unlocked' : '🔒 Locked'}</span>
+                    </div>
+                    <div style="font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: #fff;">
+                        ${isUnlocked ? msg.message : '🔒 This message will unlock at the scheduled time.'}
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    // Leith Assistant
+    const leithMessages = [
+        "Youssef loves you ❤️", "I am right here with you 🤍", "You crossed my mind again ❤️", "Take a deep breath, everything is fine.",
+        "Your smile brightens my day ❤️", "I'm always by your side.", "Never letting you go 🤍", "Thinking of you always ❤️"
+    ];
+
+    function initLeithAuto() {
+        setInterval(() => {
+            const box = document.getElementById('leithMsgBox');
+            if (box && !document.getElementById('leithPanel').classList.contains('active')) {
+                box.textContent = leithMessages[Math.floor(Math.random() * leithMessages.length)];
+            }
+        }, 12000);
+    }
+
+    function toggleLeith() {
+        const panel = document.getElementById('leithPanel');
+        if (panel) {
+            panel.classList.toggle('active');
+            if (panel.classList.contains('active')) {
+                document.getElementById('leithMsgBox').textContent = "Hello Lola! ❤️\nI'm always here for you!";
+            }
+        }
+    }
+
+    function setLeithMood(type) {
+        const box = document.getElementById('leithMsgBox');
+        if (!box) return;
+        const map = {
+            love: "I love you more than words can say ❤️",
+            happy: "Your smile is so gorgeous... keep it shining always ❤️",
+            upset: "Don't worry about anything, I'm right here with you 🤍",
+            support: "I'm here, take your time and don't stress over anything ❤️",
+            morning: "Good morning, Lola! Hope your day is as beautiful as you are ☀️",
+            night: "Good night, my love... remember I love you before you sleep 🌙❤️"
+        };
+        box.textContent = map[type] || "I'm always by your side ❤️";
+    }
+
+    // Surprise Modal
+    function openSurprise() { document.getElementById('surpriseModal').classList.add('active'); }
+    function closeSurprise() { document.getElementById('surpriseModal').classList.remove('active'); }
+
+    // Floating Hearts
+    function createFloatingHearts() {
+        const container = document.getElementById('heartsContainer');
+        setInterval(() => {
+            const heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            heart.innerText = '♥';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 1 + 1) + 'rem';
+            const duration = Math.random() * 5 + 5;
+            heart.style.animationDuration = duration + 's';
+            container.appendChild(heart);
+            setTimeout(() => heart.remove(), duration * 1000);
+        }, 1000);
+    }
+</script>
+
+</body>
+</html>
