@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For You ❤️</title>
+    <title>For You ❤️ | Forever With You</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
@@ -37,7 +37,7 @@
 
         .floating-heart {
             position: absolute;
-            color: rgba(255, 101, 132, 0.2);
+            color: rgba(255, 101, 132, 0.25);
             animation: floatUp 8s linear infinite;
             bottom: -50px;
             font-size: 1.5rem;
@@ -46,30 +46,16 @@
 
         @keyframes floatUp {
             0% { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 0; }
-            20% { opacity: 0.8; }
-            80% { opacity: 0.8; }
-            100% { transform: translateY(-105vh) rotate(360deg) scale(1.2); opacity: 0; }
+            20% { opacity: 0.85; }
+            80% { opacity: 0.85; }
+            100% { transform: translateY(-105vh) rotate(360deg) scale(1.3); opacity: 0; }
         }
 
         .glass-nav {
-            background: rgba(12, 13, 18, 0.8);
+            background: rgba(12, 13, 18, 0.85);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .glow-effect {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(255,101,132,0.15) 0%, rgba(217,70,239,0.05) 50%, transparent 70%);
-            border-radius: 50%;
-            z-index: 0;
-            filter: blur(60px);
-            pointer-events: none;
-        }
-
-        nav.glass-nav {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             position: fixed;
             top: 0;
             left: 0;
@@ -83,7 +69,7 @@
 
         .logo {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: bold;
             cursor: pointer;
             display: flex;
@@ -98,7 +84,7 @@
 
         .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 1.75rem;
             font-size: 0.875rem;
             font-weight: 500;
             color: #d1d5db;
@@ -114,6 +100,17 @@
             color: #ff6584;
         }
 
+        .glow-effect {
+            position: absolute;
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(255,101,132,0.18) 0%, rgba(217,70,239,0.06) 50%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+            filter: blur(70px);
+            pointer-events: none;
+        }
+
         .hero {
             position: relative;
             min-height: 100vh;
@@ -122,7 +119,7 @@
             align-items: center;
             justify-content: flex-start;
             text-align: center;
-            padding: 7rem 1rem 4rem 1rem;
+            padding: 7.5rem 1rem 4rem 1rem;
             z-index: 10;
         }
 
@@ -137,9 +134,9 @@
             letter-spacing: 0.15em;
             color: #ff6584;
             background: rgba(255, 101, 132, 0.1);
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 1.2rem;
             border-radius: 9999px;
-            border: 1px solid rgba(255, 101, 132, 0.2);
+            border: 1px solid rgba(255, 101, 132, 0.25);
             margin-bottom: 1rem;
             text-transform: uppercase;
         }
@@ -153,17 +150,18 @@
 
         .hero-lola {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 3.5rem;
+            font-size: 3.8rem;
             font-weight: 700;
             background: linear-gradient(135deg, #ff6584 0%, #fb7185 50%, #d946ef 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 1rem;
+            filter: drop-shadow(0 4px 15px rgba(255,101,132,0.3));
         }
 
         .home-dashboard {
             width: 100%;
-            max-width: 50rem;
+            max-width: 54rem;
             display: grid;
             grid-template-columns: 1fr;
             gap: 1.5rem;
@@ -177,8 +175,8 @@
         }
 
         .dash-card {
-            background: rgba(20, 21, 30, 0.65);
-            backdrop-filter: blur(12px);
+            background: rgba(20, 21, 30, 0.7);
+            backdrop-filter: blur(14px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 1.5rem;
             padding: 2rem;
@@ -187,11 +185,9 @@
             justify-content: center;
             align-items: center;
             text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
         }
 
-        /* ------------------------------------------------------------- */
-        /* MODIFIED COUNTDOWN STYLES (Creative, Glassmorphic, Huge Glow)  */
-        /* ------------------------------------------------------------- */
         .countdown-grid-creative {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -202,10 +198,10 @@
         }
 
         .countdown-card-item {
-            background: linear-gradient(135deg, rgba(255, 101, 132, 0.08) 0%, rgba(217, 70, 239, 0.04) 100%);
+            background: linear-gradient(135deg, rgba(255, 101, 132, 0.1) 0%, rgba(217, 70, 239, 0.05) 100%);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 101, 132, 0.25);
+            border: 1px solid rgba(255, 101, 132, 0.3);
             border-radius: 1rem;
             padding: 1rem 0.5rem;
             display: flex;
@@ -214,14 +210,12 @@
             justify-content: center;
             box-shadow: 0 0 20px rgba(255, 101, 132, 0.15);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
 
         .countdown-card-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 25px rgba(255, 101, 132, 0.3);
-            border-color: rgba(255, 101, 132, 0.5);
+            transform: translateY(-4px);
+            box-shadow: 0 0 28px rgba(255, 101, 132, 0.35);
+            border-color: rgba(255, 101, 132, 0.6);
         }
 
         .countdown-number-huge {
@@ -255,7 +249,7 @@
 
         .quran-text {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.35rem;
+            font-size: 1.4rem;
             font-weight: 600;
             color: #fff;
             margin-bottom: 0.75rem;
@@ -280,7 +274,7 @@
 
         .section-title {
             text-align: center;
-            margin-bottom: 4rem;
+            margin-bottom: 3.5rem;
         }
 
         .section-title p {
@@ -303,22 +297,24 @@
             background: linear-gradient(135deg, #ff6584 0%, #d946ef 100%);
             border: none;
             color: white;
-            padding: 0.75rem 1.5rem;
+            padding: 0.8rem 1.75rem;
             border-radius: 0.75rem;
             font-weight: 600;
             font-size: 1rem;
             cursor: pointer;
-            transition: opacity 0.2s, transform 0.2s;
+            transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(255, 101, 132, 0.3);
         }
 
-        .main-btn:hover { opacity: 0.95; transform: translateY(-1px); }
+        .main-btn:hover { 
+            opacity: 0.95; 
+            transform: translateY(-2px); 
+            box-shadow: 0 6px 20px rgba(255, 101, 132, 0.45);
+        }
 
-        /* ------------------------------------------------------------- */
-        /* NEW LOVE MESSAGES SECTION STYLES                              */
-        /* ------------------------------------------------------------- */
         .love-messages-container {
             max-width: 44rem;
             margin: 0 auto;
@@ -330,21 +326,21 @@
         .love-msg-card {
             background: rgba(20, 21, 30, 0.75);
             backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 101, 132, 0.3);
+            border: 1px solid rgba(255, 101, 132, 0.35);
             border-radius: 1.5rem;
             padding: 2.5rem;
             text-align: center;
-            box-shadow: 0 0 30px rgba(255, 101, 132, 0.12);
+            box-shadow: 0 0 35px rgba(255, 101, 132, 0.15);
             position: relative;
             overflow: hidden;
         }
 
         .love-msg-display {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.6rem;
+            font-size: 1.75rem;
             font-weight: 600;
             color: #fff;
-            min-height: 90px;
+            min-height: 100px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -356,12 +352,9 @@
 
         .love-msg-display.fade-out {
             opacity: 0;
-            transform: translateY(-10px);
+            transform: translateY(-12px);
         }
 
-        /* ------------------------------------------------------------- */
-        /* NEW TODO LIST SECTION STYLES                                  */
-        /* ------------------------------------------------------------- */
         .todo-container {
             max-width: 44rem;
             margin: 0 auto;
@@ -519,7 +512,7 @@
             flex-direction: column;
             cursor: pointer;
             position: relative;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, border-color 0.3s ease;
         }
 
         .photo-card:hover { transform: translateY(-5px); border-color: rgba(255, 101, 132, 0.4); }
@@ -558,7 +551,7 @@
         .lightbox-modal {
             position: fixed;
             inset: 0;
-            background: rgba(12, 13, 18, 0.92);
+            background: rgba(12, 13, 18, 0.94);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             z-index: 1000;
@@ -692,6 +685,243 @@
         .timed-badge.locked { background: rgba(248, 113, 113, 0.15); color: #f87171; }
         .timed-badge.unlocked { background: rgba(52, 211, 153, 0.15); color: #34d399; }
 
+        /* ------------------------------------------------------------- */
+        /* NEW MONEY DASHBOARD SECTION STYLES (💰 أموالي)                 */
+        /* ------------------------------------------------------------- */
+        .money-dashboard-container {
+            max-width: 64rem;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .money-grid-top {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .money-grid-top {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .money-card {
+            background: rgba(20, 21, 30, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 101, 132, 0.25);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .money-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .money-card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #ff6584;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .money-value-display {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .money-sub-value {
+            font-size: 0.95rem;
+            color: #9ca3af;
+        }
+
+        .goals-section-wrapper {
+            background: rgba(20, 21, 30, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        .goals-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.75rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .goals-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+        }
+
+        @media (min-width: 768px) {
+            .goals-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .goal-card-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .goal-card-item:hover {
+            border-color: rgba(255, 101, 132, 0.4);
+        }
+
+        .goal-item-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .goal-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #fff;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .goal-note {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            margin-top: 0.2rem;
+        }
+
+        .goal-amounts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0.75rem 0.5rem;
+            border-radius: 0.75rem;
+            font-size: 0.85rem;
+        }
+
+        .goal-amt-label {
+            font-size: 0.65rem;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.15rem;
+        }
+
+        .goal-amt-val {
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .goal-progress-container {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 9999px;
+            height: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .goal-progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #ff6584 0%, #d946ef 100%);
+            border-radius: 9999px;
+            transition: width 0.5s ease;
+        }
+
+        .goal-progress-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        .goal-actions-row {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+            margin-top: 0.5rem;
+        }
+
+        .btn-sm-action {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #d1d5db;
+            padding: 0.35rem 0.8rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-sm-action:hover {
+            background: #ff6584;
+            border-color: #ff6584;
+            color: #fff;
+        }
+
+        .btn-sm-danger:hover {
+            background: #f87171 !important;
+            border-color: #f87171 !important;
+        }
+
+        .money-form-group {
+            margin-bottom: 1.25rem;
+            text-align: left;
+        }
+
+        .money-form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #d1d5db;
+            margin-bottom: 0.4rem;
+            font-weight: 500;
+        }
+
+        .money-form-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .money-form-input:focus {
+            border-color: #ff6584;
+        }
+        /* ------------------------------------------------------------- */
+
         #leithAssistant {
             position: fixed;
             bottom: 2rem;
@@ -722,7 +952,7 @@
             bottom: 75px;
             right: 0;
             width: 320px;
-            background: rgba(20, 21, 30, 0.95);
+            background: rgba(20, 21, 30, 0.96);
             backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 101, 132, 0.4);
             border-radius: 1.25rem;
@@ -798,7 +1028,7 @@
         .modal {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.82);
             backdrop-filter: blur(12px);
             z-index: 1000;
             display: flex;
@@ -812,8 +1042,8 @@
         .modal.active { opacity: 1; pointer-events: auto; }
 
         .modal-content {
-            background: rgba(20, 21, 30, 0.95);
-            border: 1px solid rgba(255, 101, 132, 0.3);
+            background: rgba(20, 21, 30, 0.96);
+            border: 1px solid rgba(255, 101, 132, 0.35);
             border-radius: 1.5rem;
             padding: 2.5rem;
             max-width: 400px;
@@ -856,6 +1086,7 @@
         <a href="#home">Home</a>
         <a href="#memories">Memories</a>
         <a href="#timedMessages">Messages</a>
+        <a href="#moneySection">أموالي</a>
     </div>
 </nav>
 
@@ -869,7 +1100,6 @@
     </div>
 
     <div class="home-dashboard">
-        <!-- COUNTDOWN CARD WITH MODIFIED CREATIVE LAYOUT -->
         <div class="dash-card">
             <h3 class="font-serif" style="font-size: 1.25rem; color: #fff;">Together Since April 8, 2026 ❤️</h3>
             <div class="countdown-grid-creative">
@@ -892,7 +1122,6 @@
             </div>
         </div>
 
-        <!-- DAILY QURAN VERSE CARD (ARABIC) -->
         <div class="dash-card">
             <div class="quran-box">
                 <h3 class="font-serif" style="font-size: 1.3rem; color: #ff6584; margin-bottom: 0.5rem;">آية اليوم ❤️</h3>
@@ -903,7 +1132,6 @@
     </div>
 </section>
 
-<!-- NEW LOVE MESSAGES SECTION -->
 <section class="love-messages-container">
     <div class="section-title" style="margin-bottom: 2rem;">
         <p>Words from my heart</p>
@@ -917,7 +1145,6 @@
     </div>
 </section>
 
-<!-- NEW TODO LIST SECTION -->
 <section class="todo-container">
     <div class="section-title" style="margin-bottom: 2rem;">
         <p>Our Special Plans</p>
@@ -950,7 +1177,6 @@
     </div>
 </section>
 
-<!-- LIGHTBOX MODAL FOR ENLARGING PHOTOS -->
 <div class="lightbox-modal" id="lightboxModal">
     <div class="lightbox-container">
         <button class="lightbox-close" onclick="closeLightbox()">×</button>
@@ -977,6 +1203,119 @@
         <!-- Populated via JS -->
     </div>
 </section>
+
+<!-- 💰 قسم أموالي الجديد والمستقل تمامًا -->
+<section id="moneySection" class="money-dashboard-container">
+    <div class="section-title">
+        <p>خطوة صغيرة كل يوم تقربنا من أحلامنا ❤️</p>
+        <h2>💰 <span>أموالي</span></h2>
+    </div>
+
+    <div class="money-grid-top">
+        <!-- الكاش -->
+        <div class="money-card">
+            <div>
+                <div class="money-card-header">
+                    <span class="money-card-title">💵 الكاش</span>
+                    <button class="btn-sm-action" onclick="openEditCashModal()">✏️ تعديل</button>
+                </div>
+                <div class="money-value-display" id="displayCashVal">5,000 EGP</div>
+            </div>
+            <div class="money-sub-value">السيولة النقدية المتاحة حالياً</div>
+        </div>
+
+        <!-- الذهب -->
+        <div class="money-card">
+            <div>
+                <div class="money-card-header">
+                    <span class="money-card-title">🪙 الذهب</span>
+                    <button class="btn-sm-action" onclick="openEditGoldModal()">✏️ تعديل</button>
+                </div>
+                <div class="money-value-display" id="displayGoldValue">72,000 EGP</div>
+            </div>
+            <div class="money-sub-value" id="displayGoldGrams">الكمية: 15.5 جرام</div>
+        </div>
+    </div>
+
+    <!-- مشترياتي وأهدافي -->
+    <div class="goals-section-wrapper">
+        <div class="goals-header-row">
+            <div>
+                <h3 class="font-serif" style="font-size: 1.5rem; color: #fff;">🎯 مشترياتي وأهدافي</h3>
+                <p style="color: #9ca3af; font-size: 0.85rem;">تتبع تقدم الأهداف والمشتريات خطوة بخطوة</p>
+            </div>
+            <button class="main-btn" onclick="openAddGoalModal()">+ إضافة هدف</button>
+        </div>
+
+        <div class="goals-grid" id="goalsGridContainer">
+            <!-- Populated via JS -->
+        </div>
+    </div>
+</section>
+
+<!-- Modals for Money Dashboard -->
+<div class="modal" id="editCashModal">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeModals()">×</button>
+        <h3 class="font-serif" style="font-size: 1.75rem; color: #fff; margin-bottom: 1.25rem;">تعديل الكاش</h3>
+        <div class="money-form-group">
+            <label>المبلغ النقدي (EGP)</label>
+            <input type="number" id="inputCashVal" class="money-form-input" placeholder="5000">
+        </div>
+        <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
+            <button class="main-btn" style="flex: 1; justify-content: center;" onclick="saveCashData()">حفظ</button>
+            <button class="btn-sm-action" style="flex: 1; padding: 0.8rem;" onclick="closeModals()">إلغاء</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="editGoldModal">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeModals()">×</button>
+        <h3 class="font-serif" style="font-size: 1.75rem; color: #fff; margin-bottom: 1.25rem;">تعديل الذهب</h3>
+        <div class="money-form-group">
+            <label>كمية الذهب (جرام)</label>
+            <input type="number" step="0.1" id="inputGoldGrams" class="money-form-input" placeholder="15.5">
+        </div>
+        <div class="money-form-group">
+            <label>قيمة الذهب الحالية (EGP)</label>
+            <input type="number" id="inputGoldValue" class="money-form-input" placeholder="72000">
+        </div>
+        <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
+            <button class="main-btn" style="flex: 1; justify-content: center;" onclick="saveGoldData()">حفظ</button>
+            <button class="btn-sm-action" style="flex: 1; padding: 0.8rem;" onclick="closeModals()">إلغاء</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="goalModal">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeModals()">×</button>
+        <h3 class="font-serif" style="font-size: 1.75rem; color: #fff; margin-bottom: 1.25rem;" id="goalModalTitle">إضافة هدف جديد</h3>
+        <input type="hidden" id="editGoalIndex" value="-1">
+        <div class="money-form-group">
+            <label>اسم الهدف</label>
+            <input type="text" id="inputGoalName" class="money-form-input" placeholder="مثال: الشبكة">
+        </div>
+        <div class="money-form-group">
+            <label>السعر المستهدف (EGP)</label>
+            <input type="number" id="inputGoalTarget" class="money-form-input" placeholder="80000">
+        </div>
+        <div class="money-form-group">
+            <label>المبلغ المدفوع حاليًا (EGP)</label>
+            <input type="number" id="inputGoalPaid" class="money-form-input" placeholder="30000">
+        </div>
+        <div class="money-form-group">
+            <label>ملاحظة (اختياري)</label>
+            <input type="text" id="inputGoalNote" class="money-form-input" placeholder="ملاحظة أو تفاصيل...">
+        </div>
+        <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
+            <button class="main-btn" style="flex: 1; justify-content: center;" onclick="saveGoalItem()">حفظ الهدف</button>
+            <button class="btn-sm-action" style="flex: 1; padding: 0.8rem;" onclick="closeModals()">إلغاء</button>
+        </div>
+    </div>
+</div>
+<!-- End of Money Dashboard Modals -->
 
 <section class="section" style="text-align: center; padding-bottom: 8rem;">
     <p class="small-title">One last thing...</p>
@@ -1038,9 +1377,10 @@
         renderTimedMessages();
         createFloatingHearts();
         initLeithAuto();
+        initMoneyDashboard();
     });
 
-    // Countdown Logic (Using existing IDs: daysCount, hoursCount, minsCount, secsCount)
+    // Countdown Logic
     function initCountdown() {
         const startDate = new Date('2026-04-08T00:00:00');
         setInterval(() => {
@@ -1068,9 +1408,7 @@
         document.getElementById('dailyQuranRef').textContent = `— ${q.ref}`;
     }
 
-    // -------------------------------------------------------------
-    // NEW LOVE MESSAGES LOGIC & ARRAY
-    // -------------------------------------------------------------
+    // Love Messages Array & Rotation
     const loveMessagesArray = [
         "أنا جنبك على طول ❤️",
         "أنا مش هسيبك.",
@@ -1093,7 +1431,6 @@
         
         display.textContent = `"${loveMessagesArray[currentLoveMsgIndex]}"`;
 
-        // Automatically change every 6 seconds smoothly
         loveMsgInterval = setInterval(() => {
             nextLoveMessage();
         }, 6000);
@@ -1111,9 +1448,7 @@
         }, 500);
     }
 
-    // -------------------------------------------------------------
-    // NEW TODO LIST LOGIC WITH LOCALSTORAGE
-    // -------------------------------------------------------------
+    // Todo List with LocalStorage
     let todoItems = [];
 
     function initTodoList() {
@@ -1206,7 +1541,7 @@
         return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
     }
 
-    // Gallery Data & Lightbox State
+    // Gallery & Lightbox Data
     const photos = [
         { id: "photo-1", file: "images/alaa-childhood.jpg", title: "Childhood Photo", description: "The sweetest smile from long ago ❤️", category: "special" },
         { id: "photo-2", file: "images/alaa-eyes.jpg", title: "Your Eyes", description: "The eyes that light up my entire world ❤️", category: "special" },
@@ -1342,7 +1677,7 @@
     function openSurprise() { document.getElementById('surpriseModal').classList.add('active'); }
     function closeSurprise() { document.getElementById('surpriseModal').classList.remove('active'); }
 
-    // Floating Hearts
+    // Floating Hearts Generation
     function createFloatingHearts() {
         const container = document.getElementById('heartsContainer');
         if (!container) return;
@@ -1357,6 +1692,224 @@
             container.appendChild(heart);
             setTimeout(() => heart.remove(), duration * 1000);
         }, 1000);
+    }
+
+    // -------------------------------------------------------------
+    // 💰 MONEY DASHBOARD LOGIC (قسم أموالي الجديد)
+    // -------------------------------------------------------------
+    let moneyData = {
+        cash: 5000,
+        goldGrams: 15.5,
+        goldValue: 72000,
+        goals: [
+            {
+                name: "الشبكة",
+                target: 80000,
+                paid: 30000,
+                note: "شبكة الخطوبة"
+            }
+        ]
+    };
+
+    function initMoneyDashboard() {
+        const saved = localStorage.getItem('money_dashboard_v1');
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                if (parsed) {
+                    moneyData = Object.assign({}, moneyData, parsed);
+                }
+            } catch(e) {
+                console.error("Error loading money data", e);
+            }
+        }
+        renderMoneyDashboard();
+    }
+
+    function saveMoneyDashboardStorage() {
+        try {
+            localStorage.setItem('money_dashboard_v1', JSON.stringify(moneyData));
+        } catch(e) {
+            console.error("Error saving money data", e);
+        }
+    }
+
+    function renderMoneyDashboard() {
+        // Render Cash
+        const cashEl = document.getElementById('displayCashVal');
+        if (cashEl) {
+            cashEl.textContent = Number(moneyData.cash).toLocaleString() + " EGP";
+        }
+
+        // Render Gold
+        const goldValEl = document.getElementById('displayGoldValue');
+        const goldGramsEl = document.getElementById('displayGoldGrams');
+        if (goldValEl) {
+            goldValEl.textContent = Number(moneyData.goldValue).toLocaleString() + " EGP";
+        }
+        if (goldGramsEl) {
+            goldGramsEl.textContent = `الكمية: ${moneyData.goldGrams} جرام`;
+        }
+
+        // Render Goals
+        const goalsGrid = document.getElementById('goalsGridContainer');
+        if (!goalsGrid) return;
+
+        if (!moneyData.goals || moneyData.goals.length === 0) {
+            goalsGrid.innerHTML = `<p style="grid-column: span 2; text-align: center; color: #9ca3af; padding: 1.5rem;">لا توجد أهداف مسجلة حالياً. أضف هدفك الأول الآن! 🎯</p>`;
+            return;
+        }
+
+        goalsGrid.innerHTML = '';
+        moneyData.goals.forEach((goal, idx) => {
+            const target = Number(goal.target) || 0;
+            const paid = Number(goal.paid) || 0;
+            const remaining = Math.max(0, target - paid);
+            let percent = target > 0 ? (paid / target) * 100 : 0;
+            if (percent > 100) percent = 100;
+            const isCompleted = percent >= 100;
+
+            goalsGrid.innerHTML += `
+                <div class="goal-card-item">
+                    <div class="goal-item-top">
+                        <div>
+                            <div class="goal-title">${escapeHtml(goal.name)}</div>
+                            ${goal.note ? `<div class="goal-note">${escapeHtml(goal.note)}</div>` : ''}
+                        </div>
+                        ${isCompleted ? `<span style="font-size: 0.75rem; background: rgba(52, 211, 153, 0.15); color: #34d399; padding: 0.2rem 0.6rem; border-radius: 9999px; font-weight: 600;">🎉 الهدف تحقق!</span>` : ''}
+                    </div>
+
+                    <div class="goal-amounts-grid">
+                        <div>
+                            <div class="goal-amt-label">الهدف</div>
+                            <div class="goal-amt-val">${target.toLocaleString()} EGP</div>
+                        </div>
+                        <div>
+                            <div class="goal-amt-label">المدفوع</div>
+                            <div class="goal-amt-val" style="color: #ff6584;">${paid.toLocaleString()} EGP</div>
+                        </div>
+                        <div>
+                            <div class="goal-amt-label">المتبقي</div>
+                            <div class="goal-amt-val">${remaining.toLocaleString()} EGP</div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="goal-progress-container">
+                            <div class="goal-progress-fill" style="width: ${percent.toFixed(1)}%;"></div>
+                        </div>
+                        <div class="goal-progress-footer" style="margin-top: 0.4rem;">
+                            <span style="font-size: 0.75rem; color: #9ca3af;">نسبة الإنجاز</span>
+                            <span style="font-size: 0.85rem; font-weight: 600; color: #fff;">${percent.toFixed(1)}%</span>
+                        </div>
+                    </div>
+
+                    <div class="goal-actions-row">
+                        <button class="btn-sm-action" onclick="openEditGoalModal(${idx})">✏️ تعديل</button>
+                        <button class="btn-sm-action btn-sm-danger" onclick="deleteGoalItem(${idx})">🗑️ حذف</button>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    // Cash Modals & Handlers
+    function openEditCashModal() {
+        document.getElementById('inputCashVal').value = moneyData.cash;
+        document.getElementById('editCashModal').classList.add('active');
+    }
+
+    function saveCashData() {
+        const val = parseFloat(document.getElementById('inputCashVal').value);
+        if (isNaN(val)) return;
+        moneyData.cash = val;
+        saveMoneyDashboardStorage();
+        renderMoneyDashboard();
+        closeModals();
+    }
+
+    // Gold Modals & Handlers
+    function openEditGoldModal() {
+        document.getElementById('inputGoldGrams').value = moneyData.goldGrams;
+        document.getElementById('inputGoldValue').value = moneyData.goldValue;
+        document.getElementById('editGoldModal').classList.add('active');
+    }
+
+    function saveGoldData() {
+        const grams = parseFloat(document.getElementById('inputGoldGrams').value);
+        const val = parseFloat(document.getElementById('inputGoldValue').value);
+        if (isNaN(grams) || isNaN(val)) return;
+        moneyData.goldGrams = grams;
+        moneyData.goldValue = val;
+        saveMoneyDashboardStorage();
+        renderMoneyDashboard();
+        closeModals();
+    }
+
+    // Goal Modals & Handlers
+    function openAddGoalModal() {
+        document.getElementById('goalModalTitle').textContent = "إضافة هدف جديد";
+        document.getElementById('editGoalIndex').value = "-1";
+        document.getElementById('inputGoalName').value = "";
+        document.getElementById('inputGoalTarget').value = "";
+        document.getElementById('inputGoalPaid').value = "";
+        document.getElementById('inputGoalNote').value = "";
+        document.getElementById('goalModal').classList.add('active');
+    }
+
+    function openEditGoalModal(index) {
+        const goal = moneyData.goals[index];
+        if (!goal) return;
+        document.getElementById('goalModalTitle').textContent = "تعديل الهدف";
+        document.getElementById('editGoalIndex').value = index;
+        document.getElementById('inputGoalName').value = goal.name;
+        document.getElementById('inputGoalTarget').value = goal.target;
+        document.getElementById('inputGoalPaid').value = goal.paid;
+        document.getElementById('inputGoalNote').value = goal.note || "";
+        document.getElementById('goalModal').classList.add('active');
+    }
+
+    function saveGoalItem() {
+        const index = parseInt(document.getElementById('editGoalIndex').value, 10);
+        const name = document.getElementById('inputGoalName').value.trim();
+        const target = parseFloat(document.getElementById('inputGoalTarget').value);
+        const paid = parseFloat(document.getElementById('inputGoalPaid').value);
+        const note = document.getElementById('inputGoalNote').value.trim();
+
+        if (!name || isNaN(target) || isNaN(paid)) return;
+
+        const goalObj = {
+            name: name,
+            target: target,
+            paid: paid,
+            note: note
+        };
+
+        if (index === -1) {
+            moneyData.goals.push(goalObj);
+        } else {
+            moneyData.goals[index] = goalObj;
+        }
+
+        saveMoneyDashboardStorage();
+        renderMoneyDashboard();
+        closeModals();
+    }
+
+    function deleteGoalItem(index) {
+        if (confirm("هل أنت متأكد أنك تريد حذف هذا الهدف؟")) {
+            moneyData.goals.splice(index, 1);
+            saveMoneyDashboardStorage();
+            renderMoneyDashboard();
+        }
+    }
+
+    function closeModals() {
+        document.querySelectorAll('.modal').forEach(m => {
+            if (m.id !== 'surpriseModal') {
+                m.classList.remove('active');
+            }
+        });
     }
 </script>
 
