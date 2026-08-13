@@ -948,238 +948,137 @@
             color: #d1d5db;
         }
 
-        /* MONEY DASHBOARD */
-        .money-dashboard-container {
-            max-width: 64rem;
+        /* SIMPLIFIED SAVINGS SECTION STYLES */
+        .savings-section-container {
+            max-width: 44rem;
             margin: 0 auto;
             padding: 4rem 1.5rem;
             position: relative;
             z-index: 10;
         }
 
-        .money-grid-top {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-            margin-bottom: 2.5rem;
-        }
-
-        @media (min-width: 768px) {
-            .money-grid-top {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .money-card {
+        .savings-card {
             background: rgba(20, 21, 30, 0.75);
             backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 101, 132, 0.25);
+            border: 1px solid rgba(255, 101, 132, 0.35);
             border-radius: 1.5rem;
-            padding: 2rem;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            position: relative;
+            gap: 1.75rem;
         }
 
-        .money-card-header {
+        .savings-header-flex {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.25rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 1rem;
         }
 
-        .money-card-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #ff6584;
+        .savings-title-main {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #fff;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
-        .money-value-display {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 0.5rem;
-        }
-
-        .money-sub-value {
-            font-size: 0.95rem;
-            color: #9ca3af;
-        }
-
-        .goals-section-wrapper {
-            background: rgba(20, 21, 30, 0.75);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 1.5rem;
-            padding: 2rem;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-        }
-
-        .goals-header-row {
+        .savings-row-stats {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.75rem;
+            align-items: flex-end;
             flex-wrap: wrap;
             gap: 1rem;
         }
 
-        .goals-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.25rem;
-        }
-
-        @media (min-width: 768px) {
-            .goals-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .goal-card-item {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 1rem;
-            padding: 1.5rem;
+        .savings-stat-block {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
-            transition: border-color 0.2s;
+            gap: 0.25rem;
         }
 
-        .goal-card-item:hover {
-            border-color: rgba(255, 101, 132, 0.4);
-        }
-
-        .goal-item-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-
-        .goal-title {
-            font-size: 1.15rem;
-            font-weight: 600;
-            color: #fff;
-            font-family: 'Cormorant Garamond', serif;
-        }
-
-        .goal-note {
-            font-size: 0.8rem;
-            color: #9ca3af;
-            margin-top: 0.2rem;
-        }
-
-        .goal-amounts-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.5rem;
-            text-align: center;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 0.75rem 0.5rem;
-            border-radius: 0.75rem;
-            font-size: 0.85rem;
-        }
-
-        .goal-amt-label {
-            font-size: 0.65rem;
-            color: #9ca3af;
+        .savings-stat-label {
+            font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.15rem;
+            letter-spacing: 0.1em;
+            color: #9ca3af;
+            font-weight: 600;
         }
 
-        .goal-amt-val {
-            font-weight: 600;
+        .savings-stat-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.25rem;
+            font-weight: 700;
             color: #fff;
         }
 
-        .goal-progress-container {
+        .savings-stat-value.highlight {
+            background: linear-gradient(135deg, #ff6584 0%, #d946ef 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .savings-progress-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .savings-progress-bar-bg {
             width: 100%;
             background: rgba(255, 255, 255, 0.08);
             border-radius: 9999px;
-            height: 10px;
+            height: 14px;
             overflow: hidden;
             position: relative;
         }
 
-        .goal-progress-fill {
+        .savings-progress-bar-fill {
             height: 100%;
             background: linear-gradient(135deg, #ff6584 0%, #d946ef 100%);
             border-radius: 9999px;
             transition: width 0.5s ease;
         }
 
-        .goal-progress-footer {
+        .savings-progress-info-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
         }
 
-        .goal-actions-row {
+        .savings-actions-group {
             display: flex;
-            gap: 0.5rem;
-            justify-content: flex-end;
+            gap: 1rem;
+            flex-wrap: wrap;
             margin-top: 0.5rem;
+        }
+
+        .savings-actions-group button {
+            flex: 1;
+            justify-content: center;
         }
 
         .btn-sm-action {
             background: rgba(255, 255, 255, 0.06);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: #d1d5db;
-            padding: 0.35rem 0.8rem;
-            border-radius: 0.5rem;
-            font-size: 0.75rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.75rem;
+            font-size: 0.85rem;
             cursor: pointer;
             transition: all 0.2s;
+            font-weight: 500;
         }
 
         .btn-sm-action:hover {
             background: #ff6584;
             border-color: #ff6584;
             color: #fff;
-        }
-
-        .btn-sm-danger:hover {
-            background: #f87171 !important;
-            border-color: #f87171 !important;
-        }
-
-        .money-form-group {
-            margin-bottom: 1.25rem;
-            text-align: left;
-        }
-
-        .money-form-group label {
-            display: block;
-            font-size: 0.85rem;
-            color: #d1d5db;
-            margin-bottom: 0.4rem;
-            font-weight: 500;
-        }
-
-        .money-form-input {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 0.75rem;
-            padding: 0.75rem 1rem;
-            color: #fff;
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.95rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .money-form-input:focus {
-            border-color: #ff6584;
         }
 
         .faith-container {
@@ -1314,7 +1213,7 @@
         }
 
         /* ------------------------------------------------------------- */
-        /* LEITH 2.0 — MESSENGER STYLE FLOATING CHAT HEAD & BUBBLE        */
+        /* LEITH 2.0 — MESSENGER STYLE FLOATING CHAT HEAD & BUBBLE       */
         /* ------------------------------------------------------------- */
         #leithAssistant {
             position: fixed;
@@ -1563,6 +1462,36 @@
             cursor: pointer;
         }
 
+        .savings-form-group {
+            margin-bottom: 1.25rem;
+            text-align: left;
+        }
+
+        .savings-form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #d1d5db;
+            margin-bottom: 0.4rem;
+            font-weight: 500;
+        }
+
+        .savings-form-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .savings-form-input:focus {
+            border-color: #ff6584;
+        }
+
         footer {
             padding: 3rem 1.5rem;
             text-align: center;
@@ -1605,7 +1534,7 @@
         <a href="#timedMessages">Messages</a>
         <a href="#familySection">Family</a>
         <a href="#ticketsSection">Tickets</a>
-        <a href="#moneySection">Money</a>
+        <a href="#savingsSection">Savings</a>
         <a href="#faithSection">Faith</a>
     </div>
 </nav>
@@ -1747,110 +1676,75 @@
     </div>
 </section>
 
-<section id="moneySection" class="money-dashboard-container">
+<section id="savingsSection" class="savings-section-container">
     <div class="section-title">
         <p>A small step every day brings us closer to our dreams ❤️</p>
-        <h2>💰 <span>My Money</span></h2>
+        <h2>💰 <span>ادخاري</span></h2>
     </div>
 
-    <div class="money-grid-top">
-        <div class="money-card">
-            <div>
-                <div class="money-card-header">
-                    <span class="money-card-title">💵 Cash</span>
-                    <button class="btn-sm-action" onclick="openEditCashModal()">✏️ Edit</button>
-                </div>
-                <div class="money-value-display" id="displayCashVal">5,000 EGP</div>
+    <div class="savings-card">
+        <div class="savings-header-flex">
+            <div class="savings-title-main">
+                <span>🎯</span> هدفنا الأساسي
             </div>
-            <div class="money-sub-value">Available cash liquidity</div>
+            <button class="btn-sm-action" onclick="openEditGoalModal()">✏️ تعديل الهدف</button>
         </div>
 
-        <div class="money-card">
-            <div>
-                <div class="money-card-header">
-                    <span class="money-card-title">🪙 Gold</span>
-                    <button class="btn-sm-action" onclick="openEditGoldModal()">✏️ Edit</button>
-                </div>
-                <div class="money-value-display" id="displayGoldValue">72,000 EGP</div>
+        <div class="savings-row-stats">
+            <div class="savings-stat-block">
+                <span class="savings-stat-label">المبلغ الحالي</span>
+                <span class="savings-stat-value highlight" id="displayCurrentSavings">6,000 ج.م</span>
             </div>
-            <div class="money-sub-value" id="displayGoldGrams">Quantity: 15.5 grams</div>
-        </div>
-    </div>
-
-    <div class="goals-section-wrapper">
-        <div class="goals-header-row">
-            <div>
-                <h3 class="font-serif" style="font-size: 1.5rem; color: #fff;">🎯 My Purchases & Goals</h3>
-                <p style="color: #9ca3af; font-size: 0.85rem;">Track goals and purchase progress step by step</p>
+            <div class="savings-stat-block" style="text-align: right;">
+                <span class="savings-stat-label">الهدف</span>
+                <span class="savings-stat-value" id="displaySavingsGoal">300,000 ج.م</span>
             </div>
-            <button class="main-btn" onclick="openAddGoalModal()">+ Add Goal</button>
         </div>
 
-        <div class="goals-grid" id="goalsGridContainer">
-            <!-- Populated via JS -->
+        <div class="savings-progress-wrapper">
+            <div class="savings-progress-bar-bg">
+                <div class="savings-progress-bar-fill" id="savingsProgressFill" style="width: 2%;"></div>
+            </div>
+            <div class="savings-progress-info-row">
+                <span id="displaySavingsPercent" style="font-weight: 600; color: #ff6584;">2%</span>
+                <span id="displaySavingsRemaining" style="color: #9ca3af;">باقي 294,000 ج.م</span>
+            </div>
+        </div>
+
+        <div class="savings-actions-group">
+            <button class="main-btn" onclick="openAddAmountModal()">➕ إضافة مبلغ</button>
         </div>
     </div>
 </section>
 
-<!-- Money Modals -->
-<div class="modal" id="editCashModal">
+<!-- Add Amount Modal -->
+<div class="modal" id="addAmountModal">
     <div class="modal-content">
         <button class="close-modal" onclick="closeModals()">×</button>
-        <h3 class="font-serif" style="font-size: 1.75rem; color: #fff; margin-bottom: 1.25rem;">Edit Cash</h3>
-        <div class="money-form-group">
-            <label>Cash Amount (EGP)</label>
-            <input type="number" id="inputCashVal" class="money-form-input" placeholder="5000">
+        <h3 class="font-serif" style="font-size: 1.75rem; color: #fff; margin-bottom: 1.25rem;">إضافة مبلغ للادخار</h3>
+        <div class="savings-form-group">
+            <label>المبلغ (ج.م)</label>
+            <input type="number" id="inputAddAmount" class="savings-form-input" placeholder="1000">
         </div>
         <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
-            <button class="main-btn" style="flex: 1; justify-content: center;" onclick="saveCashData()">Save</button>
-            <button class="btn-sm-action" style="flex: 1; padding: 0.8rem;" onclick="closeModals()">Cancel</button>
+            <button class="main-btn" style="flex: 1; justify-content: center;" onclick="saveAddedAmount()">حفظ</button>
+            <button class="btn-sm-action" style="flex: 1; padding: 0.8rem;" onclick="closeModals()">إلغاء</button>
         </div>
     </div>
 </div>
 
-<div class="modal" id="editGoldModal">
+<!-- Edit Goal Modal -->
+<div class="modal" id="editSavingsGoalModal">
     <div class="modal-content">
         <button class="close-modal" onclick="closeModals()">×</button>
-        <h3 class="font-serif" style="font-size: 1.75rem; color: #fff; margin-bottom: 1.25rem;">Edit Gold</h3>
-        <div class="money-form-group">
-            <label>Gold Quantity (grams)</label>
-            <input type="number" step="0.1" id="inputGoldGrams" class="money-form-input" placeholder="15.5">
-        </div>
-        <div class="money-form-group">
-            <label>Current Gold Value (EGP)</label>
-            <input type="number" id="inputGoldValue" class="money-form-input" placeholder="72000">
+        <h3 class="font-serif" style="font-size: 1.75rem; color: #fff; margin-bottom: 1.25rem;">تعديل هدف الادخار</h3>
+        <div class="savings-form-group">
+            <label>الهدف الجديد (ج.م)</label>
+            <input type="number" id="inputNewGoal" class="savings-form-input" placeholder="300000">
         </div>
         <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
-            <button class="main-btn" style="flex: 1; justify-content: center;" onclick="saveGoldData()">Save</button>
-            <button class="btn-sm-action" style="flex: 1; padding: 0.8rem;" onclick="closeModals()">Cancel</button>
-        </div>
-    </div>
-</div>
-
-<div class="modal" id="goalModal">
-    <div class="modal-content">
-        <button class="close-modal" onclick="closeModals()">×</button>
-        <h3 class="font-serif" style="font-size: 1.75rem; color: #fff; margin-bottom: 1.25rem;" id="goalModalTitle">Add New Goal</h3>
-        <input type="hidden" id="editGoalIndex" value="-1">
-        <div class="money-form-group">
-            <label>Goal Name</label>
-            <input type="text" id="inputGoalName" class="money-form-input" placeholder="e.g. Engagement Ring">
-        </div>
-        <div class="money-form-group">
-            <label>Target Price (EGP)</label>
-            <input type="number" id="inputGoalTarget" class="money-form-input" placeholder="80000">
-        </div>
-        <div class="money-form-group">
-            <label>Paid Amount So Far (EGP)</label>
-            <input type="number" id="inputGoalPaid" class="money-form-input" placeholder="30000">
-        </div>
-        <div class="money-form-group">
-            <label>Note (Optional)</label>
-            <input type="text" id="inputGoalNote" class="money-form-input" placeholder="Notes or details...">
-        </div>
-        <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
-            <button class="main-btn" style="flex: 1; justify-content: center;" onclick="saveGoalItem()">Save Goal</button>
-            <button class="btn-sm-action" style="flex: 1; padding: 0.8rem;" onclick="closeModals()">Cancel</button>
+            <button class="main-btn" style="flex: 1; justify-content: center;" onclick="saveNewSavingsGoal()">حفظ</button>
+            <button class="btn-sm-action" style="flex: 1; padding: 0.8rem;" onclick="closeModals()">إلغاء</button>
         </div>
     </div>
 </div>
@@ -1861,41 +1755,41 @@
         <button class="close-modal" onclick="closeModals()">×</button>
         <h3 class="font-serif" style="font-size: 1.75rem; color: #fff; margin-bottom: 1.25rem;" id="personModalTitle">Add Person</h3>
         <input type="hidden" id="editPersonIndex" value="-1">
-        <div class="money-form-group">
+        <div class="savings-form-group">
             <label>Name</label>
-            <input type="text" id="inputPersonName" class="money-form-input" placeholder="Name">
+            <input type="text" id="inputPersonName" class="savings-form-input" placeholder="Name">
         </div>
-        <div class="money-form-group">
+        <div class="savings-form-group">
             <label>Nickname</label>
-            <input type="text" id="inputPersonNickname" class="money-form-input" placeholder="Nickname">
+            <input type="text" id="inputPersonNickname" class="savings-form-input" placeholder="Nickname">
         </div>
-        <div class="money-form-group">
+        <div class="savings-form-group">
             <label>Birthday</label>
-            <input type="text" id="inputPersonBirthday" class="money-form-input" placeholder="DD/MM/YYYY">
+            <input type="text" id="inputPersonBirthday" class="savings-form-input" placeholder="DD/MM/YYYY">
         </div>
-        <div class="money-form-group">
+        <div class="savings-form-group">
             <label>Profession / Education</label>
-            <input type="text" id="inputPersonProfession" class="money-form-input" placeholder="Profession or Faculty">
+            <input type="text" id="inputPersonProfession" class="savings-form-input" placeholder="Profession or Faculty">
         </div>
-        <div class="money-form-group">
+        <div class="savings-form-group">
             <label>Department / Specialization</label>
-            <input type="text" id="inputPersonDepartment" class="money-form-input" placeholder="Department">
+            <input type="text" id="inputPersonDepartment" class="savings-form-input" placeholder="Department">
         </div>
-        <div class="money-form-group">
+        <div class="savings-form-group">
             <label>Relationship</label>
-            <input type="text" id="inputPersonRelationship" class="money-form-input" placeholder="Relationship">
+            <input type="text" id="inputPersonRelationship" class="savings-form-input" placeholder="Relationship">
         </div>
-        <div class="money-form-group">
+        <div class="savings-form-group">
             <label>Short Description / Goal</label>
-            <input type="text" id="inputPersonDesc" class="money-form-input" placeholder="Description or Current Goal">
+            <input type="text" id="inputPersonDesc" class="savings-form-input" placeholder="Description or Current Goal">
         </div>
-        <div class="money-form-group">
+        <div class="savings-form-group">
             <label>Dream / Quote</label>
-            <input type="text" id="inputPersonQuote" class="money-form-input" placeholder="Dream or Quote">
+            <input type="text" id="inputPersonQuote" class="savings-form-input" placeholder="Dream or Quote">
         </div>
-        <div class="money-form-group">
+        <div class="savings-form-group">
             <label>Avatar (Emoji / Symbol)</label>
-            <input type="text" id="inputPersonAvatar" class="money-form-input" placeholder="❤️ or 🩺">
+            <input type="text" id="inputPersonAvatar" class="savings-form-input" placeholder="❤️ or 🩺">
         </div>
         <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
             <button class="main-btn" style="flex: 1; justify-content: center;" onclick="savePersonItem()">Save</button>
@@ -1919,29 +1813,29 @@
         <button class="close-modal" onclick="closeModals()">×</button>
         <h3 class="font-serif" style="font-size: 1.75rem; color: #fff; margin-bottom: 1.25rem;" id="ticketModalTitle">Add Memory Ticket</h3>
         <input type="hidden" id="editTicketIndex" value="-1">
-        <div class="money-form-group">
+        <div class="savings-form-group">
             <label>Memory Title</label>
-            <input type="text" id="inputTicketTitle" class="money-form-input" placeholder="Cinema Night">
+            <input type="text" id="inputTicketTitle" class="savings-form-input" placeholder="Cinema Night">
         </div>
-        <div class="money-form-group">
+        <div class="savings-form-group">
             <label>Type</label>
-            <input type="text" id="inputTicketType" class="money-form-input" placeholder="🎬 Cinema">
+            <input type="text" id="inputTicketType" class="savings-form-input" placeholder="🎬 Cinema">
         </div>
-        <div class="money-form-group">
+        <div class="savings-form-group">
             <label>Date</label>
-            <input type="text" id="inputTicketDate" class="money-form-input" placeholder="15 August 2026">
+            <input type="text" id="inputTicketDate" class="savings-form-input" placeholder="15 August 2026">
         </div>
-        <div class="money-form-group">
+        <div class="savings-form-group">
             <label>Place</label>
-            <input type="text" id="inputTicketPlace" class="money-form-input" placeholder="Mall of Egypt">
+            <input type="text" id="inputTicketPlace" class="savings-form-input" placeholder="Mall of Egypt">
         </div>
-        <div class="money-form-group">
+        <div class="savings-form-group">
             <label>Short Note</label>
-            <input type="text" id="inputTicketNote" class="money-form-input" placeholder="Our first movie night ❤️">
+            <input type="text" id="inputTicketNote" class="savings-form-input" placeholder="Our first movie night ❤️">
         </div>
-        <div class="money-form-group">
+        <div class="savings-form-group">
             <label>Details</label>
-            <input type="text" id="inputTicketDetails" class="money-form-input" placeholder="Longer memory description">
+            <input type="text" id="inputTicketDetails" class="savings-form-input" placeholder="Longer memory description">
         </div>
         <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
             <button class="main-btn" style="flex: 1; justify-content: center;" onclick="saveTicketItem()">Save</button>
@@ -2082,17 +1976,140 @@
 </footer>
 
 <script>
+    // -------------------------------------------------------------
+    // CENTRAL APP PERSISTENCE STORAGE ENGINE
+    // -------------------------------------------------------------
+    const APP_STORAGE_KEY = 'lola_forever_app_state_v2';
+
+    let appState = {
+        leith: {
+            currentMood: "neutral",
+            latestMessage: "أهلاً يا لولا 🦁❤️ إزيك النهارده؟",
+            isPersistentMsg: false
+        },
+        savings: {
+            currentSavings: 6000,
+            savingsGoal: 300000
+        },
+        todos: [
+            { id: 1, text: "Drink water and smile ❤️", completed: false },
+            { id: 2, text: "Talk to Youssef ✨", completed: true }
+        ],
+        family: [
+            {
+                name: "Jojo",
+                nickname: "",
+                birthday: "12/07/2004",
+                profession: "Biomedical Engineer",
+                department: "مهندس أجهزة طبية",
+                relationship: "",
+                description: "Biomedical Engineer (مهندس أجهزة طبية)",
+                quote: "",
+                avatar: "❤️",
+                badge: "Special ❤️"
+            },
+            {
+                name: "Lola",
+                nickname: "",
+                birthday: "01/01/2008",
+                profession: "Faculty of Science",
+                department: "كلية علوم • قسم تحاليل (Medical Analysis)",
+                relationship: "",
+                description: "مهمتها الحالية: تذاكر وبس 📚❤️ • تحلم تشتغل في شركة أدوية 💊❤️",
+                quote: "تحلم تشتغل في شركة أدوية 💊❤️",
+                avatar: "❤️",
+                badge: "Our People"
+            },
+            {
+                name: "Dr. Mai",
+                nickname: "Mayoush",
+                birthday: "",
+                profession: "",
+                department: "",
+                relationship: "خالة وعمة العيال",
+                description: "خالة وعمة العيال",
+                quote: "",
+                avatar: "🩺",
+                badge: ""
+            }
+        ],
+        tickets: [
+            {
+                title: "Cinema Night",
+                type: "🎬 Cinema",
+                date: "15 August 2026",
+                place: "Mall of Egypt",
+                note: "Our first movie night ❤️",
+                details: "An amazing evening watching a wonderful movie together with popcorn and laughs."
+            }
+        ],
+        faith: {
+            lastDate: "",
+            verseIndex: 0,
+            prayers: { fajr: false, dhuhr: false, asr: false, maghrib: false, isha: false }
+        }
+    };
+
+    function saveAppState() {
+        try {
+            localStorage.setItem(APP_STORAGE_KEY, JSON.stringify(appState));
+        } catch(e) {
+            console.error("Storage error:", e);
+        }
+    }
+
+    function loadAppState() {
+        try {
+            const saved = localStorage.getItem(APP_STORAGE_KEY);
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                if (parsed) {
+                    appState = Object.assign({}, appState, parsed);
+                }
+            } else {
+                // Migration checks
+                const oldTodos = localStorage.getItem('lola_todos');
+                if (oldTodos) { try { appState.todos = JSON.parse(oldTodos); } catch(e){} }
+                
+                const oldSavings = localStorage.getItem('savings_simple_v1');
+                if (oldSavings) { try { appState.savings = JSON.parse(oldSavings); } catch(e){} }
+                
+                const oldFamily = localStorage.getItem('family_friends_v1');
+                if (oldFamily) { try { appState.family = JSON.parse(oldFamily); } catch(e){} }
+                
+                const oldTickets = localStorage.getItem('memory_tickets_v1');
+                if (oldTickets) { try { appState.tickets = JSON.parse(oldTickets); } catch(e){} }
+                
+                const oldFaith = localStorage.getItem('faith_v1');
+                if (oldFaith) { try { appState.faith = JSON.parse(oldFaith); } catch(e){} }
+                
+                const oldMood = localStorage.getItem('leith_mood_v2');
+                if (oldMood) { appState.leith.currentMood = oldMood; }
+                
+                const oldPrivMsg = localStorage.getItem('leith_private_msg_v2');
+                if (oldPrivMsg) {
+                    appState.leith.latestMessage = `رسالة من جوجو ليكِ: "${oldPrivMsg}" ❤️`;
+                    appState.leith.isPersistentMsg = true;
+                }
+                saveAppState();
+            }
+        } catch(e) {
+            console.error("Error loading app state:", e);
+        }
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
+        loadAppState();
         initCountdown();
         initLoveMessages();
         initTodoList();
         renderGallery(photos);
         renderTimedMessages();
         createFloatingHearts();
-        initMoneyDashboard();
+        renderSavingsSection();
         initFaithModule();
-        initFamilyModule();
-        initTicketsModule();
+        renderFamilyModule();
+        renderTicketsModule();
         initLeith2Module();
     });
 
@@ -2196,44 +2213,22 @@
         }, 500);
     }
 
-    // Todo List with LocalStorage
-    let todoItems = [];
-
+    // Todo List with Persistent App State
     function initTodoList() {
-        const saved = localStorage.getItem('lola_todos');
-        if (saved) {
-            try {
-                todoItems = JSON.parse(saved);
-            } catch(e) {
-                todoItems = [
-                    { id: 1, text: "Drink water and smile ❤️", completed: false },
-                    { id: 2, text: "Talk to Youssef ✨", completed: true }
-                ];
-            }
-        } else {
-            todoItems = [
-                { id: 1, text: "Drink water and smile ❤️", completed: false },
-                { id: 2, text: "Talk to Youssef ✨", completed: true }
-            ];
-        }
         renderTodoList();
-    }
-
-    function saveTodoList() {
-        localStorage.setItem('lola_todos', JSON.stringify(todoItems));
     }
 
     function renderTodoList() {
         const container = document.getElementById('todoListContainer');
         if (!container) return;
 
-        if (todoItems.length === 0) {
+        if (!appState.todos || appState.todos.length === 0) {
             container.innerHTML = `<p style="text-align: center; color: #9ca3af; font-size: 0.9rem; padding: 1rem;">No tasks yet. Add something sweet above! ❤️</p>`;
             return;
         }
 
         container.innerHTML = '';
-        todoItems.forEach((item) => {
+        appState.todos.forEach((item) => {
             container.innerHTML += `
                 <div class="todo-item ${item.completed ? 'completed' : ''}">
                     <div class="todo-item-content" onclick="toggleTodoItem(${item.id})">
@@ -2244,6 +2239,7 @@
                 </div>
             `;
         });
+        updateLeithDailySummary();
     }
 
     function addTodoItem() {
@@ -2258,9 +2254,9 @@
             completed: false
         };
 
-        todoItems.unshift(newItem);
+        appState.todos.unshift(newItem);
         input.value = '';
-        saveTodoList();
+        saveAppState();
         renderTodoList();
     }
 
@@ -2271,17 +2267,17 @@
     }
 
     function toggleTodoItem(id) {
-        const item = todoItems.find(t => t.id === id);
+        const item = appState.todos.find(t => t.id === id);
         if (item) {
             item.completed = !item.completed;
-            saveTodoList();
+            saveAppState();
             renderTodoList();
         }
     }
 
     function deleteTodoItem(id) {
-        todoItems = todoItems.filter(t => t.id !== id);
-        saveTodoList();
+        appState.todos = appState.todos.filter(t => t.id !== id);
+        saveAppState();
         renderTodoList();
     }
 
@@ -2411,81 +2407,23 @@
         }
     }
 
-    // Family & Friends Module
-    let familyData = [
-        {
-            name: "Jojo",
-            nickname: "",
-            birthday: "12/07/2004",
-            profession: "Biomedical Engineer",
-            department: "مهندس أجهزة طبية",
-            relationship: "",
-            description: "Biomedical Engineer (مهندس أجهزة طبية)",
-            quote: "",
-            avatar: "❤️",
-            badge: "Special ❤️"
-        },
-        {
-            name: "Lola",
-            nickname: "",
-            birthday: "01/01/2008",
-            profession: "Faculty of Science",
-            department: "كلية علوم • قسم تحاليل (Medical Analysis)",
-            relationship: "",
-            description: "مهمتها الحالية: تذاكر وبس 📚❤️ • تحلم تشتغل في شركة أدوية 💊❤️",
-            quote: "تحلم تشتغل في شركة أدوية 💊❤️",
-            avatar: "❤️",
-            badge: "Our People"
-        },
-        {
-            name: "Dr. Mai",
-            nickname: "Mayoush",
-            birthday: "",
-            profession: "",
-            department: "",
-            relationship: "خالة وعمة العيال",
-            description: "خالة وعمة العيال",
-            quote: "",
-            avatar: "🩺",
-            badge: ""
-        }
-    ];
-
-    function initFamilyModule() {
-        const saved = localStorage.getItem('family_friends_v1');
-        if (saved) {
-            try {
-                const parsed = JSON.parse(saved);
-                if (parsed && Array.isArray(parsed) && parsed.length > 0) {
-                    familyData = parsed;
-                }
-            } catch(e) {}
-        }
-        renderFamilyModule();
-    }
-
-    function saveFamilyStorage() {
-        try {
-            localStorage.setItem('family_friends_v1', JSON.stringify(familyData));
-        } catch(e) {}
-    }
-
+    // Family & Friends Module with App State Persistence
     function renderFamilyModule() {
         const grid = document.getElementById('familyGridContainer');
         const countSub = document.getElementById('familyCountSub');
         if (!grid) return;
 
         if (countSub) {
-            countSub.textContent = `${familyData.length} People • One Little World`;
+            countSub.textContent = `${appState.family.length} People • One Little World`;
         }
 
-        if (familyData.length === 0) {
+        if (appState.family.length === 0) {
             grid.innerHTML = `<p style="grid-column: span 3; text-align: center; color: #9ca3af; padding: 2rem;">No people added yet.</p>`;
             return;
         }
 
         grid.innerHTML = '';
-        familyData.forEach((person, idx) => {
+        appState.family.forEach((person, idx) => {
             const isPrimary = idx === 0 || idx === 1;
             const countdownText = getBirthdayCountdownText(person.birthday);
 
@@ -2525,7 +2463,7 @@
     }
 
     function openEditPersonModal(index) {
-        const p = familyData[index];
+        const p = appState.family[index];
         if (!p) return;
         document.getElementById('personModalTitle').textContent = "Edit Person";
         document.getElementById('editPersonIndex').value = index;
@@ -2558,26 +2496,26 @@
         const obj = { name, nickname, birthday, profession, department, relationship, description, quote, avatar };
 
         if (index === -1) {
-            familyData.push(obj);
+            appState.family.push(obj);
         } else {
-            familyData[index] = obj;
+            appState.family[index] = obj;
         }
 
-        saveFamilyStorage();
+        saveAppState();
         renderFamilyModule();
         closeModals();
     }
 
     function deletePersonItem(index) {
         if (confirm("Are you sure you want to delete this person?")) {
-            familyData.splice(index, 1);
-            saveFamilyStorage();
+            appState.family.splice(index, 1);
+            saveAppState();
             renderFamilyModule();
         }
     }
 
     function openPersonProfile(index) {
-        const p = familyData[index];
+        const p = appState.family[index];
         if (!p) return;
         const countdownText = getBirthdayCountdownText(p.birthday);
         const content = document.getElementById('profileModalContent');
@@ -2598,48 +2536,18 @@
         document.getElementById('personProfileModal').classList.add('active');
     }
 
-    // Memory Tickets Module
-    let ticketsData = [
-        {
-            title: "Cinema Night",
-            type: "🎬 Cinema",
-            date: "15 August 2026",
-            place: "Mall of Egypt",
-            note: "Our first movie night ❤️",
-            details: "An amazing evening watching a wonderful movie together with popcorn and laughs."
-        }
-    ];
-
-    function initTicketsModule() {
-        const saved = localStorage.getItem('memory_tickets_v1');
-        if (saved) {
-            try {
-                const parsed = JSON.parse(saved);
-                if (parsed && Array.isArray(parsed)) {
-                    ticketsData = parsed;
-                }
-            } catch(e) {}
-        }
-        renderTicketsModule();
-    }
-
-    function saveTicketsStorage() {
-        try {
-            localStorage.setItem('memory_tickets_v1', JSON.stringify(ticketsData));
-        } catch(e) {}
-    }
-
+    // Memory Tickets Module with App State Persistence
     function renderTicketsModule() {
         const grid = document.getElementById('ticketsGridContainer');
         if (!grid) return;
 
-        if (ticketsData.length === 0) {
+        if (!appState.tickets || appState.tickets.length === 0) {
             grid.innerHTML = `<p style="grid-column: span 2; text-align: center; color: #9ca3af; padding: 2rem;">No memory tickets added yet.</p>`;
             return;
         }
 
         grid.innerHTML = '';
-        ticketsData.forEach((ticket, idx) => {
+        appState.tickets.forEach((ticket, idx) => {
             grid.innerHTML += `
                 <div class="ticket-card" onclick="openTicketDetails(${idx})">
                     <div class="ticket-header">
@@ -2675,7 +2583,7 @@
     }
 
     function openEditTicketModal(index) {
-        const t = ticketsData[index];
+        const t = appState.tickets[index];
         if (!t) return;
         document.getElementById('ticketModalTitle').textContent = "Edit Memory Ticket";
         document.getElementById('editTicketIndex').value = index;
@@ -2702,26 +2610,26 @@
         const obj = { title, type, date, place, note, details };
 
         if (index === -1) {
-            ticketsData.push(obj);
+            appState.tickets.push(obj);
         } else {
-            ticketsData[index] = obj;
+            appState.tickets[index] = obj;
         }
 
-        saveTicketsStorage();
+        saveAppState();
         renderTicketsModule();
         closeModals();
     }
 
     function deleteTicketItem(index) {
         if (confirm("Are you sure you want to delete this memory?")) {
-            ticketsData.splice(index, 1);
-            saveTicketsStorage();
+            appState.tickets.splice(index, 1);
+            saveAppState();
             renderTicketsModule();
         }
     }
 
     function openTicketDetails(index) {
-        const t = ticketsData[index];
+        const t = appState.tickets[index];
         if (!t) return;
         const content = document.getElementById('ticketDetailsContent');
         content.innerHTML = `
@@ -2738,197 +2646,73 @@
         document.getElementById('ticketDetailsModal').classList.add('active');
     }
 
-    // Money Dashboard Logic
-    let moneyData = {
-        cash: 5000,
-        goldGrams: 15.5,
-        goldValue: 72000,
-        goals: [
-            {
-                name: "Engagement Ring",
-                target: 80000,
-                paid: 30000,
-                note: "Ring & Gold setup"
-            }
-        ]
-    };
-
-    function initMoneyDashboard() {
-        const saved = localStorage.getItem('money_dashboard_v1');
-        if (saved) {
-            try {
-                const parsed = JSON.parse(saved);
-                if (parsed) {
-                    moneyData = Object.assign({}, moneyData, parsed);
-                }
-            } catch(e) {}
+    // SIMPLIFIED SAVINGS SECTION LOGIC
+    function renderSavingsSection() {
+        if (!appState.savings) {
+            appState.savings = { currentSavings: 6000, savingsGoal: 300000 };
         }
-        renderMoneyDashboard();
+
+        const current = Number(appState.savings.currentSavings) || 0;
+        const goal = Number(appState.savings.savingsGoal) || 300000;
+        const remaining = Math.max(0, goal - current);
+        let percent = goal > 0 ? (current / goal) * 100 : 0;
+        if (percent > 100) percent = 100;
+
+        const curEl = document.getElementById('displayCurrentSavings');
+        const goalEl = document.getElementById('displaySavingsGoal');
+        const fillEl = document.getElementById('savingsProgressFill');
+        const percentEl = document.getElementById('displaySavingsPercent');
+        const remEl = document.getElementById('displaySavingsRemaining');
+
+        if (curEl) curEl.textContent = current.toLocaleString() + " ج.م";
+        if (goalEl) goalEl.textContent = goal.toLocaleString() + " ج.م";
+        if (fillEl) fillEl.style.width = percent.toFixed(1) + "%";
+        if (percentEl) percentEl.textContent = percent.toFixed(1) + "%";
+        if (remEl) remEl.textContent = `باقي ${remaining.toLocaleString()} ج.م`;
     }
 
-    function saveMoneyDashboardStorage() {
-        try {
-            localStorage.setItem('money_dashboard_v1', JSON.stringify(moneyData));
-        } catch(e) {}
+    function openAddAmountModal() {
+        document.getElementById('inputAddAmount').value = "";
+        document.getElementById('addAmountModal').classList.add('active');
     }
 
-    function renderMoneyDashboard() {
-        const cashEl = document.getElementById('displayCashVal');
-        if (cashEl) {
-            cashEl.textContent = Number(moneyData.cash).toLocaleString() + " EGP";
-        }
-        const goldValEl = document.getElementById('displayGoldValue');
-        const goldGramsEl = document.getElementById('displayGoldGrams');
-        if (goldValEl) {
-            goldValEl.textContent = Number(moneyData.goldValue).toLocaleString() + " EGP";
-        }
-        if (goldGramsEl) {
-            goldGramsEl.textContent = `Quantity: ${moneyData.goldGrams} grams`;
+    function saveAddedAmount() {
+        const amt = parseFloat(document.getElementById('inputAddAmount').value);
+        if (isNaN(amt)) return;
+        
+        if (!appState.savings) {
+            appState.savings = { currentSavings: 6000, savingsGoal: 300000 };
         }
 
-        const goalsGrid = document.getElementById('goalsGridContainer');
-        if (!goalsGrid) return;
-
-        if (!moneyData.goals || moneyData.goals.length === 0) {
-            goalsGrid.innerHTML = `<p style="grid-column: span 2; text-align: center; color: #9ca3af; padding: 1.5rem;">No goals recorded yet. Add your first goal now! 🎯</p>`;
-            return;
-        }
-
-        goalsGrid.innerHTML = '';
-        moneyData.goals.forEach((goal, idx) => {
-            const target = Number(goal.target) || 0;
-            const paid = Number(goal.paid) || 0;
-            const remaining = Math.max(0, target - paid);
-            let percent = target > 0 ? (paid / target) * 100 : 0;
-            if (percent > 100) percent = 100;
-            const isCompleted = percent >= 100;
-
-            goalsGrid.innerHTML += `
-                <div class="goal-card-item">
-                    <div class="goal-item-top">
-                        <div>
-                            <div class="goal-title">${escapeHtml(goal.name)}</div>
-                            ${goal.note ? `<div class="goal-note">${escapeHtml(goal.note)}</div>` : ''}
-                        </div>
-                        ${isCompleted ? `<span style="font-size: 0.75rem; background: rgba(52, 211, 153, 0.15); color: #34d399; padding: 0.2rem 0.6rem; border-radius: 9999px; font-weight: 600;">🎉 Goal Achieved!</span>` : ''}
-                    </div>
-
-                    <div class="goal-amounts-grid">
-                        <div>
-                            <div class="goal-amt-label">Target</div>
-                            <div class="goal-amt-val">${target.toLocaleString()} EGP</div>
-                        </div>
-                        <div>
-                            <div class="goal-amt-label">Paid</div>
-                            <div class="goal-amt-val" style="color: #ff6584;">${paid.toLocaleString()} EGP</div>
-                        </div>
-                        <div>
-                            <div class="goal-amt-label">Remaining</div>
-                            <div class="goal-amt-val">${remaining.toLocaleString()} EGP</div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="goal-progress-container">
-                            <div class="goal-progress-fill" style="width: ${percent.toFixed(1)}%;"></div>
-                        </div>
-                        <div class="goal-progress-footer" style="margin-top: 0.4rem;">
-                            <span style="font-size: 0.75rem; color: #9ca3af;">Progress</span>
-                            <span style="font-size: 0.85rem; font-weight: 600; color: #fff;">${percent.toFixed(1)}%</span>
-                        </div>
-                    </div>
-
-                    <div class="goal-actions-row">
-                        <button class="btn-sm-action" onclick="openEditGoalModal(${idx})">✏️ Edit</button>
-                        <button class="btn-sm-action btn-sm-danger" onclick="deleteGoalItem(${idx})">🗑️ Delete</button>
-                    </div>
-                </div>
-            `;
-        });
-    }
-
-    function openEditCashModal() {
-        document.getElementById('inputCashVal').value = moneyData.cash;
-        document.getElementById('editCashModal').classList.add('active');
-    }
-
-    function saveCashData() {
-        const val = parseFloat(document.getElementById('inputCashVal').value);
-        if (isNaN(val)) return;
-        moneyData.cash = val;
-        saveMoneyDashboardStorage();
-        renderMoneyDashboard();
+        appState.savings.currentSavings = (Number(appState.savings.currentSavings) || 0) + amt;
+        saveAppState();
+        renderSavingsSection();
         closeModals();
     }
 
-    function openEditGoldModal() {
-        document.getElementById('inputGoldGrams').value = moneyData.goldGrams;
-        document.getElementById('inputGoldValue').value = moneyData.goldValue;
-        document.getElementById('editGoldModal').classList.add('active');
+    function openEditGoalModal() {
+        if (!appState.savings) {
+            appState.savings = { currentSavings: 6000, savingsGoal: 300000 };
+        }
+        document.getElementById('inputNewGoal').value = appState.savings.savingsGoal;
+        document.getElementById('editSavingsGoalModal').classList.add('active');
     }
 
-    function saveGoldData() {
-        const grams = parseFloat(document.getElementById('inputGoldGrams').value);
-        const val = parseFloat(document.getElementById('inputGoldValue').value);
-        if (isNaN(grams) || isNaN(val)) return;
-        moneyData.goldGrams = grams;
-        moneyData.goldValue = val;
-        saveMoneyDashboardStorage();
-        renderMoneyDashboard();
-        closeModals();
-    }
+    function saveNewSavingsGoal() {
+        const newGoal = parseFloat(document.getElementById('inputNewGoal').value);
+        if (isNaN(newGoal) || newGoal <= 0) return;
 
-    function openAddGoalModal() {
-        document.getElementById('goalModalTitle').textContent = "Add New Goal";
-        document.getElementById('editGoalIndex').value = "-1";
-        document.getElementById('inputGoalName').value = "";
-        document.getElementById('inputGoalTarget').value = "";
-        document.getElementById('inputGoalPaid').value = "";
-        document.getElementById('inputGoalNote').value = "";
-        document.getElementById('goalModal').classList.add('active');
-    }
-
-    function openEditGoalModal(index) {
-        const goal = moneyData.goals[index];
-        if (!goal) return;
-        document.getElementById('goalModalTitle').textContent = "Edit Goal";
-        document.getElementById('editGoalIndex').value = index;
-        document.getElementById('inputGoalName').value = goal.name;
-        document.getElementById('inputGoalTarget').value = goal.target;
-        document.getElementById('inputGoalPaid').value = goal.paid;
-        document.getElementById('inputGoalNote').value = goal.note || "";
-        document.getElementById('goalModal').classList.add('active');
-    }
-
-    function saveGoalItem() {
-        const index = parseInt(document.getElementById('editGoalIndex').value, 10);
-        const name = document.getElementById('inputGoalName').value.trim();
-        const target = parseFloat(document.getElementById('inputGoalTarget').value);
-        const paid = parseFloat(document.getElementById('inputGoalPaid').value);
-        const note = document.getElementById('inputGoalNote').value.trim();
-
-        if (!name || isNaN(target) || isNaN(paid)) return;
-
-        const goalObj = { name, target, paid, note };
-
-        if (index === -1) {
-            moneyData.goals.push(goalObj);
-        } else {
-            moneyData.goals[index] = goalObj;
+        if (!appState.savings) {
+            appState.savings = { currentSavings: 6000, savingsGoal: 300000 };
         }
 
-        saveMoneyDashboardStorage();
-        renderMoneyDashboard();
+        appState.savings.savingsGoal = newGoal;
+        saveAppState();
+        renderSavingsSection();
         closeModals();
     }
 
-    function deleteGoalItem(index) {
-        moneyData.goals.splice(index, 1);
-        saveMoneyDashboardStorage();
-        renderMoneyDashboard();
-    }
-
-    // Faith Module Logic
+    // Faith Module Logic with App State Persistence
     const fortyQuranVerses = [
         { text: "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ", ref: "سورة الطلاق (65:3)" },
         { text: "إِنَّ مَعَ الْعُسْرِ يُسْرًا", ref: "سورة الشرح (94:6)" },
@@ -2951,38 +2735,19 @@
         "باسمك ربي وضعت جنبي وبك أرفعه."
     ];
 
-    let faithData = {
-        lastDate: "",
-        verseIndex: 0,
-        prayers: { fajr: false, dhuhr: false, asr: false, maghrib: false, isha: false }
-    };
-
     function initFaithModule() {
         const todayStr = new Date().toDateString();
-        const saved = localStorage.getItem('faith_v1');
-        if (saved) {
-            try {
-                const parsed = JSON.parse(saved);
-                if (parsed) faithData = Object.assign({}, faithData, parsed);
-            } catch(e) {}
+
+        if (appState.faith.lastDate !== todayStr) {
+            appState.faith.lastDate = todayStr;
+            appState.faith.verseIndex = (appState.faith.verseIndex + 1) % fortyQuranVerses.length;
+            appState.faith.prayers = { fajr: false, dhuhr: false, asr: false, maghrib: false, isha: false };
+            saveAppState();
         }
 
-        if (faithData.lastDate !== todayStr) {
-            faithData.lastDate = todayStr;
-            faithData.verseIndex = (faithData.verseIndex + 1) % fortyQuranVerses.length;
-            faithData.prayers = { fajr: false, dhuhr: false, asr: false, maghrib: false, isha: false };
-            saveFaithStorage();
-        }
-
-        renderVerseOfDay(faithData.verseIndex);
+        renderVerseOfDay(appState.faith.verseIndex);
         renderAdhkar();
         renderPrayers();
-    }
-
-    function saveFaithStorage() {
-        try {
-            localStorage.setItem('faith_v1', JSON.stringify(faithData));
-        } catch(e) {}
     }
 
     function renderVerseOfDay(index) {
@@ -2993,6 +2758,8 @@
 
     function showAnotherVerse() {
         const randIndex = Math.floor(Math.random() * fortyQuranVerses.length);
+        appState.faith.verseIndex = randIndex;
+        saveAppState();
         renderVerseOfDay(randIndex);
     }
 
@@ -3037,7 +2804,7 @@
         let completedCount = 0;
 
         prayerKeys.forEach(p => {
-            const isDone = !!faithData.prayers[p.key];
+            const isDone = !!appState.faith.prayers[p.key];
             if (isDone) completedCount++;
 
             listEl.innerHTML += `
@@ -3058,16 +2825,17 @@
             statusEl.textContent = `${completedCount} / 5 completed`;
             statusEl.style.color = "#ff6584";
         }
+        updateLeithDailySummary();
     }
 
     function togglePrayer(key) {
-        faithData.prayers[key] = !faithData.prayers[key];
-        saveFaithStorage();
+        appState.faith.prayers[key] = !appState.faith.prayers[key];
+        saveAppState();
         renderPrayers();
     }
 
     // -------------------------------------------------------------
-    // LEITH 2.0 — COMPLETE REPLACEMENT & PERSONALITY ENGINE LOGIC
+    // LEITH 2.0 — PERSISTENT MOOD & MESSAGE ENGINE
     // -------------------------------------------------------------
     const leithMoodDefinitions = {
         angry: { name: "Angry", emoji: "😡", headEmoji: "🦁🔥", ringClass: "mood-angry", responses: ["متزعليش من جوجو ❤️", "جوجو بيحبك ❤️", "خلاص يا بت 😂❤️", "اهدي بس ❤️"] },
@@ -3080,15 +2848,17 @@
         neutral: { name: "Neutral", emoji: "🤍", headEmoji: "🦁", ringClass: "mood-neutral", responses: ["أنا معاكي كالعادة 🦁❤️"] }
     };
 
-    let leithState = {
-        currentMood: "neutral",
-        secretTaps: 0
-    };
+    let leithSecretTaps = 0;
 
     function initLeith2Module() {
-        const savedMood = localStorage.getItem('leith_mood_v2') || 'neutral';
-        setLeithMood(savedMood, false);
-        checkLeithContextualMessage();
+        const moodKey = appState.leith.currentMood || 'neutral';
+        applyLeithMoodUI(moodKey);
+        
+        if (appState.leith.latestMessage) {
+            showLeithMessage(appState.leith.latestMessage);
+        } else {
+            checkLeithContextualMessage();
+        }
         updateLeithDailySummary();
     }
 
@@ -3102,21 +2872,31 @@
             }
         }
         
-        // Secret tap counter
-        leithState.secretTaps++;
-        if (leithState.secretTaps === 5) {
+        leithSecretTaps++;
+        if (leithSecretTaps === 5) {
             showLeithMessage("إنتِ اكتشفتي السر؟ 👀🦁");
-            leithState.secretTaps = 0;
+            leithSecretTaps = 0;
         }
     }
 
     function setLeithMood(moodKey, save = true) {
         const def = leithMoodDefinitions[moodKey] || leithMoodDefinitions['neutral'];
-        leithState.currentMood = moodKey;
+        appState.leith.currentMood = moodKey;
+
+        const randomResp = def.responses[Math.floor(Math.random() * def.responses.length)];
+        appState.leith.latestMessage = randomResp;
+        appState.leith.isPersistentMsg = true;
+
         if (save) {
-            localStorage.setItem('leith_mood_v2', moodKey);
+            saveAppState();
         }
 
+        applyLeithMoodUI(moodKey);
+        showLeithMessage(randomResp);
+    }
+
+    function applyLeithMoodUI(moodKey) {
+        const def = leithMoodDefinitions[moodKey] || leithMoodDefinitions['neutral'];
         const head = document.getElementById('leithChatHead');
         if (head) {
             head.className = `leith-chat-head ${def.ringClass}`;
@@ -3127,10 +2907,6 @@
 
         const title = document.getElementById('leithMoodIndicatorTitle');
         if (title) title.textContent = `🦁 Leith (${def.name})`;
-
-        // Pick random response from mood
-        const randomResp = def.responses[Math.floor(Math.random() * def.responses.length)];
-        showLeithMessage(randomResp);
     }
 
     function showLeithMessage(msg) {
@@ -3141,7 +2917,11 @@
     }
 
     function checkLeithContextualMessage() {
-        // Time awareness
+        if (appState.leith.isPersistentMsg && appState.leith.latestMessage) {
+            showLeithMessage(appState.leith.latestMessage);
+            return;
+        }
+
         const hour = new Date().getHours();
         let timeMsg = "أهلاً يا لولا 🦁❤️ إزيك النهارده؟";
         if (hour >= 5 && hour < 12) {
@@ -3154,9 +2934,8 @@
             timeMsg = "قبل ما تنامي، متنسيش وردك 🤍 نامي بدري يا لولا.";
         }
 
-        // Check Todo integration (Read-Only)
-        if (typeof todoItems !== 'undefined' && todoItems.length > 0) {
-            const pending = todoItems.filter(t => !t.completed);
+        if (appState.todos && appState.todos.length > 0) {
+            const pending = appState.todos.filter(t => !t.completed);
             if (pending.length > 0) {
                 const firstTask = pending[0].text.toLowerCase();
                 if (firstTask.includes('مذاكرة')) {
@@ -3179,13 +2958,13 @@
         if (!summaryBox) return;
 
         let completedTasks = 0;
-        if (typeof todoItems !== 'undefined') {
-            completedTasks = todoItems.filter(t => t.completed).length;
+        if (appState.todos) {
+            completedTasks = appState.todos.filter(t => t.completed).length;
         }
 
         let prayerCount = 0;
-        if (typeof faithData !== 'undefined' && faithData.prayers) {
-            prayerCount = Object.values(faithData.prayers).filter(Boolean).length;
+        if (appState.faith && appState.faith.prayers) {
+            prayerCount = Object.values(appState.faith.prayers).filter(Boolean).length;
         }
 
         summaryBox.innerHTML = `
@@ -3204,6 +2983,9 @@
             "ركزي في مستقبلك عشان تبقي دكتورة قد الدنيا 💊❤️"
         ];
         const pick = surprises[Math.floor(Math.random() * surprises.length)];
+        appState.leith.latestMessage = pick;
+        appState.leith.isPersistentMsg = true;
+        saveAppState();
         showLeithMessage(pick);
     }
 
@@ -3219,22 +3001,14 @@
         const txt = input.value.trim();
         if (!txt) return;
 
-        // Save private message simulation from Youssef/User
-        localStorage.setItem('leith_private_msg_v2', txt);
+        const responseMsg = `وصلت الرسالة يا لولا ❤️ جوجو بيقولك: "${txt}"`;
+        appState.leith.latestMessage = responseMsg;
+        appState.leith.isPersistentMsg = true;
+        saveAppState();
+
         input.value = '';
-
-        showLeithMessage(`وصلت الرسالة يا لولا ❤️ جوجو بيقولك: "${txt}"`);
+        showLeithMessage(responseMsg);
     }
-
-    // Check if there's a private message stored from Youssef
-    window.addEventListener('load', () => {
-        const pMsg = localStorage.getItem('leith_private_msg_v2');
-        if (pMsg) {
-            setTimeout(() => {
-                showLeithMessage(`رسالة من جوجو ليكِ: "${pMsg}" ❤️`);
-            }, 1500);
-        }
-    });
 
     function closeModals() {
         document.querySelectorAll('.modal').forEach(m => {
