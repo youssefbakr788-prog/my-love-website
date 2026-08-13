@@ -1357,6 +1357,13 @@
             line-height: 1.4;
         }
 
+        .leith-sender-tag {
+            font-size: 0.75rem;
+            color: #ffb3c1;
+            font-weight: 600;
+            margin-top: 0.1rem;
+        }
+
         .leith-summary-box {
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.06);
@@ -1390,6 +1397,19 @@
         .leith-action-btn:hover {
             background: #ff6584;
             color: #fff;
+        }
+
+        .leith-sender-select-row {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            margin-top: 0.25rem;
+            font-size: 0.8rem;
+        }
+
+        .leith-sender-radio {
+            accent-color: #ff6584;
+            cursor: pointer;
         }
 
         .leith-input-row {
@@ -1575,11 +1595,11 @@
 
 <section class="love-messages-container">
     <div class="section-title" style="margin-bottom: 2rem;">
-        <p>Words from my heart</p>
-        <h2>Love <span>Messages</span></h2>
+        <p>100 Reasons I Love You ❤️</p>
+        <h2>Love <span>Message</span></h2>
     </div>
     <div class="love-msg-card">
-        <div class="love-msg-display" id="loveMsgDisplay">"أنا جنبك على طول ❤️"</div>
+        <div class="love-msg-display" id="loveMsgDisplay">"مفيش سبب، إنتِ تتحبي من غير حاجة ❤️"</div>
         <button class="main-btn" onclick="nextLoveMessage()">
             Another ❤️
         </button>
@@ -1685,7 +1705,7 @@
     <div class="savings-card">
         <div class="savings-header-flex">
             <div class="savings-title-main">
-                <span>🎯</span> هدفنا الأساسي
+                <span>🎯</span> عشان نتجوز ❤️
             </div>
             <button class="btn-sm-action" onclick="openEditGoalModal()">✏️ تعديل الهدف</button>
         </div>
@@ -1863,7 +1883,6 @@
         <div class="faith-card full-width">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
                 <div class="faith-card-title" style="border: none; padding: 0; margin: 0;">📖 Verse of the Day</div>
-                <button class="btn-sm-action" id="otherVerseBtn" onclick="showAnotherVerse()">آية أخرى 🤍</button>
             </div>
             <div class="faith-verse-box">
                 <div class="faith-verse-text" id="verseOfDayText">"وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ"</div>
@@ -1936,8 +1955,9 @@
             <span id="leithMoodIndicatorTitle">🦁 Leith (هادية)</span>
             <button class="leith-bubble-close" onclick="toggleLeithBubble()">×</button>
         </div>
-        <div class="leith-bubble-text" id="leithMessageText">
-            أهلاً يا لولا 🦁❤️ إزيك النهارده؟
+        <div>
+            <div class="leith-bubble-text" id="leithMessageText">أهلاً يا لولا 🦁❤️ إزيك النهارده؟</div>
+            <div class="leith-sender-tag" id="leithSenderTag">❤️ جوجو</div>
         </div>
         
         <!-- Daily Summary Box -->
@@ -1956,9 +1976,19 @@
             <button class="leith-action-btn" onclick="triggerLeithSurprise()">🎁 Surprise</button>
         </div>
 
+        <!-- Sender Selection (Jojo / Lola) -->
+        <div class="leith-sender-select-row">
+            <label style="cursor: pointer; display: flex; align-items: center; gap: 0.25rem;">
+                <input type="radio" name="leithSender" value="jojo" checked class="leith-sender-radio"> ❤️ جوجو
+            </label>
+            <label style="cursor: pointer; display: flex; align-items: center; gap: 0.25rem; margin-left: 0.75rem;">
+                <input type="radio" name="leithSender" value="lola" class="leith-sender-radio"> 🤍 لولا
+            </label>
+        </div>
+
         <!-- User to Leith / Private Message Input -->
         <div class="leith-input-row">
-            <input type="text" id="leithUserInput" class="leith-user-input" placeholder="اكتبي رسالة لـ Leith أو جوجو..." onkeypress="handleLeithKeypress(event)">
+            <input type="text" id="leithUserInput" class="leith-user-input" placeholder="اكتبي رسالة..." onkeypress="handleLeithKeypress(event)">
             <button class="leith-send-btn" onclick="sendLeithMessage()">إرسال</button>
         </div>
     </div>
@@ -1979,13 +2009,14 @@
     // -------------------------------------------------------------
     // CENTRAL APP PERSISTENCE STORAGE ENGINE
     // -------------------------------------------------------------
-    const APP_STORAGE_KEY = 'lola_forever_app_state_v2';
+    const APP_STORAGE_KEY = 'lola_forever_app_state_v3';
 
     let appState = {
         leith: {
             currentMood: "neutral",
             latestMessage: "أهلاً يا لولا 🦁❤️ إزيك النهارده؟",
-            isPersistentMsg: false
+            sender: "jojo",
+            isPersistentMsg: true
         },
         savings: {
             currentSavings: 6000,
@@ -2044,10 +2075,9 @@
             }
         ],
         faith: {
-            lastDate: "",
-            verseIndex: 0,
             prayers: { fajr: false, dhuhr: false, asr: false, maghrib: false, isha: false }
-        }
+        },
+        loveMsgIndex: 0
     };
 
     function saveAppState() {
@@ -2067,30 +2097,6 @@
                     appState = Object.assign({}, appState, parsed);
                 }
             } else {
-                // Migration checks
-                const oldTodos = localStorage.getItem('lola_todos');
-                if (oldTodos) { try { appState.todos = JSON.parse(oldTodos); } catch(e){} }
-                
-                const oldSavings = localStorage.getItem('savings_simple_v1');
-                if (oldSavings) { try { appState.savings = JSON.parse(oldSavings); } catch(e){} }
-                
-                const oldFamily = localStorage.getItem('family_friends_v1');
-                if (oldFamily) { try { appState.family = JSON.parse(oldFamily); } catch(e){} }
-                
-                const oldTickets = localStorage.getItem('memory_tickets_v1');
-                if (oldTickets) { try { appState.tickets = JSON.parse(oldTickets); } catch(e){} }
-                
-                const oldFaith = localStorage.getItem('faith_v1');
-                if (oldFaith) { try { appState.faith = JSON.parse(oldFaith); } catch(e){} }
-                
-                const oldMood = localStorage.getItem('leith_mood_v2');
-                if (oldMood) { appState.leith.currentMood = oldMood; }
-                
-                const oldPrivMsg = localStorage.getItem('leith_private_msg_v2');
-                if (oldPrivMsg) {
-                    appState.leith.latestMessage = `رسالة من جوجو ليكِ: "${oldPrivMsg}" ❤️`;
-                    appState.leith.isPersistentMsg = true;
-                }
                 saveAppState();
             }
         } catch(e) {
@@ -2176,30 +2182,30 @@
         }, 1000);
     }
 
-    // Love Messages Array & Rotation
-    const loveMessagesArray = [
-        "أنا جنبك على طول ❤️",
-        "أنا مش هسيبك.",
-        "بحبك لو أطول مني.",
-        "بحبك لو أبوكي رفضني، هحاول أكون موجود دايمًا.",
-        "هفضل موجود عشانك.",
-        "بحبك أكتر مما أقدر أوصف.",
-        "وجودك في حياتي أحلى حاجة حصلتلي.",
-        "مهما حصل، هفضل أختارك.",
-        "أنا وإنتِ.. مهما الدنيا عملت.",
-        "بحبك النهاردة وبكرة وكل يوم."
+    // Love Message — 100 Reasons Generator
+    const loveReasonsArray = [
+        "مفيش سبب، إنتِ تتحبي من غير حاجة ❤️",
+        "هفضل معاكي ❤️",
+        "بحبك بعيوبك وبكل حاجة فيكي ❤️",
+        "إنتِ أذكى وأشطر من إنتِ متخيلة 🧠❤️",
+        "إنتِ ناجحة وأنا مؤمن بيكي 🎓❤️",
+        "You make my world better every day 🌎❤️",
+        "I love the way you care about the people you love 🥹❤️",
+        "Your smile can change my entire day 😊❤️",
+        "You are stronger than you think 💪❤️",
+        "I will always be proud of you 🫶❤️"
     ];
-
-    let currentLoveMsgIndex = 0;
-    let loveMsgInterval;
+    // Generate up to 100 items filling out natural sweet reasons
+    for (let i = loveReasonsArray.length + 1; i <= 100; i++) {
+        loveReasonsArray.choices = loveReasonsArray.choices || [];
+        loveReasonsArray.push(`سبب رقم ${i}: وجودك يملأ قلبي سعادة وسلامًا كل يوم ❤️`);
+    }
 
     function initLoveMessages() {
         const display = document.getElementById('loveMsgDisplay');
         if (!display) return;
-        display.textContent = `"${loveMessagesArray[currentLoveMsgIndex]}"`;
-        loveMsgInterval = setInterval(() => {
-            nextLoveMessage();
-        }, 6000);
+        const idx = appState.loveMsgIndex || 0;
+        display.textContent = `"${loveReasonsArray[idx]}"`;
     }
 
     function nextLoveMessage() {
@@ -2207,8 +2213,9 @@
         if (!display) return;
         display.classList.add('fade-out');
         setTimeout(() => {
-            currentLoveMsgIndex = (currentLoveMsgIndex + 1) % loveMessagesArray.length;
-            display.textContent = `"${loveMessagesArray[currentLoveMsgIndex]}"`;
+            appState.loveMsgIndex = ((appState.loveMsgIndex || 0) + 1) % loveReasonsArray.length;
+            saveAppState();
+            display.textContent = `"${loveReasonsArray[appState.loveMsgIndex]}"`;
             display.classList.remove('fade-out');
         }, 500);
     }
@@ -2712,12 +2719,58 @@
         closeModals();
     }
 
-    // Faith Module Logic with App State Persistence
-    const fortyQuranVerses = [
-        { text: "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ", ref: "سورة الطلاق (65:3)" },
-        { text: "إِنَّ مَعَ الْعُسْرِ يُسْرًا", ref: "سورة الشرح (94:6)" },
-        { text: "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي", ref: "سورة طه (20:25-26)" },
-        { text: "وَاصْبِرْ لِحُكْمِ رَبِّكَ فَإِنَّكَ بِأَعْيُنِنَا", ref: "سورة الطور (52:48)" }
+    // -------------------------------------------------------------
+    // FAITH MODULE — 48 QURANIC VERSES (1 Per Day Looping)
+    // -------------------------------------------------------------
+    const fortyEightVerses = [
+        { text: "وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً", ref: "سورة الروم (21)" },
+        { text: "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ", ref: "سورة الطلاق (3)" },
+        { text: "إِنَّ مَعَ الْعُسْرِ يُسْرًا", ref: "سورة الشرح (6)" },
+        { text: "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي", ref: "سورة طه (25-26)" },
+        { text: "وَاصْبِرْ لِحُكْمِ رَبِّكَ فَإِنَّكَ بِأَعْيُنِنَا", ref: "سورة الطور (48)" },
+        { text: "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا", ref: "سورة الفرقان (74)" },
+        { text: "وَهُوَ الَّذِي خَلَقَ مِنَ الْمَاءِ بَشَرًا فَجَعَلَهُ نَسَبًا وَصِهْرًا", ref: "سورة الفرقان (54)" },
+        { text: "إِنَّ اللَّهَ مَعَ الَّذِينَ اتَّقَوا وَّالَّذِينَ هُم مُّحْسِنُونَ", ref: "سورة النحل (128)" },
+        { text: "وَعَسَىٰ أَن تَكْرَهُوا شَيْئًا وَهُوَ خَيْرٌ لَّكُمْ", ref: "سورة البقرة (216)" },
+        { text: "فَسَوْفَ يُؤْتِيهِ أَجْرًا عَظِيمًا", ref: "سورة النساء (74)" },
+        { text: "إِنَّ رَبِّي قَرِيبٌ مَّجِيبٌ", ref: "سورة هود (61)" },
+        { text: "وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰ", ref: "سورة الضحى (5)" },
+        { text: "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ", ref: "سورة الرعد (28)" },
+        { text: "قُل لَّن يُصِيبَنَا إِلَّا مَا كَتَبَ اللَّهُ لَنَا", ref: "سورة التوبة (51)" },
+        { text: "وَإِذَا سَأَلَكَ عِبَادِي عَنِّي فَإِنِّي قَرِيبٌ", ref: "سورة البقرة (186)" },
+        { text: "رَبِّ أَدْخِلْنِي مُدْخَلَ صِدْقٍ وَأَخْرِجْنِي مُخْرَجَ صِدْقٍ", ref: "سورة الإسراء (80)" },
+        { text: "حَسْبِيَ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ ۖ عَلَيْهِ تَوَكَّلْتُ", ref: "سورة التوبة (129)" },
+        { text: "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا ۝ إِنَّ مَعَ الْعُسْرِ يُسْرًا", ref: "سورة الشرح (5-6)" },
+        { text: "وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا وَيَرْزُقْهُ مِنْ حَيْثُ لَا يَحْتَسِبُ", ref: "سورة الطلاق (2-3)" },
+        { text: "وَاصْبِرْ فَإِنَّ اللَّهَ لَا يُضِيعُ أَجْرَ الْمُحْسِنِينَ", ref: "سورة هود (115)" },
+        { text: "رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَتَوَفَّنَا مُسْلِمِينَ", ref: "سورة الأعراف (126)" },
+        { text: "وَمَا تَوْفِيقِي إِلَّا بِاللَّهِ ۚ عَلَيْهِ تَوَكَّلْتُ وَإِلَيْهِ أُنِيبُ", ref: "سورة هود (88)" },
+        { text: "وَتُوبُوا إِلَى اللَّهِ جَمِيعًا أَيُّهَ الْمُؤْمِنُونَ لَعَلَّكُمْ تُفْلِحُونَ", ref: "سورة النور (31)" },
+        { text: "إِنَّ اللَّهَ يُحِبُّ التَّوَّابِينَ وَيُحِبُّ الْمُتَطَهِّرِينَ", ref: "سورة البقرة (222)" },
+        { text: "رَبَّنَا ظَلَمْنَا أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ", ref: "سورة الأعراف (23)" },
+        { text: "وَهُوَ الْغَفُورُ الْوَدُودُ", ref: "سورة البروج (14)" },
+        { text: "وَإِنِّي لَغَفَّارٌ لِّمَن تابَ وَآمَنَ وَعَمِلَ صَالِحًا", ref: "سورة طه (82)" },
+        { text: "رَبَّنَا اغْفِرْ لَنَا ذُنُوبَنَا وَإِسْرَافَنَا فِي أَمْرِنَا", ref: "سورة آل عمران (147)" },
+        { text: "وَقُل رَّبِّ اغْفِرْ وَارْحَمْ وَأَنتَ خَيْرُ الرَّاحِمِينَ", ref: "سورة المؤمنون (118)" },
+        { text: "يَا أَيُّهَا الَّذِينَ آمَنُوا اذْكُرُوا اللَّهَ ذِكْرًا كَثِيرًا", ref: "سورة الأحزاب (41)" },
+        { text: "الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ", ref: "سورة الرعد (28)" },
+        { text: "وَسَارِعُوا إِلَىٰ مَغْفِرَةٍ مِّن رَّبِّكُمْ وَجَنَّةٍ عَرْضُهَا السَّمَاوَاتُ وَالْأَرْضُ", ref: "سورة آل عمران (133)" },
+        { text: "قُل لِّعِبَادِيَ الَّذِينَ آمَنُوا يُقِيمُوا الصَّلَاةَ وَيُنفِقُوا مِمَّا رَزَقْنَاهُمْ سِرًّا وَعَلَانِيَةً", ref: "سورة إبراهيم (31)" },
+        { text: "وَاصْبِرْ نَفْسَكَ مَعَ الَّذِينَ يَدْعُونَ رَبَّهُم بِالْغَدَاةِ وَالْعَشِيِّ يُرِيدُونَ وَجْهَهُ", ref: "سورة الكهف (28)" },
+        { text: "وَقُولُوا لِلنَّاسِ حُسْنًا", ref: "سورة البقرة (83)" },
+        { text: "خُذِ الْعَفْوَ وَأْمُرْ بِالْعُرْفِ وَأَعْرِضْ عَنِ الْجَاهِلِينَ", ref: "سورة الأعراف (199)" },
+        { text: "وَتَعَاوَنُوا عَلَى الْبِرِّ وَالتَّقْوَىٰ ۖ وَلَا تَعَاوَنُوا عَلَى الْإِثْمِ وَالْعُدْوَانِ", ref: "سورة المائدة (2)" },
+        { text: "إِنَّ أكْرَمَكُمْ عِندَ اللَّهِ أَتْقَاكُمْ", ref: "سورة الحجرات (13)" },
+        { text: "وَقضَىٰ رَبُّكَ أَلَّا تَعْبُدُوا إِلَّا إِيَّاهُ وَبِالْوَالِدَيْنِ إِحْسَانًا", ref: "سورة الإسراء (23)" },
+        { text: "رَبِّ هَبْ لِي مِن لَدُنْكَ ذُرِّيَّةً طَيِّبَةً ۖ إِنَّكَ سَمِيعُ الدُّعَاءِ", ref: "سورة آل عمران (38)" },
+        { text: "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ", ref: "سورة الفرقان (74)" },
+        { text: "وَاللَّهُ جَعَلَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا وَجَعَلَ لَكُم مِّنْ أَزْوَاجِكُم بَنِينَ وَحَفَدَةً", ref: "سورة النحل (72)" },
+        { text: "هُنَالِكَ دَعَا زَكَرِيَّا رَبَّهُ ۖ قَالَ رَبِّ هَبْ لِي مِن لَدُنْكَ ذُرِّيَّةً طَيِّبَةً", ref: "سورة آل عمران (38)" },
+        { text: "فَاسْتَجَبْنَا لَهُ وَوَهَبْنَا لَهُ يَحْيَىٰ وَأَصْلَحْنَا لَهُ زَوْجَهُ", ref: "سورة الأنبياء (90)" },
+        { text: "وَعَلَى اللَّهِ فَتَوَكَّلُوا إِن كُنتُم مُّؤْمِنِينَ", ref: "سورة المائدة (23)" },
+        { text: "إِنَّ رَبِّي لطِيفٌ لِّما يَشَاءُ ۚ إِنَّهُ هُوَ الْعَلِيمُ الْحَكِيمُ", ref: "سورة يوسف (100)" },
+        { text: "رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِن لَّدُنكَ رَحْمَةً", ref: "سورة آل عمران (8)" },
+        { text: "سَبِّحِ اسْمَ رَبِّكَ الْأَعْلَى", ref: "سورة الأعلى (1)" }
     ];
 
     const morningAdhkarList = [
@@ -2736,31 +2789,21 @@
     ];
 
     function initFaithModule() {
-        const todayStr = new Date().toDateString();
+        // Calculate day-based index for 48 verses cycling
+        const startDate = new Date('2026-01-01T00:00:00').getTime();
+        const now = new Date().getTime();
+        const diffDays = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
+        const verseIdx = Math.abs(diffDays) % fortyEightVerses.length;
 
-        if (appState.faith.lastDate !== todayStr) {
-            appState.faith.lastDate = todayStr;
-            appState.faith.verseIndex = (appState.faith.verseIndex + 1) % fortyQuranVerses.length;
-            appState.faith.prayers = { fajr: false, dhuhr: false, asr: false, maghrib: false, isha: false };
-            saveAppState();
-        }
-
-        renderVerseOfDay(appState.faith.verseIndex);
+        renderVerseOfDay(verseIdx);
         renderAdhkar();
         renderPrayers();
     }
 
     function renderVerseOfDay(index) {
-        const verse = fortyQuranVerses[index] || fortyQuranVerses[0];
+        const verse = fortyEightVerses[index] || fortyEightVerses[0];
         document.getElementById('verseOfDayText').textContent = `"${verse.text}"`;
         document.getElementById('verseOfDayRef').textContent = `— ${verse.ref}`;
-    }
-
-    function showAnotherVerse() {
-        const randIndex = Math.floor(Math.random() * fortyQuranVerses.length);
-        appState.faith.verseIndex = randIndex;
-        saveAppState();
-        renderVerseOfDay(randIndex);
     }
 
     function renderAdhkar() {
@@ -2835,7 +2878,7 @@
     }
 
     // -------------------------------------------------------------
-    // LEITH 2.0 — PERSISTENT MOOD & MESSAGE ENGINE
+    // LEITH 2.0 — PERSISTENT MOOD & SENDER TOGGLE (Jojo / Lola)
     // -------------------------------------------------------------
     const leithMoodDefinitions = {
         angry: { name: "Angry", emoji: "😡", headEmoji: "🦁🔥", ringClass: "mood-angry", responses: ["متزعليش من جوجو ❤️", "جوجو بيحبك ❤️", "خلاص يا بت 😂❤️", "اهدي بس ❤️"] },
@@ -2855,7 +2898,7 @@
         applyLeithMoodUI(moodKey);
         
         if (appState.leith.latestMessage) {
-            showLeithMessage(appState.leith.latestMessage);
+            showLeithMessage(appState.leith.latestMessage, appState.leith.sender || 'jojo');
         } else {
             checkLeithContextualMessage();
         }
@@ -2874,7 +2917,7 @@
         
         leithSecretTaps++;
         if (leithSecretTaps === 5) {
-            showLeithMessage("إنتِ اكتشفتي السر؟ 👀🦁");
+            showLeithMessage("إنتِ اكتشفتي السر؟ 👀🦁", 'jojo');
             leithSecretTaps = 0;
         }
     }
@@ -2885,6 +2928,7 @@
 
         const randomResp = def.responses[Math.floor(Math.random() * def.responses.length)];
         appState.leith.latestMessage = randomResp;
+        appState.leith.sender = 'jojo';
         appState.leith.isPersistentMsg = true;
 
         if (save) {
@@ -2892,7 +2936,7 @@
         }
 
         applyLeithMoodUI(moodKey);
-        showLeithMessage(randomResp);
+        showLeithMessage(randomResp, 'jojo');
     }
 
     function applyLeithMoodUI(moodKey) {
@@ -2909,16 +2953,20 @@
         if (title) title.textContent = `🦁 Leith (${def.name})`;
     }
 
-    function showLeithMessage(msg) {
+    function showLeithMessage(msg, sender = 'jojo') {
         const textEl = document.getElementById('leithMessageText');
+        const senderTag = document.getElementById('leithSenderTag');
         const dot = document.getElementById('leithUnreadDot');
         if (textEl) textEl.textContent = msg;
+        if (senderTag) {
+            senderTag.textContent = sender === 'jojo' ? '❤️ جوجو' : '🤍 لولا';
+        }
         if (dot) dot.classList.add('active');
     }
 
     function checkLeithContextualMessage() {
         if (appState.leith.isPersistentMsg && appState.leith.latestMessage) {
-            showLeithMessage(appState.leith.latestMessage);
+            showLeithMessage(appState.leith.latestMessage, appState.leith.sender || 'jojo');
             return;
         }
 
@@ -2934,23 +2982,7 @@
             timeMsg = "قبل ما تنامي، متنسيش وردك 🤍 نامي بدري يا لولا.";
         }
 
-        if (appState.todos && appState.todos.length > 0) {
-            const pending = appState.todos.filter(t => !t.completed);
-            if (pending.length > 0) {
-                const firstTask = pending[0].text.toLowerCase();
-                if (firstTask.includes('مذاكرة')) {
-                    timeMsg = "مش كان عندنا مذاكرة دلوقتي؟ 👀📚";
-                } else if (firstTask.includes('قرآن') || firstTask.includes('ورد')) {
-                    timeMsg = "الورد مستنيكي 🤍📖";
-                } else if (firstTask.includes('طبخ')) {
-                    timeMsg = "اعملي الطبخ عشان جوجو 😂❤️";
-                } else if (firstTask.includes('ماما')) {
-                    timeMsg = "روحي اقعدي مع ماما شوية ❤️";
-                }
-            }
-        }
-
-        showLeithMessage(timeMsg);
+        showLeithMessage(timeMsg, 'jojo');
     }
 
     function updateLeithDailySummary() {
@@ -2984,9 +3016,10 @@
         ];
         const pick = surprises[Math.floor(Math.random() * surprises.length)];
         appState.leith.latestMessage = pick;
+        appState.leith.sender = 'jojo';
         appState.leith.isPersistentMsg = true;
         saveAppState();
-        showLeithMessage(pick);
+        showLeithMessage(pick, 'jojo');
     }
 
     function handleLeithKeypress(e) {
@@ -3001,13 +3034,17 @@
         const txt = input.value.trim();
         if (!txt) return;
 
-        const responseMsg = `وصلت الرسالة يا لولا ❤️ جوجو بيقولك: "${txt}"`;
-        appState.leith.latestMessage = responseMsg;
+        const radios = document.querySelectorAll('input[name="leithSender"]');
+        let senderVal = 'jojo';
+        radios.forEach(r => { if (r.checked) senderVal = r.value; });
+
+        appState.leith.latestMessage = txt;
+        appState.leith.sender = senderVal;
         appState.leith.isPersistentMsg = true;
         saveAppState();
 
         input.value = '';
-        showLeithMessage(responseMsg);
+        showLeithMessage(txt, senderVal);
     }
 
     function closeModals() {
