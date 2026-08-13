@@ -786,35 +786,6 @@
         .lightbox-next { right: -20px; }
         @media (min-width: 768px) { .lightbox-next { right: -70px; } }
 
-        .timed-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-        }
-        @media (min-width: 640px) { .timed-grid { grid-template-columns: repeat(2, 1fr); } }
-
-        .timed-card {
-            background: rgba(20, 21, 30, 0.65);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 1.5rem;
-            padding: 1.75rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .timed-badge {
-            font-size: 0.75rem;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-weight: 600;
-        }
-        .timed-badge.locked { background: rgba(248, 113, 113, 0.15); color: #f87171; }
-        .timed-badge.unlocked { background: rgba(52, 211, 153, 0.15); color: #34d399; }
-
-        /* ------------------------------------------------------------- */
-        /* FAMILY & FRIENDS STYLES                                       */
-        /* ------------------------------------------------------------- */
         .family-container {
             max-width: 64rem;
             margin: 0 auto;
@@ -906,9 +877,6 @@
             line-height: 1.4;
         }
 
-        /* ------------------------------------------------------------- */
-        /* MEMORY TICKETS STYLES                                         */
-        /* ------------------------------------------------------------- */
         .tickets-container {
             max-width: 64rem;
             margin: 0 auto;
@@ -980,9 +948,7 @@
             color: #d1d5db;
         }
 
-        /* ------------------------------------------------------------- */
-        /* MY MONEY SECTION STYLES (English)                             */
-        /* ------------------------------------------------------------- */
+        /* MONEY DASHBOARD */
         .money-dashboard-container {
             max-width: 64rem;
             margin: 0 auto;
@@ -1216,9 +1182,6 @@
             border-color: #ff6584;
         }
 
-        /* ------------------------------------------------------------- */
-        /* FAITH SECTION STYLES (🤍 Faith - Peaceful & Spiritual)         */
-        /* ------------------------------------------------------------- */
         .faith-container {
             max-width: 64rem;
             margin: 0 auto;
@@ -1349,219 +1312,217 @@
             height: 1.2rem;
             cursor: pointer;
         }
-        /* ------------------------------------------------------------- */
 
         /* ------------------------------------------------------------- */
-        /* LION ASSISTANT STYLES (🦁 Leith Lion Mood Avatar System)      */
+        /* LEITH 2.0 — MESSENGER STYLE FLOATING CHAT HEAD & BUBBLE        */
         /* ------------------------------------------------------------- */
         #leithAssistant {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
-            z-index: 60;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.75rem;
+            font-family: 'Poppins', sans-serif;
         }
 
-        .leith-bubble-btn {
-            background: linear-gradient(135deg, #ff6584 0%, #d946ef 100%);
-            border: 2px solid rgba(255, 255, 255, 0.3);
+        /* Messenger Chat Head */
+        .leith-chat-head {
             width: 64px;
             height: 64px;
             border-radius: 50%;
-            color: white;
-            font-size: 1.8rem;
+            background: linear-gradient(135deg, #ff6584 0%, #d946ef 100%);
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 30px rgba(255, 101, 132, 0.6);
             cursor: pointer;
-            box-shadow: 0 0 25px rgba(255, 101, 132, 0.5);
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.3s, box-shadow 0.3s;
+            font-size: 2.2rem;
             position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: leithIdleBreath 4s ease-in-out infinite;
+            user-select: none;
         }
 
-        .leith-bubble-btn:hover { transform: scale(1.1); }
+        .leith-chat-head:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(255, 101, 132, 0.8);
+        }
 
-        .leith-mini-badge {
+        @keyframes leithIdleBreath {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+        }
+
+        /* Mood Glow Rings */
+        .leith-chat-head.mood-angry {
+            border-color: #ef4444;
+            box-shadow: 0 0 35px rgba(239, 68, 68, 0.8);
+            animation: leithAngryPulse 0.8s ease-in-out infinite;
+        }
+        @keyframes leithAngryPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); filter: brightness(1.2); }
+        }
+
+        .leith-chat-head.mood-love {
+            border-color: #f43f5e;
+            box-shadow: 0 0 35px rgba(244, 63, 94, 0.8);
+        }
+
+        .leith-chat-head.mood-sad {
+            border-color: #818cf8;
+            box-shadow: 0 0 25px rgba(129, 140, 248, 0.5);
+        }
+
+        .leith-chat-head.mood-tired, .leith-chat-head.mood-bored {
+            border-color: #a78bfa;
+            box-shadow: 0 0 20px rgba(167, 139, 250, 0.4);
+        }
+
+        .leith-chat-head.mood-stressed {
+            border-color: #fb923c;
+            box-shadow: 0 0 25px rgba(251, 146, 60, 0.6);
+        }
+
+        .leith-chat-head.mood-happy {
+            border-color: #fbbf24;
+            box-shadow: 0 0 25px rgba(251, 191, 36, 0.6);
+        }
+
+        /* Unread Badge */
+        .leith-unread-dot {
             position: absolute;
-            top: -4px;
-            right: -4px;
-            background: #14151e;
-            border: 2px solid #ff6584;
+            top: 2px;
+            right: 2px;
+            width: 16px;
+            height: 16px;
+            background: #34d399;
+            border: 2px solid #14151e;
             border-radius: 50%;
-            width: 26px;
-            height: 26px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+            display: none;
         }
+        .leith-unread-dot.active { display: block; }
 
-        .leith-panel {
-            position: absolute;
-            bottom: 80px;
-            right: 0;
-            width: min(340px, calc(100vw - 2rem));
-            background: rgba(20, 21, 30, 0.96);
+        /* Messenger Speech Bubble */
+        .leith-speech-bubble {
+            background: rgba(20, 21, 30, 0.95);
             backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 101, 132, 0.4);
             border-radius: 1.25rem;
-            padding: 1.25rem;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+            padding: 1rem 1.25rem;
+            max-width: min(320px, calc(100vw - 2rem));
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 25px rgba(255, 101, 132, 0.2);
             display: none;
             flex-direction: column;
-            gap: 1rem;
-            font-size: 0.9rem;
-            z-index: 70;
+            gap: 0.75rem;
+            position: relative;
+            animation: bubbleFadeIn 0.3s ease;
         }
 
-        .leith-panel.active { display: flex; }
+        .leith-speech-bubble.active { display: flex; }
 
-        .leith-header {
+        @keyframes bubbleFadeIn {
+            from { opacity: 0; transform: translateY(10px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .leith-bubble-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-weight: 600;
+            font-size: 0.8rem;
             color: #ff6584;
+            font-weight: 600;
             border-bottom: 1px solid rgba(255,255,255,0.08);
-            padding-bottom: 0.5rem;
+            padding-bottom: 0.35rem;
         }
 
-        .leith-close {
+        .leith-bubble-close {
             background: none;
             border: none;
             color: #9ca3af;
             cursor: pointer;
-            font-size: 1.25rem;
+            font-size: 1.1rem;
         }
 
-        .leith-avatar-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 0;
-        }
-
-        .leith-lion-ring {
-            width: 76px;
-            height: 76px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.4rem;
-            background: rgba(255,255,255,0.05);
-            border: 3px solid rgba(255,255,255,0.2);
-            transition: all 0.4s ease;
-            position: relative;
-        }
-
-        /* Mood Ring Glow Levels & Animations */
-        .leith-lion-ring.mood-neutral {
-            border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
-        }
-        .leith-lion-ring.mood-happy {
-            border-color: #fbbf24;
-            box-shadow: 0 0 25px rgba(251, 191, 36, 0.4);
-            animation: pulseGentle 2s infinite;
-        }
-        .leith-lion-ring.mood-calm {
-            border-color: #60a5fa;
-            box-shadow: 0 0 20px rgba(96, 165, 250, 0.3);
-        }
-        .leith-lion-ring.mood-love {
-            border-color: #f43f5e;
-            box-shadow: 0 0 30px rgba(244, 63, 94, 0.5);
-            animation: pulseGentle 1.5s infinite;
-        }
-        .leith-lion-ring.mood-sad {
-            border-color: #818cf8;
-            box-shadow: 0 0 20px rgba(129, 140, 248, 0.3);
-        }
-        .leith-lion-ring.mood-angry {
-            border-color: #ef4444;
-            box-shadow: 0 0 35px rgba(239, 68, 68, 0.7);
-            animation: pulseAngry 0.8s infinite;
-        }
-        .leith-lion-ring.mood-tired {
-            border-color: #a78bfa;
-            box-shadow: 0 0 15px rgba(167, 139, 250, 0.25);
-        }
-        .leith-lion-ring.mood-stressed {
-            border-color: #fb923c;
-            box-shadow: 0 0 25px rgba(251, 146, 60, 0.45);
-            animation: pulseStressed 1.2s infinite;
-        }
-
-        @keyframes pulseGentle {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        @keyframes pulseAngry {
-            0%, 100% { transform: scale(1); filter: brightness(1); }
-            50% { transform: scale(1.08); filter: brightness(1.25); }
-        }
-        @keyframes pulseStressed {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(-2deg); }
-            75% { transform: rotate(2deg); }
-        }
-
-        .leith-current-mood-label {
-            font-size: 0.8rem;
-            color: #9ca3af;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-weight: 600;
-        }
-
-        .leith-current-mood-val {
+        .leith-bubble-text {
             font-family: 'Cormorant Garamond', serif;
             font-size: 1.2rem;
-            font-weight: 700;
-            color: #fff;
-        }
-
-        .leith-message-box {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 0.85rem;
-            padding: 0.85rem 1rem;
-            text-align: center;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.15rem;
             font-weight: 600;
             color: #fff;
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             line-height: 1.4;
         }
 
-        .leith-mood-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0.4rem;
+        .leith-summary-box {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 0.75rem;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.8rem;
+            color: #d1d5db;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
         }
 
-        .leith-mood-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #d1d5db;
-            padding: 0.4rem 0.2rem;
+        .leith-actions-row {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+            margin-top: 0.25rem;
+        }
+
+        .leith-action-btn {
+            background: rgba(255, 101, 132, 0.12);
+            border: 1px solid rgba(255, 101, 132, 0.3);
+            color: #ffb3c1;
+            padding: 0.3rem 0.6rem;
             border-radius: 0.5rem;
-            font-size: 0.72rem;
+            font-size: 0.75rem;
             cursor: pointer;
             transition: all 0.2s;
-            text-align: center;
         }
 
-        .leith-mood-btn:hover {
-            background: rgba(255, 101, 132, 0.2);
-            border-color: #ff6584;
+        .leith-action-btn:hover {
+            background: #ff6584;
             color: #fff;
+        }
+
+        .leith-input-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.25rem;
+        }
+
+        .leith-user-input {
+            flex: 1;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 0.6rem;
+            padding: 0.4rem 0.75rem;
+            color: #fff;
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .leith-user-input:focus {
+            border-color: #ff6584;
+        }
+
+        .leith-send-btn {
+            background: linear-gradient(135deg, #ff6584 0%, #d946ef 100%);
+            border: none;
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.6rem;
+            font-size: 0.85rem;
+            cursor: pointer;
+            font-weight: 600;
         }
 
         .modal {
@@ -2005,7 +1966,6 @@
     </div>
 
     <div class="faith-grid">
-        <!-- 1. Verse of the Day -->
         <div class="faith-card full-width">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
                 <div class="faith-card-title" style="border: none; padding: 0; margin: 0;">📖 Verse of the Day</div>
@@ -2017,7 +1977,6 @@
             </div>
         </div>
 
-        <!-- 2. Morning Adhkar -->
         <div class="faith-card">
             <div class="faith-card-title">🌅 Morning Adhkar</div>
             <div class="faith-adhkar-list" id="morningAdhkarContainer">
@@ -2025,7 +1984,6 @@
             </div>
         </div>
 
-        <!-- 3. Evening Adhkar -->
         <div class="faith-card">
             <div class="faith-card-title">🌙 Evening Adhkar</div>
             <div class="faith-adhkar-list" id="eveningAdhkarContainer">
@@ -2033,7 +1991,6 @@
             </div>
         </div>
 
-        <!-- 4. Before Sleep -->
         <div class="faith-card">
             <div class="faith-card-title">🌌 Before Sleep</div>
             <div class="faith-adhkar-list" id="beforeSleepContainer">
@@ -2041,7 +1998,6 @@
             </div>
         </div>
 
-        <!-- 5. My Prayers -->
         <div class="faith-card">
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div class="faith-card-title" style="border: none; padding: 0; margin: 0;">🕌 My Prayers</div>
@@ -2078,37 +2034,45 @@
     </div>
 </div>
 
+<!-- LEITH 2.0 WIDGET & CHAT HEAD -->
 <div id="leithAssistant">
-    <button class="leith-bubble-btn" onclick="toggleLeith()" aria-label="Leith Assistant">
-        <span id="leithBubbleAvatar">🦁</span>
-        <span class="leith-mini-badge" id="leithBubbleEmoji">🤍</span>
-    </button>
-    <div class="leith-panel" id="leithPanel">
-        <div class="leith-header">
-            <span>Leith</span>
-            <button class="leith-close" onclick="toggleLeith()">×</button>
+    <!-- Speech Bubble -->
+    <div class="leith-speech-bubble" id="leithSpeechBubble">
+        <div class="leith-bubble-header">
+            <span id="leithMoodIndicatorTitle">🦁 Leith (هادية)</span>
+            <button class="leith-bubble-close" onclick="toggleLeithBubble()">×</button>
         </div>
-        <div class="leith-avatar-container">
-            <div class="leith-lion-ring mood-neutral" id="leithRing">
-                <span id="leithMainLionEmoji">🦁</span>
-            </div>
-            <div class="leith-current-mood-label">حالتها دلوقتي ❤️</div>
-            <div class="leith-current-mood-val" id="leithMoodTitleVal">Neutral (هادية)</div>
-        </div>
-        <div class="leith-message-box" id="leithMsgBox">
+        <div class="leith-bubble-text" id="leithMessageText">
             أهلاً يا لولا 🦁❤️ إزيك النهارده؟
         </div>
-        <div style="font-size: 0.75rem; color: #9ca3af; font-weight: 600; text-transform: uppercase;">اختر مزاجك:</div>
-        <div class="leith-mood-grid">
-            <button class="leith-mood-btn" onclick="setLeithMood('happy')">😊 Happy</button>
-            <button class="leith-mood-btn" onclick="setLeithMood('calm')">😌 Calm</button>
-            <button class="leith-mood-btn" onclick="setLeithMood('love')">😍 In Love</button>
-            <button class="leith-mood-btn" onclick="setLeithMood('sad')">😔 Sad</button>
-            <button class="leith-mood-btn" onclick="setLeithMood('angry')">😡 Angry</button>
-            <button class="leith-mood-btn" onclick="setLeithMood('tired')">😴 Tired</button>
-            <button class="leith-mood-btn" onclick="setLeithMood('stressed')">😰 Stressed</button>
-            <button class="leith-mood-btn" onclick="setLeithMood('neutral')">🤍 Neutral</button>
+        
+        <!-- Daily Summary Box -->
+        <div class="leith-summary-box" id="leithSummaryBox">
+            <!-- Populated via JS -->
         </div>
+
+        <!-- Quick Actions Row -->
+        <div class="leith-actions-row">
+            <button class="leith-action-btn" onclick="setLeithMood('happy')">😊 Happy</button>
+            <button class="leith-action-btn" onclick="setLeithMood('love')">😍 In Love</button>
+            <button class="leith-action-btn" onclick="setLeithMood('angry')">😡 Angry</button>
+            <button class="leith-action-btn" onclick="setLeithMood('sad')">😔 Sad</button>
+            <button class="leith-action-btn" onclick="setLeithMood('tired')">😴 Tired</button>
+            <button class="leith-action-btn" onclick="setLeithMood('bored')">😑 Bored</button>
+            <button class="leith-action-btn" onclick="triggerLeithSurprise()">🎁 Surprise</button>
+        </div>
+
+        <!-- User to Leith / Private Message Input -->
+        <div class="leith-input-row">
+            <input type="text" id="leithUserInput" class="leith-user-input" placeholder="اكتبي رسالة لـ Leith أو جوجو..." onkeypress="handleLeithKeypress(event)">
+            <button class="leith-send-btn" onclick="sendLeithMessage()">إرسال</button>
+        </div>
+    </div>
+
+    <!-- Floating Chat Head -->
+    <div class="leith-chat-head" id="leithChatHead" onclick="toggleLeithBubble()" title="Leith Assistant">
+        <span id="leithHeadEmoji">🦁</span>
+        <span class="leith-unread-dot active" id="leithUnreadDot"></span>
     </div>
 </div>
 
@@ -2129,7 +2093,7 @@
         initFaithModule();
         initFamilyModule();
         initTicketsModule();
-        initLeithModule();
+        initLeith2Module();
     });
 
     // Password Gate Logic
@@ -2418,9 +2382,7 @@
         });
     }
 
-    // -------------------------------------------------------------
-    // COUNTDOWN ENGINE FOR BIRTHDAYS
-    // -------------------------------------------------------------
+    // Birthday Countdown Engine for Family
     function getBirthdayCountdownText(birthdayStr) {
         if (!birthdayStr) return "";
         const parts = birthdayStr.split('/');
@@ -2449,9 +2411,7 @@
         }
     }
 
-    // -------------------------------------------------------------
-    // FAMILY & FRIENDS MODULE LOGIC
-    // -------------------------------------------------------------
+    // Family & Friends Module
     let familyData = [
         {
             name: "Jojo",
@@ -2499,9 +2459,7 @@
                 if (parsed && Array.isArray(parsed) && parsed.length > 0) {
                     familyData = parsed;
                 }
-            } catch(e) {
-                console.error("Error loading family data", e);
-            }
+            } catch(e) {}
         }
         renderFamilyModule();
     }
@@ -2509,9 +2467,7 @@
     function saveFamilyStorage() {
         try {
             localStorage.setItem('family_friends_v1', JSON.stringify(familyData));
-        } catch(e) {
-            console.error("Error saving family data", e);
-        }
+        } catch(e) {}
     }
 
     function renderFamilyModule() {
@@ -2642,9 +2598,7 @@
         document.getElementById('personProfileModal').classList.add('active');
     }
 
-    // -------------------------------------------------------------
-    // MEMORY TICKETS MODULE LOGIC
-    // -------------------------------------------------------------
+    // Memory Tickets Module
     let ticketsData = [
         {
             title: "Cinema Night",
@@ -2664,9 +2618,7 @@
                 if (parsed && Array.isArray(parsed)) {
                     ticketsData = parsed;
                 }
-            } catch(e) {
-                console.error("Error loading tickets data", e);
-            }
+            } catch(e) {}
         }
         renderTicketsModule();
     }
@@ -2674,9 +2626,7 @@
     function saveTicketsStorage() {
         try {
             localStorage.setItem('memory_tickets_v1', JSON.stringify(ticketsData));
-        } catch(e) {
-            console.error("Error saving tickets data", e);
-        }
+        } catch(e) {}
     }
 
     function renderTicketsModule() {
@@ -2786,130 +2736,6 @@
             <button class="main-btn" style="width: 100%; justify-content: center; margin-top: 1rem;" onclick="closeModals()">Close</button>
         `;
         document.getElementById('ticketDetailsModal').classList.add('active');
-    }
-
-    // -------------------------------------------------------------
-    // LEITH — LION MOOD AVATAR SYSTEM LOGIC
-    // -------------------------------------------------------------
-    const leithMoodConfig = {
-        happy: {
-            name: "Happy (مبصوطة)",
-            emoji: "😊",
-            lionEmoji: "🦁✨",
-            ringClass: "mood-happy",
-            message: "حلو إنك مبسوطة النهارده ❤️"
-        },
-        calm: {
-            name: "Calm (هادية)",
-            emoji: "😌",
-            lionEmoji: "🦁🌿",
-            ringClass: "mood-calm",
-            message: "الهدوء لايق عليكي ❤️"
-        },
-        love: {
-            name: "In Love (في الحب)",
-            emoji: "😍",
-            lionEmoji: "🦁💖",
-            ringClass: "mood-love",
-            message: "واضح إن الحب واخد اليوم كله 😂❤️"
-        },
-        sad: {
-            name: "Sad (زعلانة)",
-            emoji: "😔",
-            lionEmoji: "🦁💧",
-            ringClass: "mood-sad",
-            message: "تعالي هنا ❤️ أنا معاكي."
-        },
-        angry: {
-            name: "Angry (غضبانة)",
-            emoji: "😡",
-            lionEmoji: "🦁🔥",
-            ringClass: "mood-angry",
-            message: "واضح إن آلاء غضبانة 😅❤️ اهدي بس... أنا معاكي ❤️"
-        },
-        tired: {
-            name: "Tired (تعبانة)",
-            emoji: "😴",
-            lionEmoji: "🦁💤",
-            ringClass: "mood-tired",
-            message: "شكلك محتاجة ترتاحي شوية 😴❤️"
-        },
-        stressed: {
-            name: "Stressed (متوترة)",
-            emoji: "😰",
-            lionEmoji: "🦁💫",
-            ringClass: "mood-stressed",
-            message: "خدي نفس... واحدة واحدة ❤️"
-        },
-        neutral: {
-            name: "Neutral (هادية)",
-            emoji: "🤍",
-            lionEmoji: "🦁",
-            ringClass: "mood-neutral",
-            message: "أنا معاكي كالعادة 🦁❤️"
-        }
-    };
-
-    function initLeithModule() {
-        const savedMood = localStorage.getItem('leith_mood_v1') || 'neutral';
-        setLeithMood(savedMood, false);
-    }
-
-    function toggleLeith() {
-        const panel = document.getElementById('leithPanel');
-        if (panel) {
-            panel.classList.toggle('active');
-        }
-    }
-
-    function setLeithMood(moodKey, save = true) {
-        const config = leithMoodConfig[moodKey] || leithMoodConfig['neutral'];
-        if (save) {
-            localStorage.setItem('leith_mood_v1', moodKey);
-        }
-
-        // Update Bubble Badge
-        const bubbleEmoji = document.getElementById('leithBubbleEmoji');
-        if (bubbleEmoji) bubbleEmoji.textContent = config.emoji;
-
-        // Update Lion Ring & Class
-        const ring = document.getElementById('leithRing');
-        if (ring) {
-            ring.className = `leith-lion-ring ${config.ringClass}`;
-        }
-
-        // Update Lion Emoji inside ring
-        const lionEmojiSpan = document.getElementById('leithMainLionEmoji');
-        if (lionEmojiSpan) lionEmojiSpan.textContent = config.lionEmoji;
-
-        // Update Mood Title
-        const moodTitleVal = document.getElementById('leithMoodTitleVal');
-        if (moodTitleVal) moodTitleVal.textContent = config.name;
-
-        // Update Leith Message Box
-        const msgBox = document.getElementById('leithMsgBox');
-        if (msgBox) msgBox.innerHTML = config.message;
-    }
-
-    // Surprise Modal
-    function openSurprise() { document.getElementById('surpriseModal').classList.add('active'); }
-    function closeSurprise() { document.getElementById('surpriseModal').classList.remove('active'); }
-
-    // Floating Hearts Generation
-    function createFloatingHearts() {
-        const container = document.getElementById('heartsContainer');
-        if (!container) return;
-        setInterval(() => {
-            const heart = document.createElement('div');
-            heart.classList.add('floating-heart');
-            heart.innerText = '♥';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.fontSize = (Math.random() * 1 + 1) + 'rem';
-            const duration = Math.random() * 5 + 5;
-            heart.style.animationDuration = duration + 's';
-            container.appendChild(heart);
-            setTimeout(() => heart.remove(), duration * 1000);
-        }, 1000);
     }
 
     // Money Dashboard Logic
@@ -3240,12 +3066,201 @@
         renderPrayers();
     }
 
+    // -------------------------------------------------------------
+    // LEITH 2.0 — COMPLETE REPLACEMENT & PERSONALITY ENGINE LOGIC
+    // -------------------------------------------------------------
+    const leithMoodDefinitions = {
+        angry: { name: "Angry", emoji: "😡", headEmoji: "🦁🔥", ringClass: "mood-angry", responses: ["متزعليش من جوجو ❤️", "جوجو بيحبك ❤️", "خلاص يا بت 😂❤️", "اهدي بس ❤️"] },
+        sad: { name: "Sad", emoji: "😔", headEmoji: "🦁💧", ringClass: "mood-sad", responses: ["متزعليش ❤️", "أنا معاكي ❤️", "تعالي هنا 🤍", "مالك بس؟ ❤️"] },
+        love: { name: "In Love", emoji: "😍", headEmoji: "🦁💖", ringClass: "mood-love", responses: ["وأنا كمان بحبك ❤️", "إنتِ قلبي ❤️", "وأنا بحبك أكتر 😂❤️"] },
+        bored: { name: "Bored", emoji: "😑", headEmoji: "🦁🥱", ringClass: "mood-bored", responses: ["اطبخي يلا لجوجو 😂❤️", "يلا برموت، كلمي جوجو 😂", "تعالي نعمل حاجة بدل الزهق 👀"] },
+        stressed: { name: "Stressed", emoji: "😰", headEmoji: "🦁💫", ringClass: "mood-stressed", responses: ["مالك مخنوقة ليه؟ ❤️", "كلمي جوجو، متفضليش مخنوقة لوحدك ❤️", "خدي نفس كده... واحدة واحدة ❤️"] },
+        tired: { name: "Tired", emoji: "😴", headEmoji: "🦁💤", ringClass: "mood-tired", responses: ["كفاية سهر... نامي بدري 😴❤️"] },
+        happy: { name: "Happy", emoji: "😊", headEmoji: "🦁✨", ringClass: "mood-happy", responses: ["حلو إنك مبسوطة النهارده ❤️"] },
+        neutral: { name: "Neutral", emoji: "🤍", headEmoji: "🦁", ringClass: "mood-neutral", responses: ["أنا معاكي كالعادة 🦁❤️"] }
+    };
+
+    let leithState = {
+        currentMood: "neutral",
+        secretTaps: 0
+    };
+
+    function initLeith2Module() {
+        const savedMood = localStorage.getItem('leith_mood_v2') || 'neutral';
+        setLeithMood(savedMood, false);
+        checkLeithContextualMessage();
+        updateLeithDailySummary();
+    }
+
+    function toggleLeithBubble() {
+        const bubble = document.getElementById('leithSpeechBubble');
+        const dot = document.getElementById('leithUnreadDot');
+        if (bubble) {
+            bubble.classList.toggle('active');
+            if (bubble.classList.contains('active') && dot) {
+                dot.classList.remove('active');
+            }
+        }
+        
+        // Secret tap counter
+        leithState.secretTaps++;
+        if (leithState.secretTaps === 5) {
+            showLeithMessage("إنتِ اكتشفتي السر؟ 👀🦁");
+            leithState.secretTaps = 0;
+        }
+    }
+
+    function setLeithMood(moodKey, save = true) {
+        const def = leithMoodDefinitions[moodKey] || leithMoodDefinitions['neutral'];
+        leithState.currentMood = moodKey;
+        if (save) {
+            localStorage.setItem('leith_mood_v2', moodKey);
+        }
+
+        const head = document.getElementById('leithChatHead');
+        if (head) {
+            head.className = `leith-chat-head ${def.ringClass}`;
+        }
+
+        const headEmoji = document.getElementById('leithHeadEmoji');
+        if (headEmoji) headEmoji.textContent = def.emoji;
+
+        const title = document.getElementById('leithMoodIndicatorTitle');
+        if (title) title.textContent = `🦁 Leith (${def.name})`;
+
+        // Pick random response from mood
+        const randomResp = def.responses[Math.floor(Math.random() * def.responses.length)];
+        showLeithMessage(randomResp);
+    }
+
+    function showLeithMessage(msg) {
+        const textEl = document.getElementById('leithMessageText');
+        const dot = document.getElementById('leithUnreadDot');
+        if (textEl) textEl.textContent = msg;
+        if (dot) dot.classList.add('active');
+    }
+
+    function checkLeithContextualMessage() {
+        // Time awareness
+        const hour = new Date().getHours();
+        let timeMsg = "أهلاً يا لولا 🦁❤️ إزيك النهارده؟";
+        if (hour >= 5 && hour < 12) {
+            timeMsg = "صباح الخير يا آلاء ❤️ يلا نبدأ اليوم بهدوء";
+        } else if (hour >= 12 && hour < 17) {
+            timeMsg = "يومك ماشي إزاي؟ عملتي إيه لحد دلوقتي؟ 👀";
+        } else if (hour >= 17 && hour < 22) {
+            timeMsg = "مساء الخير يا آلاء ❤️ شوفي إيه اللي لسه ناقصك.";
+        } else {
+            timeMsg = "قبل ما تنامي، متنسيش وردك 🤍 نامي بدري يا لولا.";
+        }
+
+        // Check Todo integration (Read-Only)
+        if (typeof todoItems !== 'undefined' && todoItems.length > 0) {
+            const pending = todoItems.filter(t => !t.completed);
+            if (pending.length > 0) {
+                const firstTask = pending[0].text.toLowerCase();
+                if (firstTask.includes('مذاكرة')) {
+                    timeMsg = "مش كان عندنا مذاكرة دلوقتي؟ 👀📚";
+                } else if (firstTask.includes('قرآن') || firstTask.includes('ورد')) {
+                    timeMsg = "الورد مستنيكي 🤍📖";
+                } else if (firstTask.includes('طبخ')) {
+                    timeMsg = "اعملي الطبخ عشان جوجو 😂❤️";
+                } else if (firstTask.includes('ماما')) {
+                    timeMsg = "روحي اقعدي مع ماما شوية ❤️";
+                }
+            }
+        }
+
+        showLeithMessage(timeMsg);
+    }
+
+    function updateLeithDailySummary() {
+        const summaryBox = document.getElementById('leithSummaryBox');
+        if (!summaryBox) return;
+
+        let completedTasks = 0;
+        if (typeof todoItems !== 'undefined') {
+            completedTasks = todoItems.filter(t => t.completed).length;
+        }
+
+        let prayerCount = 0;
+        if (typeof faithData !== 'undefined' && faithData.prayers) {
+            prayerCount = Object.values(faithData.prayers).filter(Boolean).length;
+        }
+
+        summaryBox.innerHTML = `
+            <div>🎯 Tasks done: ${completedTasks}</div>
+            <div>🕌 Prayers: ${prayerCount} / 5</div>
+            <div>🦁 Status: Active & Ready</div>
+        `;
+    }
+
+    function triggerLeithSurprise() {
+        const surprises = [
+            "وحشتيني ❤️",
+            "قومي اعملي حاجة حلوة النهارده 👀",
+            "جوجو بيحبك 😂❤️",
+            "أجمل صدفة في عمري ❤️",
+            "ركزي في مستقبلك عشان تبقي دكتورة قد الدنيا 💊❤️"
+        ];
+        const pick = surprises[Math.floor(Math.random() * surprises.length)];
+        showLeithMessage(pick);
+    }
+
+    function handleLeithKeypress(e) {
+        if (e.key === 'Enter') {
+            sendLeithMessage();
+        }
+    }
+
+    function sendLeithMessage() {
+        const input = document.getElementById('leithUserInput');
+        if (!input) return;
+        const txt = input.value.trim();
+        if (!txt) return;
+
+        // Save private message simulation from Youssef/User
+        localStorage.setItem('leith_private_msg_v2', txt);
+        input.value = '';
+
+        showLeithMessage(`وصلت الرسالة يا لولا ❤️ جوجو بيقولك: "${txt}"`);
+    }
+
+    // Check if there's a private message stored from Youssef
+    window.addEventListener('load', () => {
+        const pMsg = localStorage.getItem('leith_private_msg_v2');
+        if (pMsg) {
+            setTimeout(() => {
+                showLeithMessage(`رسالة من جوجو ليكِ: "${pMsg}" ❤️`);
+            }, 1500);
+        }
+    });
+
     function closeModals() {
         document.querySelectorAll('.modal').forEach(m => {
             if (m.id !== 'surpriseModal') {
                 m.classList.remove('active');
             }
         });
+    }
+
+    function openSurprise() { document.getElementById('surpriseModal').classList.add('active'); }
+    function closeSurprise() { document.getElementById('surpriseModal').classList.remove('active'); }
+
+    function createFloatingHearts() {
+        const container = document.getElementById('heartsContainer');
+        if (!container) return;
+        setInterval(() => {
+            const heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            heart.innerText = '♥';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 1 + 1) + 'rem';
+            const duration = Math.random() * 5 + 5;
+            heart.style.animationDuration = duration + 's';
+            container.appendChild(heart);
+            setTimeout(() => heart.remove(), duration * 1000);
+        }, 1000);
     }
 </script>
 
