@@ -105,9 +105,9 @@
             font-family: 'Poppins', sans-serif;
             font-size: 1rem;
             outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
             direction: auto;
             unicode-bidi: plaintext;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
 
         .gate-input:focus {
@@ -829,21 +829,8 @@
             gap: 1.5rem;
         }
 
-        @media (min-width: 768px) { 
-            .family-grid { 
-                grid-template-columns: repeat(2, 1fr); 
-            } 
-        }
-
-        @media (min-width: 1024px) { 
-            .family-grid { 
-                grid-template-columns: repeat(3, 1fr); 
-            } 
-            .family-card.primary-card:nth-child(1),
-            .family-card.primary-card:nth-child(2) {
-                grid-column: span 1;
-            }
-        }
+        @media (min-width: 640px) { .family-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .family-grid { grid-template-columns: repeat(3, 1fr); } }
 
         .family-card {
             background: rgba(20, 21, 30, 0.75);
@@ -861,27 +848,28 @@
             position: relative;
         }
 
-        .family-card.special-featured {
-            border: 1px solid rgba(255, 101, 132, 0.45);
-            background: linear-gradient(135deg, rgba(20, 21, 30, 0.85) 0%, rgba(255, 101, 132, 0.05) 100%);
-            box-shadow: 0 0 30px rgba(255, 101, 132, 0.15);
-        }
-
         .family-card:hover {
             transform: translateY(-4px);
-            border-color: rgba(255, 101, 132, 0.6);
+            border-color: rgba(255, 101, 132, 0.4);
         }
 
-        .family-badge-top {
+        .family-card.primary-main {
+            border-color: rgba(255, 101, 132, 0.5);
+            background: linear-gradient(135deg, rgba(20, 21, 30, 0.85) 0%, rgba(45, 25, 45, 0.6) 100%);
+        }
+
+        .family-badge {
             position: absolute;
             top: 1rem;
             right: 1rem;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
             background: rgba(255, 101, 132, 0.15);
             color: #ff6584;
-            font-size: 0.65rem;
-            font-weight: 600;
-            padding: 0.25rem 0.75rem;
+            padding: 0.25rem 0.6rem;
             border-radius: 9999px;
+            font-weight: 600;
             border: 1px solid rgba(255, 101, 132, 0.3);
         }
 
@@ -993,7 +981,7 @@
         }
 
         /* ------------------------------------------------------------- */
-        /* MY MONEY SECTION STYLES                                       */
+        /* MY MONEY SECTION STYLES (English)                             */
         /* ------------------------------------------------------------- */
         .money-dashboard-container {
             max-width: 64rem;
@@ -1229,7 +1217,7 @@
         }
 
         /* ------------------------------------------------------------- */
-        /* FAITH SECTION STYLES                                          */
+        /* FAITH SECTION STYLES (🤍 Faith - Peaceful & Spiritual)         */
         /* ------------------------------------------------------------- */
         .faith-container {
             max-width: 64rem;
@@ -1363,6 +1351,9 @@
         }
         /* ------------------------------------------------------------- */
 
+        /* ------------------------------------------------------------- */
+        /* LION ASSISTANT STYLES (🦁 Leith Lion Mood Avatar System)      */
+        /* ------------------------------------------------------------- */
         #leithAssistant {
             position: fixed;
             bottom: 2rem;
@@ -1373,26 +1364,43 @@
         .leith-bubble-btn {
             background: linear-gradient(135deg, #ff6584 0%, #d946ef 100%);
             border: 2px solid rgba(255, 255, 255, 0.3);
-            width: 60px;
-            height: 60px;
+            width: 64px;
+            height: 64px;
             border-radius: 50%;
             color: white;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             cursor: pointer;
             box-shadow: 0 0 25px rgba(255, 101, 132, 0.5);
             display: flex;
             align-items: center;
             justify-content: center;
             transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
         }
 
         .leith-bubble-btn:hover { transform: scale(1.1); }
 
+        .leith-mini-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #14151e;
+            border: 2px solid #ff6584;
+            border-radius: 50%;
+            width: 26px;
+            height: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+
         .leith-panel {
             position: absolute;
-            bottom: 75px;
+            bottom: 80px;
             right: 0;
-            width: min(320px, calc(100vw - 2rem));
+            width: min(340px, calc(100vw - 2rem));
             background: rgba(20, 21, 30, 0.96);
             backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 101, 132, 0.4);
@@ -1426,51 +1434,105 @@
             font-size: 1.25rem;
         }
 
-        /* Enhanced Leith Current Mood Box */
-        .leith-current-mood-display {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 101, 132, 0.25);
-            border-radius: 1rem;
-            padding: 1rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            transition: box-shadow 0.4s ease, border-color 0.4s ease;
+        .leith-avatar-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
         }
 
-        .mood-indicator-ring {
-            width: 50px;
-            height: 50px;
+        .leith-lion-ring {
+            width: 76px;
+            height: 76px;
             border-radius: 50%;
-            margin: 0 auto 0.5rem auto;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            position: relative;
-            background: rgba(20, 21, 30, 0.9);
-            box-shadow: 0 0 15px rgba(255, 101, 132, 0.4);
+            font-size: 2.4rem;
+            background: rgba(255,255,255,0.05);
+            border: 3px solid rgba(255,255,255,0.2);
             transition: all 0.4s ease;
+            position: relative;
         }
 
-        .mood-name-text {
+        /* Mood Ring Glow Levels & Animations */
+        .leith-lion-ring.mood-neutral {
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
+        }
+        .leith-lion-ring.mood-happy {
+            border-color: #fbbf24;
+            box-shadow: 0 0 25px rgba(251, 191, 36, 0.4);
+            animation: pulseGentle 2s infinite;
+        }
+        .leith-lion-ring.mood-calm {
+            border-color: #60a5fa;
+            box-shadow: 0 0 20px rgba(96, 165, 250, 0.3);
+        }
+        .leith-lion-ring.mood-love {
+            border-color: #f43f5e;
+            box-shadow: 0 0 30px rgba(244, 63, 94, 0.5);
+            animation: pulseGentle 1.5s infinite;
+        }
+        .leith-lion-ring.mood-sad {
+            border-color: #818cf8;
+            box-shadow: 0 0 20px rgba(129, 140, 248, 0.3);
+        }
+        .leith-lion-ring.mood-angry {
+            border-color: #ef4444;
+            box-shadow: 0 0 35px rgba(239, 68, 68, 0.7);
+            animation: pulseAngry 0.8s infinite;
+        }
+        .leith-lion-ring.mood-tired {
+            border-color: #a78bfa;
+            box-shadow: 0 0 15px rgba(167, 139, 250, 0.25);
+        }
+        .leith-lion-ring.mood-stressed {
+            border-color: #fb923c;
+            box-shadow: 0 0 25px rgba(251, 146, 60, 0.45);
+            animation: pulseStressed 1.2s infinite;
+        }
+
+        @keyframes pulseGentle {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        @keyframes pulseAngry {
+            0%, 100% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(1.08); filter: brightness(1.25); }
+        }
+        @keyframes pulseStressed {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-2deg); }
+            75% { transform: rotate(2deg); }
+        }
+
+        .leith-current-mood-label {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+        }
+
+        .leith-current-mood-val {
             font-family: 'Cormorant Garamond', serif;
             font-size: 1.2rem;
             font-weight: 700;
             color: #fff;
-            margin-bottom: 0.25rem;
         }
 
         .leith-message-box {
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 0.85rem;
-            padding: 0.85rem;
+            padding: 0.85rem 1rem;
             text-align: center;
             font-family: 'Cormorant Garamond', serif;
             font-size: 1.15rem;
             font-weight: 600;
-            color: #f3f4f6;
+            color: #fff;
             min-height: 60px;
             display: flex;
             align-items: center;
@@ -1481,7 +1543,7 @@
         .leith-mood-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 0.35rem;
+            gap: 0.4rem;
         }
 
         .leith-mood-btn {
@@ -1490,11 +1552,10 @@
             color: #d1d5db;
             padding: 0.4rem 0.2rem;
             border-radius: 0.5rem;
-            font-size: 0.7rem;
+            font-size: 0.72rem;
             cursor: pointer;
             transition: all 0.2s;
             text-align: center;
-            white-space: nowrap;
         }
 
         .leith-mood-btn:hover {
@@ -1524,7 +1585,7 @@
             border: 1px solid rgba(255, 101, 132, 0.35);
             border-radius: 1.5rem;
             padding: 2.5rem;
-            max-width: min(400px, 92vw);
+            max-width: 400px;
             width: 100%;
             text-align: center;
             position: relative;
@@ -1561,11 +1622,11 @@
         <p class="gate-subtitle">Enter the password to continue</p>
         
         <div class="gate-input-wrapper">
-            <input type="password" id="gatePasswordInput" class="gate-input" placeholder="اكتب كلمة المرور (بحبك)..." autocomplete="current-password" onkeypress="handleGateKeypress(event)">
+            <input type="password" id="gatePasswordInput" class="gate-input" placeholder="Enter password..." autocomplete="current-password" onkeypress="handleGateKeypress(event)">
             <button type="button" class="gate-toggle-btn" id="gateToggleBtn" onclick="toggleGatePasswordVisibility()" aria-label="Toggle password visibility">👁️</button>
         </div>
         
-        <div class="gate-error-msg" id="gateErrorMsg">Wrong Password ❤️ حاول تاني</div>
+        <div class="gate-error-msg" id="gateErrorMsg">الباسورد غلط ❤️ حاول تاني</div>
         
         <button class="gate-submit-btn" onclick="verifyGatePassword()">Unlock ❤️</button>
     </div>
@@ -1848,40 +1909,32 @@
             <input type="text" id="inputPersonNickname" class="money-form-input" placeholder="Nickname">
         </div>
         <div class="money-form-group">
-            <label>Birthday (DD/MM/YYYY)</label>
-            <input type="text" id="inputPersonBirthday" class="money-form-input" placeholder="12/07/2004">
+            <label>Birthday</label>
+            <input type="text" id="inputPersonBirthday" class="money-form-input" placeholder="DD/MM/YYYY">
         </div>
         <div class="money-form-group">
-            <label>Profession / Job</label>
-            <input type="text" id="inputPersonProfession" class="money-form-input" placeholder="Biomedical Engineer">
+            <label>Profession / Education</label>
+            <input type="text" id="inputPersonProfession" class="money-form-input" placeholder="Profession or Faculty">
         </div>
         <div class="money-form-group">
-            <label>Education / College</label>
-            <input type="text" id="inputPersonEducation" class="money-form-input" placeholder="Faculty of Science">
-        </div>
-        <div class="money-form-group">
-            <label>Department</label>
-            <input type="text" id="inputPersonDepartment" class="money-form-input" placeholder="Medical Analysis">
+            <label>Department / Specialization</label>
+            <input type="text" id="inputPersonDepartment" class="money-form-input" placeholder="Department">
         </div>
         <div class="money-form-group">
             <label>Relationship</label>
             <input type="text" id="inputPersonRelationship" class="money-form-input" placeholder="Relationship">
         </div>
         <div class="money-form-group">
-            <label>Description / Goal</label>
-            <input type="text" id="inputPersonDesc" class="money-form-input" placeholder="Description">
+            <label>Short Description / Goal</label>
+            <input type="text" id="inputPersonDesc" class="money-form-input" placeholder="Description or Current Goal">
         </div>
         <div class="money-form-group">
-            <label>Dream</label>
-            <input type="text" id="inputPersonDream" class="money-form-input" placeholder="Dream">
+            <label>Dream / Quote</label>
+            <input type="text" id="inputPersonQuote" class="money-form-input" placeholder="Dream or Quote">
         </div>
         <div class="money-form-group">
-            <label>Special Quote</label>
-            <input type="text" id="inputPersonQuote" class="money-form-input" placeholder="Quote">
-        </div>
-        <div class="money-form-group">
-            <label>Avatar (Emoji)</label>
-            <input type="text" id="inputPersonAvatar" class="money-form-input" placeholder="❤️">
+            <label>Avatar (Emoji / Symbol)</label>
+            <input type="text" id="inputPersonAvatar" class="money-form-input" placeholder="❤️ or 🩺">
         </div>
         <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
             <button class="main-btn" style="flex: 1; justify-content: center;" onclick="savePersonItem()">Save</button>
@@ -2026,30 +2079,30 @@
 </div>
 
 <div id="leithAssistant">
-    <button class="leith-bubble-btn" onclick="toggleLeith()" aria-label="Leith Assistant">🤖</button>
+    <button class="leith-bubble-btn" onclick="toggleLeith()" aria-label="Leith Assistant">
+        <span id="leithBubbleAvatar">🦁</span>
+        <span class="leith-mini-badge" id="leithBubbleEmoji">🤍</span>
+    </button>
     <div class="leith-panel" id="leithPanel">
         <div class="leith-header">
             <span>Leith</span>
             <button class="leith-close" onclick="toggleLeith()">×</button>
         </div>
-        
-        <!-- Current Mood Display Widget -->
-        <div class="leith-current-mood-display" id="leithMoodDisplayBox">
-            <div style="font-size: 0.75rem; letter-spacing: 0.1em; color: #ff6584; text-transform: uppercase; font-weight: 600; margin-bottom: 0.5rem;">حالتها دلوقتي ❤️</div>
-            <div class="mood-indicator-ring" id="moodIndicatorRing">
-                <span id="leithCurrentEmoji">🥰</span>
+        <div class="leith-avatar-container">
+            <div class="leith-lion-ring mood-neutral" id="leithRing">
+                <span id="leithMainLionEmoji">🦁</span>
             </div>
-            <div class="mood-name-text" id="leithCurrentMoodName">Happy</div>
+            <div class="leith-current-mood-label">حالتها دلوقتي ❤️</div>
+            <div class="leith-current-mood-val" id="leithMoodTitleVal">Neutral (هادية)</div>
         </div>
-
         <div class="leith-message-box" id="leithMsgBox">
-            أهلاً يا لولا ❤️<br>إزيك النهارده؟
+            أهلاً يا لولا 🦁❤️ إزيك النهارده؟
         </div>
         <div style="font-size: 0.75rem; color: #9ca3af; font-weight: 600; text-transform: uppercase;">اختر مزاجك:</div>
         <div class="leith-mood-grid">
             <button class="leith-mood-btn" onclick="setLeithMood('happy')">😊 Happy</button>
             <button class="leith-mood-btn" onclick="setLeithMood('calm')">😌 Calm</button>
-            <button class="leith-mood-btn" onclick="setLeithMood('inlove')">😍 In Love</button>
+            <button class="leith-mood-btn" onclick="setLeithMood('love')">😍 In Love</button>
             <button class="leith-mood-btn" onclick="setLeithMood('sad')">😔 Sad</button>
             <button class="leith-mood-btn" onclick="setLeithMood('angry')">😡 Angry</button>
             <button class="leith-mood-btn" onclick="setLeithMood('tired')">😴 Tired</button>
@@ -2079,7 +2132,7 @@
         initLeithModule();
     });
 
-    // Password Gate Logic (Supports exact new password "بحبك")
+    // Password Gate Logic
     function toggleGatePasswordVisibility() {
         const input = document.getElementById('gatePasswordInput');
         const btn = document.getElementById('gateToggleBtn');
@@ -2101,14 +2154,13 @@
         const val = input.value.trim();
         const normalizedVal = val.toLowerCase();
         
-        if (val === "بحبك" || normalizedVal === "love you" || normalizedVal === "loveyou") {
+        if (val === "بحبك" || normalizedVal === "love you") {
             errorMsg.classList.remove('visible');
             const overlay = document.getElementById('passwordGateOverlay');
             if (overlay) {
                 overlay.classList.add('unlocked');
             }
         } else {
-            errorMsg.textContent = "Wrong Password ❤️ حاول تاني";
             errorMsg.classList.add('visible');
             input.classList.add('shake');
             setTimeout(() => {
@@ -2367,48 +2419,75 @@
     }
 
     // -------------------------------------------------------------
-    // FAMILY & FRIENDS MODULE LOGIC (Jojo & Lola first with countdowns)
+    // COUNTDOWN ENGINE FOR BIRTHDAYS
+    // -------------------------------------------------------------
+    function getBirthdayCountdownText(birthdayStr) {
+        if (!birthdayStr) return "";
+        const parts = birthdayStr.split('/');
+        if (parts.length !== 3) return "";
+        const day = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10) - 1;
+
+        const now = new Date();
+        let targetYear = now.getFullYear();
+        let targetDate = new Date(targetYear, month, day);
+
+        if (now > targetDate) {
+            targetYear++;
+            targetDate = new Date(targetYear, month, day);
+        }
+
+        const diffTime = targetDate - now;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        if (diffDays === 0) {
+            return "🎉 Happy Birthday ❤️";
+        } else if (diffDays === 1) {
+            return "⏳ Tomorrow is the Birthday! ❤️";
+        } else {
+            return `⏳ ${diffDays} Days Left`;
+        }
+    }
+
+    // -------------------------------------------------------------
+    // FAMILY & FRIENDS MODULE LOGIC
     // -------------------------------------------------------------
     let familyData = [
         {
             name: "Jojo",
-            nickname: "Jojo",
+            nickname: "",
             birthday: "12/07/2004",
-            profession: "Biomedical Engineer (مهندس أجهزة طبية)",
-            education: "",
-            department: "",
-            relationship: "Special",
-            description: "Biomedical Engineer",
+            profession: "Biomedical Engineer",
+            department: "مهندس أجهزة طبية",
+            relationship: "",
+            description: "Biomedical Engineer (مهندس أجهزة طبية)",
             quote: "",
             avatar: "❤️",
-            isPrimary: true
+            badge: "Special ❤️"
         },
         {
             name: "Lola",
-            nickname: "Lola",
+            nickname: "",
             birthday: "01/01/2008",
-            profession: "",
-            education: "Faculty of Science (كلية علوم)",
-            department: "Medical Analysis (قسم تحاليل)",
-            relationship: "Special",
-            description: "مهمتها الحالية: تذاكر وبس 📚❤️",
-            dream: "تحلم تشتغل في شركة أدوية 💊❤️",
-            quote: "",
+            profession: "Faculty of Science",
+            department: "كلية علوم • قسم تحاليل (Medical Analysis)",
+            relationship: "",
+            description: "مهمتها الحالية: تذاكر وبس 📚❤️ • تحلم تشتغل في شركة أدوية 💊❤️",
+            quote: "تحلم تشتغل في شركة أدوية 💊❤️",
             avatar: "❤️",
-            isPrimary: true
+            badge: "Our People"
         },
         {
             name: "Dr. Mai",
             nickname: "Mayoush",
             birthday: "",
             profession: "",
-            education: "",
             department: "",
             relationship: "خالة وعمة العيال",
             description: "خالة وعمة العيال",
             quote: "",
             avatar: "🩺",
-            isPrimary: false
+            badge: ""
         }
     ];
 
@@ -2417,10 +2496,12 @@
         if (saved) {
             try {
                 const parsed = JSON.parse(saved);
-                if (parsed && Array.isArray(parsed)) {
+                if (parsed && Array.isArray(parsed) && parsed.length > 0) {
                     familyData = parsed;
                 }
-            } catch(e) {}
+            } catch(e) {
+                console.error("Error loading family data", e);
+            }
         }
         renderFamilyModule();
     }
@@ -2428,35 +2509,9 @@
     function saveFamilyStorage() {
         try {
             localStorage.setItem('family_friends_v1', JSON.stringify(familyData));
-        } catch(e) {}
-    }
-
-    function getBirthdayCountdownText(birthdayStr) {
-        if (!birthdayStr || !birthdayStr.includes('/')) return '';
-        const parts = birthdayStr.split('/');
-        if (parts.length < 2) return '';
-        const day = parseInt(parts[0], 10);
-        const month = parseInt(parts[1], 10) - 1;
-
-        const now = new Date();
-        const currentYear = now.getFullYear();
-        let nextBday = new Date(currentYear, month, day);
-
-        if (now > nextBday) {
-            nextBday = new Date(currentYear + 1, month, day);
+        } catch(e) {
+            console.error("Error saving family data", e);
         }
-
-        const diffTime = nextBday - now;
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-        if (diffDays === 0 || diffDays === 365) {
-            return "🎉 Happy Birthday ❤️";
-        } else if (diffDays === 1) {
-            return "⏳ Tomorrow is the Birthday! ❤️";
-        } else if (diffDays > 0) {
-            return `⏳ ${diffDays} Days Left to Next Birthday`;
-        }
-        return '';
     }
 
     function renderFamilyModule() {
@@ -2475,29 +2530,19 @@
 
         grid.innerHTML = '';
         familyData.forEach((person, idx) => {
-            const bdayText = getBirthdayCountdownText(person.birthday);
-            const isJojoOrLola = person.name.toLowerCase() === 'jojo' || person.name.toLowerCase() === 'lola';
-            
+            const isPrimary = idx === 0 || idx === 1;
+            const countdownText = getBirthdayCountdownText(person.birthday);
+
             grid.innerHTML += `
-                <div class="family-card ${isJojoOrLola ? 'special-featured primary-card' : ''}">
-                    ${isJojoOrLola ? `<div class="family-badge-top">❤️ Our People</div>` : ''}
+                <div class="family-card ${isPrimary ? 'primary-main' : ''}">
+                    ${person.badge ? `<div class="family-badge">${escapeHtml(person.badge)}</div>` : (isPrimary ? `<div class="family-badge">Special</div>` : '')}
                     <div class="family-avatar">${person.avatar || '❤️'}</div>
                     <div>
                         <h3 class="family-card-title">${escapeHtml(person.name)}</h3>
-                        ${person.nickname && person.nickname !== person.name ? `<div class="family-card-sub">${escapeHtml(person.nickname)}</div>` : ''}
+                        ${person.nickname ? `<div class="family-card-sub">${escapeHtml(person.nickname)}</div>` : ''}
                     </div>
-                    
-                    <div style="font-size: 0.9rem; color: #d1d5db; display: flex; flex-direction: column; gap: 0.3rem; text-align: center;">
-                        ${person.birthday ? `<div>🎂 Birthday: ${escapeHtml(person.birthday)}</div>` : ''}
-                        ${bdayText ? `<div style="color: #ff6584; font-weight: 600; font-size: 0.85rem;">${bdayText}</div>` : ''}
-                        ${person.profession ? `<div>🩺 ${escapeHtml(person.profession)}</div>` : ''}
-                        ${person.education ? `<div>🎓 ${escapeHtml(person.education)}</div>` : ''}
-                        ${person.department ? `<div>🔬 ${escapeHtml(person.department)}</div>` : ''}
-                        ${person.relationship ? `<div>❤️ ${escapeHtml(person.relationship)}</div>` : ''}
-                        ${person.dream ? `<div style="color: #f472b6;">💡 Dream: ${escapeHtml(person.dream)}</div>` : ''}
-                    </div>
-
-                    <p class="family-card-desc">${escapeHtml(person.description || person.quote || '')}</p>
+                    <p class="family-card-desc">${escapeHtml(person.description || person.quote || 'Special person in our world ❤️')}</p>
+                    ${person.birthday ? `<div style="font-size: 0.85rem; color: #ffb3c1; font-weight: 500; background: rgba(255,101,132,0.08); padding: 0.3rem 0.8rem; border-radius: 9999px;">🎂 ${escapeHtml(person.birthday)} • ${countdownText}</div>` : ''}
                     <div style="display: flex; gap: 0.5rem; margin-top: auto; flex-wrap: wrap; justify-content: center;">
                         <button class="btn-sm-action" onclick="openPersonProfile(${idx})">View Profile</button>
                         <button class="btn-sm-action" onclick="openEditPersonModal(${idx})">✏️</button>
@@ -2515,11 +2560,9 @@
         document.getElementById('inputPersonNickname').value = "";
         document.getElementById('inputPersonBirthday').value = "";
         document.getElementById('inputPersonProfession').value = "";
-        document.getElementById('inputPersonEducation').value = "";
         document.getElementById('inputPersonDepartment').value = "";
         document.getElementById('inputPersonRelationship').value = "";
         document.getElementById('inputPersonDesc').value = "";
-        document.getElementById('inputPersonDream').value = "";
         document.getElementById('inputPersonQuote').value = "";
         document.getElementById('inputPersonAvatar').value = "❤️";
         document.getElementById('personModal').classList.add('active');
@@ -2534,11 +2577,9 @@
         document.getElementById('inputPersonNickname').value = p.nickname || "";
         document.getElementById('inputPersonBirthday').value = p.birthday || "";
         document.getElementById('inputPersonProfession').value = p.profession || "";
-        document.getElementById('inputPersonEducation').value = p.education || "";
         document.getElementById('inputPersonDepartment').value = p.department || "";
         document.getElementById('inputPersonRelationship').value = p.relationship || "";
         document.getElementById('inputPersonDesc').value = p.description || "";
-        document.getElementById('inputPersonDream').value = p.dream || "";
         document.getElementById('inputPersonQuote').value = p.quote || "";
         document.getElementById('inputPersonAvatar').value = p.avatar || "❤️";
         document.getElementById('personModal').classList.add('active');
@@ -2550,17 +2591,15 @@
         const nickname = document.getElementById('inputPersonNickname').value.trim();
         const birthday = document.getElementById('inputPersonBirthday').value.trim();
         const profession = document.getElementById('inputPersonProfession').value.trim();
-        const education = document.getElementById('inputPersonEducation').value.trim();
         const department = document.getElementById('inputPersonDepartment').value.trim();
         const relationship = document.getElementById('inputPersonRelationship').value.trim();
         const description = document.getElementById('inputPersonDesc').value.trim();
-        const dream = document.getElementById('inputPersonDream').value.trim();
         const quote = document.getElementById('inputPersonQuote').value.trim();
         const avatar = document.getElementById('inputPersonAvatar').value.trim() || "❤️";
 
         if (!name) return;
 
-        const obj = { name, nickname, birthday, profession, education, department, relationship, description, dream, quote, avatar };
+        const obj = { name, nickname, birthday, profession, department, relationship, description, quote, avatar };
 
         if (index === -1) {
             familyData.push(obj);
@@ -2584,22 +2623,19 @@
     function openPersonProfile(index) {
         const p = familyData[index];
         if (!p) return;
-        const bdayText = getBirthdayCountdownText(p.birthday);
+        const countdownText = getBirthdayCountdownText(p.birthday);
         const content = document.getElementById('profileModalContent');
         content.innerHTML = `
             <div class="family-avatar" style="width: 100px; height: 100px; font-size: 2.8rem; margin: 0 auto;">${p.avatar || '❤️'}</div>
             <h3 class="font-serif" style="font-size: 2rem; color: #fff;">${escapeHtml(p.name)}</h3>
             ${p.nickname ? `<p style="color: #ff6584; font-weight: 600;">${escapeHtml(p.nickname)}</p>` : ''}
             <div style="text-align: left; width: 100%; background: rgba(255,255,255,0.03); padding: 1rem; border-radius: 1rem; margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem;">
-                ${p.birthday ? `<div><strong>Birthday:</strong> ${escapeHtml(p.birthday)}</div>` : ''}
-                ${bdayText ? `<div style="color: #ff6584; font-weight: 600;"><strong>Countdown:</strong> ${bdayText}</div>` : ''}
-                ${p.profession ? `<div><strong>Profession:</strong> ${escapeHtml(p.profession)}</div>` : ''}
-                ${p.education ? `<div><strong>Education:</strong> ${escapeHtml(p.education)}</div>` : ''}
+                ${p.birthday ? `<div><strong>Birthday:</strong> ${escapeHtml(p.birthday)} (${countdownText})</div>` : ''}
+                ${p.profession ? `<div><strong>Profession/Education:</strong> ${escapeHtml(p.profession)}</div>` : ''}
                 ${p.department ? `<div><strong>Department:</strong> ${escapeHtml(p.department)}</div>` : ''}
                 ${p.relationship ? `<div><strong>Relationship:</strong> ${escapeHtml(p.relationship)}</div>` : ''}
-                ${p.description ? `<div><strong>Description:</strong> ${escapeHtml(p.description)}</div>` : ''}
-                ${p.dream ? `<div><strong>Dream:</strong> ${escapeHtml(p.dream)}</div>` : ''}
-                ${p.quote ? `<div><strong>Quote:</strong> "${escapeHtml(p.quote)}"</div>` : ''}
+                ${p.description ? `<div><strong>Description / Goal:</strong> ${escapeHtml(p.description)}</div>` : ''}
+                ${p.quote ? `<div><strong>Dream / Quote:</strong> "${escapeHtml(p.quote)}"</div>` : ''}
             </div>
             <button class="main-btn" style="width: 100%; justify-content: center; margin-top: 1rem;" onclick="closeModals()">Close</button>
         `;
@@ -2628,7 +2664,9 @@
                 if (parsed && Array.isArray(parsed)) {
                     ticketsData = parsed;
                 }
-            } catch(e) {}
+            } catch(e) {
+                console.error("Error loading tickets data", e);
+            }
         }
         renderTicketsModule();
     }
@@ -2636,7 +2674,9 @@
     function saveTicketsStorage() {
         try {
             localStorage.setItem('memory_tickets_v1', JSON.stringify(ticketsData));
-        } catch(e) {}
+        } catch(e) {
+            console.error("Error saving tickets data", e);
+        }
     }
 
     function renderTicketsModule() {
@@ -2749,22 +2789,70 @@
     }
 
     // -------------------------------------------------------------
-    // LEITH ASSISTANT — MOOD SYSTEM (leith_mood_v1)
+    // LEITH — LION MOOD AVATAR SYSTEM LOGIC
     // -------------------------------------------------------------
-    const leithMoodsConfig = {
-        happy: { name: "Happy", emoji: "😊", message: "حلو إنك مبسوطة النهارده ❤️", glow: "rgba(52, 211, 153, 0.4)", anim: "pulse 2s infinite" },
-        calm: { name: "Calm", emoji: "😌", message: "الهدوء لايق عليكي ❤️", glow: "rgba(96, 165, 250, 0.4)", anim: "none" },
-        inlove: { name: "In Love", emoji: "😍", message: "واضح إن الحب واخد اليوم كله 😂❤️", glow: "rgba(255, 101, 132, 0.6)", anim: "pulse 1.5s infinite" },
-        sad: { name: "Sad", emoji: "😔", message: "تعالي هنا ❤️ أنا معاكي.", glow: "rgba(156, 163, 175, 0.4)", anim: "none" },
-        angry: { name: "Angry", emoji: "😡", message: "اهدي بس واحكيلي إيه اللي حصل ❤️", glow: "rgba(248, 113, 113, 0.5)", anim: "none" },
-        tired: { name: "Tired", emoji: "😴", message: "شكلك محتاجة ترتاحي شوية 😴❤️", glow: "rgba(167, 139, 250, 0.4)", anim: "none" },
-        stressed: { name: "Stressed", emoji: "😰", message: "خدي نفس... واحدة واحدة ❤️", glow: "rgba(251, 191, 36, 0.4)", anim: "none" },
-        neutral: { name: "Neutral", emoji: "🤍", message: "أنا معاكي كالعادة 🤖❤️", glow: "rgba(255, 255, 255, 0.2)", anim: "none" }
+    const leithMoodConfig = {
+        happy: {
+            name: "Happy (مبصوطة)",
+            emoji: "😊",
+            lionEmoji: "🦁✨",
+            ringClass: "mood-happy",
+            message: "حلو إنك مبسوطة النهارده ❤️"
+        },
+        calm: {
+            name: "Calm (هادية)",
+            emoji: "😌",
+            lionEmoji: "🦁🌿",
+            ringClass: "mood-calm",
+            message: "الهدوء لايق عليكي ❤️"
+        },
+        love: {
+            name: "In Love (في الحب)",
+            emoji: "😍",
+            lionEmoji: "🦁💖",
+            ringClass: "mood-love",
+            message: "واضح إن الحب واخد اليوم كله 😂❤️"
+        },
+        sad: {
+            name: "Sad (زعلانة)",
+            emoji: "😔",
+            lionEmoji: "🦁💧",
+            ringClass: "mood-sad",
+            message: "تعالي هنا ❤️ أنا معاكي."
+        },
+        angry: {
+            name: "Angry (غضبانة)",
+            emoji: "😡",
+            lionEmoji: "🦁🔥",
+            ringClass: "mood-angry",
+            message: "واضح إن آلاء غضبانة 😅❤️ اهدي بس... أنا معاكي ❤️"
+        },
+        tired: {
+            name: "Tired (تعبانة)",
+            emoji: "😴",
+            lionEmoji: "🦁💤",
+            ringClass: "mood-tired",
+            message: "شكلك محتاجة ترتاحي شوية 😴❤️"
+        },
+        stressed: {
+            name: "Stressed (متوترة)",
+            emoji: "😰",
+            lionEmoji: "🦁💫",
+            ringClass: "mood-stressed",
+            message: "خدي نفس... واحدة واحدة ❤️"
+        },
+        neutral: {
+            name: "Neutral (هادية)",
+            emoji: "🤍",
+            lionEmoji: "🦁",
+            ringClass: "mood-neutral",
+            message: "أنا معاكي كالعادة 🦁❤️"
+        }
     };
 
     function initLeithModule() {
-        const savedMood = localStorage.getItem('leith_mood_v1') || 'inlove';
-        applyLeithMood(savedMood, false);
+        const savedMood = localStorage.getItem('leith_mood_v1') || 'neutral';
+        setLeithMood(savedMood, false);
     }
 
     function toggleLeith() {
@@ -2774,28 +2862,33 @@
         }
     }
 
-    function setLeithMood(moodKey) {
-        localStorage.setItem('leith_mood_v1', moodKey);
-        applyLeithMood(moodKey, true);
-    }
+    function setLeithMood(moodKey, save = true) {
+        const config = leithMoodConfig[moodKey] || leithMoodConfig['neutral'];
+        if (save) {
+            localStorage.setItem('leith_mood_v1', moodKey);
+        }
 
-    function applyLeithMood(moodKey, animate) {
-        const config = leithMoodsConfig[moodKey] || leithMoodsConfig['inlove'];
-        
-        const emojiEl = document.getElementById('leithCurrentEmoji');
-        const nameEl = document.getElementById('leithCurrentMoodName');
-        const ringEl = document.getElementById('moodIndicatorRing');
+        // Update Bubble Badge
+        const bubbleEmoji = document.getElementById('leithBubbleEmoji');
+        if (bubbleEmoji) bubbleEmoji.textContent = config.emoji;
+
+        // Update Lion Ring & Class
+        const ring = document.getElementById('leithRing');
+        if (ring) {
+            ring.className = `leith-lion-ring ${config.ringClass}`;
+        }
+
+        // Update Lion Emoji inside ring
+        const lionEmojiSpan = document.getElementById('leithMainLionEmoji');
+        if (lionEmojiSpan) lionEmojiSpan.textContent = config.lionEmoji;
+
+        // Update Mood Title
+        const moodTitleVal = document.getElementById('leithMoodTitleVal');
+        if (moodTitleVal) moodTitleVal.textContent = config.name;
+
+        // Update Leith Message Box
         const msgBox = document.getElementById('leithMsgBox');
-
-        if (emojiEl) emojiEl.textContent = config.emoji;
-        if (nameEl) nameEl.textContent = config.name;
-        if (ringEl) {
-            ringEl.style.boxShadow = `0 0 20px ${config.glow}`;
-            ringEl.style.animation = config.anim;
-        }
-        if (msgBox) {
-            msgBox.innerHTML = config.message;
-        }
+        if (msgBox) msgBox.innerHTML = config.message;
     }
 
     // Surprise Modal
