@@ -786,6 +786,75 @@
         .lightbox-next { right: -20px; }
         @media (min-width: 768px) { .lightbox-next { right: -70px; } }
 
+        /* TIME MESSAGE SECTION */
+        .time-msg-container {
+            max-width: 44rem;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .time-msg-card {
+            background: rgba(20, 21, 30, 0.8);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 101, 132, 0.35);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .time-msg-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .time-msg-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            text-align: left;
+        }
+
+        .time-msg-form-group label {
+            font-size: 0.85rem;
+            color: #d1d5db;
+            font-weight: 500;
+        }
+
+        .time-msg-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .time-msg-input:focus {
+            border-color: #ff6584;
+        }
+
+        .time-msg-display-box {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px dashed rgba(255, 101, 132, 0.4);
+            border-radius: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+        }
+
         .family-container {
             max-width: 64rem;
             margin: 0 auto;
@@ -901,7 +970,7 @@
             padding: 1.75rem;
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 1.0rem;
             position: relative;
             cursor: pointer;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
@@ -948,137 +1017,238 @@
             color: #d1d5db;
         }
 
-        /* SIMPLIFIED SAVINGS SECTION STYLES */
-        .savings-section-container {
-            max-width: 44rem;
+        /* MONEY DASHBOARD */
+        .money-dashboard-container {
+            max-width: 64rem;
             margin: 0 auto;
             padding: 4rem 1.5rem;
             position: relative;
             z-index: 10;
         }
 
-        .savings-card {
+        .money-grid-top {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .money-grid-top {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .money-card {
             background: rgba(20, 21, 30, 0.75);
             backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 101, 132, 0.35);
+            border: 1px solid rgba(255, 101, 132, 0.25);
             border-radius: 1.5rem;
-            padding: 2.5rem 2rem;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            padding: 2rem;
             display: flex;
             flex-direction: column;
-            gap: 1.75rem;
+            justify-content: space-between;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: relative;
         }
 
-        .savings-header-flex {
+        .money-card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            padding-bottom: 1rem;
+            margin-bottom: 1.25rem;
         }
 
-        .savings-title-main {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .savings-row-stats {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .savings-stat-block {
-            display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
-        }
-
-        .savings-stat-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: #9ca3af;
+        .money-card-title {
+            font-size: 1.25rem;
             font-weight: 600;
-        }
-
-        .savings-stat-value {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 2.25rem;
-            font-weight: 700;
-            color: #fff;
-        }
-
-        .savings-stat-value.highlight {
-            background: linear-gradient(135deg, #ff6584 0%, #d946ef 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .savings-progress-wrapper {
+            color: #ff6584;
             display: flex;
-            flex-direction: column;
+            align-items: center;
             gap: 0.5rem;
         }
 
-        .savings-progress-bar-bg {
+        .money-value-display {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .money-sub-value {
+            font-size: 0.95rem;
+            color: #9ca3af;
+        }
+
+        .goals-section-wrapper {
+            background: rgba(20, 21, 30, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        .goals-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.75rem;
+            flex-wrap: wrap;
+            gap: 1.0rem;
+        }
+
+        .goals-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+        }
+
+        @media (min-width: 768px) {
+            .goals-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .goal-card-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.0rem;
+            transition: border-color 0.2s;
+        }
+
+        .goal-card-item:hover {
+            border-color: rgba(255, 101, 132, 0.4);
+        }
+
+        .goal-item-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .goal-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #fff;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .goal-note {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            margin-top: 0.2rem;
+        }
+
+        .goal-amounts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0.75rem 0.5rem;
+            border-radius: 0.75rem;
+            font-size: 0.85rem;
+        }
+
+        .goal-amt-label {
+            font-size: 0.65rem;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.15rem;
+        }
+
+        .goal-amt-val {
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .goal-progress-container {
             width: 100%;
             background: rgba(255, 255, 255, 0.08);
             border-radius: 9999px;
-            height: 14px;
+            height: 10px;
             overflow: hidden;
             position: relative;
         }
 
-        .savings-progress-bar-fill {
+        .goal-progress-fill {
             height: 100%;
             background: linear-gradient(135deg, #ff6584 0%, #d946ef 100%);
             border-radius: 9999px;
             transition: width 0.5s ease;
         }
 
-        .savings-progress-info-row {
+        .goal-progress-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
-        .savings-actions-group {
+        .goal-actions-row {
             display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: flex-end;
             margin-top: 0.5rem;
-        }
-
-        .savings-actions-group button {
-            flex: 1;
-            justify-content: center;
         }
 
         .btn-sm-action {
             background: rgba(255, 255, 255, 0.06);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: #d1d5db;
-            padding: 0.5rem 1rem;
-            border-radius: 0.75rem;
-            font-size: 0.85rem;
+            padding: 0.35rem 0.8rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
             cursor: pointer;
             transition: all 0.2s;
-            font-weight: 500;
         }
 
         .btn-sm-action:hover {
             background: #ff6584;
             border-color: #ff6584;
             color: #fff;
+        }
+
+        .btn-sm-danger:hover {
+            background: #f87171 !important;
+            border-color: #f87171 !important;
+        }
+
+        .money-form-group {
+            margin-bottom: 1.25rem;
+            text-align: left;
+        }
+
+        .money-form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #d1d5db;
+            margin-bottom: 0.4rem;
+            font-weight: 500;
+        }
+
+        .money-form-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .money-form-input:focus {
+            border-color: #ff6584;
         }
 
         .faith-container {
@@ -1106,7 +1276,7 @@
             backdrop-filter: blur(14px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 1.5rem;
-            padding: 2rem;
+            padding: 2.0rem;
             display: flex;
             flex-direction: column;
             gap: 1.25rem;
@@ -1132,7 +1302,7 @@
 
         .faith-verse-box {
             text-align: center;
-            padding: 1rem 0;
+            padding: 1.0rem 0;
             direction: rtl;
         }
 
@@ -1142,7 +1312,7 @@
             font-weight: 600;
             color: #fff;
             line-height: 1.8;
-            margin-bottom: 1rem;
+            margin-bottom: 1.0rem;
         }
 
         .faith-verse-ref {
@@ -1166,7 +1336,7 @@
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 0.85rem;
-            padding: 0.85rem 1rem;
+            padding: 0.85rem 1.0rem;
             font-family: 'Cormorant Garamond', serif;
             font-size: 1.15rem;
             color: #f3f4f6;
@@ -1188,7 +1358,7 @@
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 0.85rem;
-            padding: 0.85rem 1rem;
+            padding: 0.85rem 1.0rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -1217,8 +1387,8 @@
         /* ------------------------------------------------------------- */
         #leithAssistant {
             position: fixed;
-            bottom: 2rem;
-            right: 2rem;
+            bottom: 2.0rem;
+            right: 2.0rem;
             z-index: 9999;
             display: flex;
             flex-direction: column;
@@ -1227,7 +1397,6 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        /* Messenger Chat Head */
         .leith-chat-head {
             width: 64px;
             height: 64px;
@@ -1256,7 +1425,6 @@
             50% { transform: scale(1.04); }
         }
 
-        /* Mood Glow Rings */
         .leith-chat-head.mood-angry {
             border-color: #ef4444;
             box-shadow: 0 0 35px rgba(239, 68, 68, 0.8);
@@ -1292,7 +1460,6 @@
             box-shadow: 0 0 25px rgba(251, 191, 36, 0.6);
         }
 
-        /* Unread Badge */
         .leith-unread-dot {
             position: absolute;
             top: 2px;
@@ -1306,15 +1473,14 @@
         }
         .leith-unread-dot.active { display: block; }
 
-        /* Messenger Speech Bubble */
         .leith-speech-bubble {
             background: rgba(20, 21, 30, 0.95);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 101, 132, 0.4);
             border-radius: 1.25rem;
-            padding: 1rem 1.25rem;
-            max-width: min(320px, calc(100vw - 2rem));
+            padding: 1.0rem 1.25rem;
+            max-width: min(320px, calc(100vw - 2.0rem));
             box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 25px rgba(255, 101, 132, 0.2);
             display: none;
             flex-direction: column;
@@ -1357,13 +1523,6 @@
             line-height: 1.4;
         }
 
-        .leith-sender-tag {
-            font-size: 0.75rem;
-            color: #ffb3c1;
-            font-weight: 600;
-            margin-top: 0.1rem;
-        }
-
         .leith-summary-box {
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.06);
@@ -1399,17 +1558,30 @@
             color: #fff;
         }
 
-        .leith-sender-select-row {
+        .leith-sender-toggle {
             display: flex;
             gap: 0.5rem;
-            align-items: center;
-            margin-top: 0.25rem;
-            font-size: 0.8rem;
+            background: rgba(0,0,0,0.3);
+            padding: 0.25rem;
+            border-radius: 0.5rem;
         }
 
-        .leith-sender-radio {
-            accent-color: #ff6584;
+        .leith-sender-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            color: #9ca3af;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.3rem;
+            border-radius: 0.4rem;
             cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .leith-sender-btn.active {
+            background: #ff6584;
+            color: #fff;
         }
 
         .leith-input-row {
@@ -1453,7 +1625,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 1rem;
+            padding: 1.0rem;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s ease;
@@ -1473,8 +1645,8 @@
 
         .close-modal {
             position: absolute;
-            top: 1rem;
-            right: 1rem;
+            top: 1.0rem;
+            right: 1.0rem;
             background: none;
             border: none;
             color: #9ca3af;
@@ -1482,38 +1654,8 @@
             cursor: pointer;
         }
 
-        .savings-form-group {
-            margin-bottom: 1.25rem;
-            text-align: left;
-        }
-
-        .savings-form-group label {
-            display: block;
-            font-size: 0.85rem;
-            color: #d1d5db;
-            margin-bottom: 0.4rem;
-            font-weight: 500;
-        }
-
-        .savings-form-input {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 0.75rem;
-            padding: 0.75rem 1rem;
-            color: #fff;
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.95rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .savings-form-input:focus {
-            border-color: #ff6584;
-        }
-
         footer {
-            padding: 3rem 1.5rem;
+            padding: 3.0rem 1.5rem;
             text-align: center;
             border-top: 1px solid rgba(255,255,255,0.05);
             color: #6b7280;
@@ -1551,10 +1693,10 @@
     <div class="nav-links">
         <a href="#home">Home</a>
         <a href="#memories">Memories</a>
-        <a href="#timedMessages">Messages</a>
+        <a href="#timeMessageSection">Time Message</a>
         <a href="#familySection">Family</a>
         <a href="#ticketsSection">Tickets</a>
-        <a href="#savingsSection">Savings</a>
+        <a href="#moneySection">Money</a>
         <a href="#faithSection">Faith</a>
     </div>
 </nav>
@@ -1629,8 +1771,9 @@
     </div>
 
     <div class="gallery-tabs">
-        <button class="tab-btn active" onclick="filterGallery('all', event)">All Photos</button>
-        <button class="tab-btn" onclick="filterGallery('special', event)">Special ❤️</button>
+        <button class="tab-btn active" onclick="filterGallery('lola', event)">❤️ لولا</button>
+        <button class="tab-btn" onclick="filterGallery('jojo', event)">❤️ جوجو</button>
+        <button class="tab-btn" onclick="filterGallery('together', event)">❤️ صورنا</button>
     </div>
 
     <div class="photo-grid" id="photoGrid">
@@ -1654,14 +1797,32 @@
     </div>
 </div>
 
-<section id="timedMessages" class="section">
+<section id="timeMessageSection" class="time-msg-container">
     <div class="section-title">
         <p>Messages waiting for the right moment</p>
-        <h2>Timed <span>Messages</span></h2>
+        <h2>⏰ <span>Time Message</span></h2>
     </div>
 
-    <div class="timed-grid" id="timedMsgGrid">
-        <!-- Populated via JS -->
+    <div class="time-msg-card">
+        <div id="timeMessageFormContainer" class="time-msg-form">
+            <div class="time-msg-form-group">
+                <label>Message:</label>
+                <textarea id="inputTimeMsgText" class="time-msg-input" rows="3" placeholder="اكتب رسالتك هنا..."></textarea>
+            </div>
+            <div class="time-msg-form-group">
+                <label>Open Date:</label>
+                <input type="date" id="inputTimeMsgDate" class="time-msg-input">
+            </div>
+            <div class="time-msg-form-group">
+                <label>Open Time:</label>
+                <input type="time" id="inputTimeMsgTime" class="time-msg-input">
+            </div>
+            <button class="main-btn" style="justify-content: center; margin-top: 0.5rem;" onclick="saveTimeMessage()">💌 Save Time Message</button>
+        </div>
+
+        <div id="timeMessageViewContainer" style="display: none;" class="time-msg-display-box">
+            <!-- Rendered via JS -->
+        </div>
     </div>
 </section>
 
@@ -1696,55 +1857,56 @@
     </div>
 </section>
 
-<section id="savingsSection" class="savings-section-container">
+<section id="moneySection" class="money-dashboard-container">
     <div class="section-title">
         <p>A small step every day brings us closer to our dreams ❤️</p>
         <h2>💰 <span>ادخاري</span></h2>
     </div>
 
-    <div class="savings-card">
-        <div class="savings-header-flex">
-            <div class="savings-title-main">
-                <span>🎯</span> عشان نتجوز ❤️
+    <div class="goals-section-wrapper">
+        <div class="goals-header-row">
+            <div>
+                <h3 class="font-serif" style="font-size: 1.5rem; color: #fff;">عشان نتجوز ❤️</h3>
+                <p style="color: #9ca3af; font-size: 0.85rem;">تتبع هدفنا خطوة بخطوة</p>
             </div>
             <button class="btn-sm-action" onclick="openEditGoalModal()">✏️ تعديل الهدف</button>
         </div>
 
-        <div class="savings-row-stats">
-            <div class="savings-stat-block">
-                <span class="savings-stat-label">المبلغ الحالي</span>
-                <span class="savings-stat-value highlight" id="displayCurrentSavings">6,000 ج.م</span>
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1.0rem; margin-bottom: 1.5rem;">
+            <div>
+                <div style="font-size: 0.75rem; text-transform: uppercase; color: #9ca3af; font-weight: 600;">المبلغ الحالي</div>
+                <div id="displayCurrentSavings" style="font-family: 'Cormorant Garamond', serif; font-size: 2.25rem; font-weight: 700; color: #ff6584;">6,000 ج.م</div>
             </div>
-            <div class="savings-stat-block" style="text-align: right;">
-                <span class="savings-stat-label">الهدف</span>
-                <span class="savings-stat-value" id="displaySavingsGoal">300,000 ج.م</span>
+            <div style="text-align: right;">
+                <div style="font-size: 0.75rem; text-transform: uppercase; color: #9ca3af; font-weight: 600;">الهدف</div>
+                <div id="displaySavingsGoal" style="font-family: 'Cormorant Garamond', serif; font-size: 2.25rem; font-weight: 700; color: #fff;">300,000 ج.م</div>
             </div>
         </div>
 
-        <div class="savings-progress-wrapper">
-            <div class="savings-progress-bar-bg">
-                <div class="savings-progress-bar-fill" id="savingsProgressFill" style="width: 2%;"></div>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.5rem;">
+            <div class="goal-progress-container">
+                <div class="goal-progress-fill" id="savingsProgressFill" style="width: 2%;"></div>
             </div>
-            <div class="savings-progress-info-row">
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem;">
                 <span id="displaySavingsPercent" style="font-weight: 600; color: #ff6584;">2%</span>
                 <span id="displaySavingsRemaining" style="color: #9ca3af;">باقي 294,000 ج.م</span>
             </div>
         </div>
 
-        <div class="savings-actions-group">
-            <button class="main-btn" onclick="openAddAmountModal()">➕ إضافة مبلغ</button>
+        <div style="display: flex; gap: 1.0rem;">
+            <button class="main-btn" style="flex: 1; justify-content: center;" onclick="openAddAmountModal()">➕ إضافة مبلغ</button>
         </div>
     </div>
 </section>
 
-<!-- Add Amount Modal -->
+<!-- Savings Modals -->
 <div class="modal" id="addAmountModal">
     <div class="modal-content">
         <button class="close-modal" onclick="closeModals()">×</button>
         <h3 class="font-serif" style="font-size: 1.75rem; color: #fff; margin-bottom: 1.25rem;">إضافة مبلغ للادخار</h3>
-        <div class="savings-form-group">
+        <div class="money-form-group">
             <label>المبلغ (ج.م)</label>
-            <input type="number" id="inputAddAmount" class="savings-form-input" placeholder="1000">
+            <input type="number" id="inputAddAmount" class="money-form-input" placeholder="1000">
         </div>
         <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
             <button class="main-btn" style="flex: 1; justify-content: center;" onclick="saveAddedAmount()">حفظ</button>
@@ -1753,14 +1915,13 @@
     </div>
 </div>
 
-<!-- Edit Goal Modal -->
 <div class="modal" id="editSavingsGoalModal">
     <div class="modal-content">
         <button class="close-modal" onclick="closeModals()">×</button>
         <h3 class="font-serif" style="font-size: 1.75rem; color: #fff; margin-bottom: 1.25rem;">تعديل هدف الادخار</h3>
-        <div class="savings-form-group">
+        <div class="money-form-group">
             <label>الهدف الجديد (ج.م)</label>
-            <input type="number" id="inputNewGoal" class="savings-form-input" placeholder="300000">
+            <input type="number" id="inputNewGoal" class="money-form-input" placeholder="300000">
         </div>
         <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
             <button class="main-btn" style="flex: 1; justify-content: center;" onclick="saveNewSavingsGoal()">حفظ</button>
@@ -1775,41 +1936,41 @@
         <button class="close-modal" onclick="closeModals()">×</button>
         <h3 class="font-serif" style="font-size: 1.75rem; color: #fff; margin-bottom: 1.25rem;" id="personModalTitle">Add Person</h3>
         <input type="hidden" id="editPersonIndex" value="-1">
-        <div class="savings-form-group">
+        <div class="money-form-group">
             <label>Name</label>
-            <input type="text" id="inputPersonName" class="savings-form-input" placeholder="Name">
+            <input type="text" id="inputPersonName" class="money-form-input" placeholder="Name">
         </div>
-        <div class="savings-form-group">
+        <div class="money-form-group">
             <label>Nickname</label>
-            <input type="text" id="inputPersonNickname" class="savings-form-input" placeholder="Nickname">
+            <input type="text" id="inputPersonNickname" class="money-form-input" placeholder="Nickname">
         </div>
-        <div class="savings-form-group">
+        <div class="money-form-group">
             <label>Birthday</label>
-            <input type="text" id="inputPersonBirthday" class="savings-form-input" placeholder="DD/MM/YYYY">
+            <input type="text" id="inputPersonBirthday" class="money-form-input" placeholder="DD/MM/YYYY">
         </div>
-        <div class="savings-form-group">
+        <div class="money-form-group">
             <label>Profession / Education</label>
-            <input type="text" id="inputPersonProfession" class="savings-form-input" placeholder="Profession or Faculty">
+            <input type="text" id="inputPersonProfession" class="money-form-input" placeholder="Profession or Faculty">
         </div>
-        <div class="savings-form-group">
+        <div class="money-form-group">
             <label>Department / Specialization</label>
-            <input type="text" id="inputPersonDepartment" class="savings-form-input" placeholder="Department">
+            <input type="text" id="inputPersonDepartment" class="money-form-input" placeholder="Department">
         </div>
-        <div class="savings-form-group">
+        <div class="money-form-group">
             <label>Relationship</label>
-            <input type="text" id="inputPersonRelationship" class="savings-form-input" placeholder="Relationship">
+            <input type="text" id="inputPersonRelationship" class="money-form-input" placeholder="Relationship">
         </div>
-        <div class="savings-form-group">
+        <div class="money-form-group">
             <label>Short Description / Goal</label>
-            <input type="text" id="inputPersonDesc" class="savings-form-input" placeholder="Description or Current Goal">
+            <input type="text" id="inputPersonDesc" class="money-form-input" placeholder="Description or Current Goal">
         </div>
-        <div class="savings-form-group">
+        <div class="money-form-group">
             <label>Dream / Quote</label>
-            <input type="text" id="inputPersonQuote" class="savings-form-input" placeholder="Dream or Quote">
+            <input type="text" id="inputPersonQuote" class="money-form-input" placeholder="Dream or Quote">
         </div>
-        <div class="savings-form-group">
+        <div class="money-form-group">
             <label>Avatar (Emoji / Symbol)</label>
-            <input type="text" id="inputPersonAvatar" class="savings-form-input" placeholder="❤️ or 🩺">
+            <input type="text" id="inputPersonAvatar" class="money-form-input" placeholder="❤️ or 🩺">
         </div>
         <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
             <button class="main-btn" style="flex: 1; justify-content: center;" onclick="savePersonItem()">Save</button>
@@ -1821,7 +1982,7 @@
 <div class="modal" id="personProfileModal">
     <div class="modal-content">
         <button class="close-modal" onclick="closeModals()">×</button>
-        <div id="profileModalContent" style="display: flex; flex-direction: column; align-items: center; gap: 1rem; text-align: center;">
+        <div id="profileModalContent" style="display: flex; flex-direction: column; align-items: center; gap: 1.0rem; text-align: center;">
             <!-- Populated via JS -->
         </div>
     </div>
@@ -1833,29 +1994,29 @@
         <button class="close-modal" onclick="closeModals()">×</button>
         <h3 class="font-serif" style="font-size: 1.75rem; color: #fff; margin-bottom: 1.25rem;" id="ticketModalTitle">Add Memory Ticket</h3>
         <input type="hidden" id="editTicketIndex" value="-1">
-        <div class="savings-form-group">
+        <div class="money-form-group">
             <label>Memory Title</label>
-            <input type="text" id="inputTicketTitle" class="savings-form-input" placeholder="Cinema Night">
+            <input type="text" id="inputTicketTitle" class="money-form-input" placeholder="Cinema Night">
         </div>
-        <div class="savings-form-group">
+        <div class="money-form-group">
             <label>Type</label>
-            <input type="text" id="inputTicketType" class="savings-form-input" placeholder="🎬 Cinema">
+            <input type="text" id="inputTicketType" class="money-form-input" placeholder="🎬 Cinema">
         </div>
-        <div class="savings-form-group">
+        <div class="money-form-group">
             <label>Date</label>
-            <input type="text" id="inputTicketDate" class="savings-form-input" placeholder="15 August 2026">
+            <input type="text" id="inputTicketDate" class="money-form-input" placeholder="15 August 2026">
         </div>
-        <div class="savings-form-group">
+        <div class="money-form-group">
             <label>Place</label>
-            <input type="text" id="inputTicketPlace" class="savings-form-input" placeholder="Mall of Egypt">
+            <input type="text" id="inputTicketPlace" class="money-form-input" placeholder="Mall of Egypt">
         </div>
-        <div class="savings-form-group">
+        <div class="money-form-group">
             <label>Short Note</label>
-            <input type="text" id="inputTicketNote" class="savings-form-input" placeholder="Our first movie night ❤️">
+            <input type="text" id="inputTicketNote" class="money-form-input" placeholder="Our first movie night ❤️">
         </div>
-        <div class="savings-form-group">
+        <div class="money-form-group">
             <label>Details</label>
-            <input type="text" id="inputTicketDetails" class="savings-form-input" placeholder="Longer memory description">
+            <input type="text" id="inputTicketDetails" class="money-form-input" placeholder="Longer memory description">
         </div>
         <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
             <button class="main-btn" style="flex: 1; justify-content: center;" onclick="saveTicketItem()">Save</button>
@@ -1867,7 +2028,7 @@
 <div class="modal" id="ticketDetailsModal">
     <div class="modal-content">
         <button class="close-modal" onclick="closeModals()">×</button>
-        <div id="ticketDetailsContent" style="display: flex; flex-direction: column; gap: 1rem; text-align: left;">
+        <div id="ticketDetailsContent" style="display: flex; flex-direction: column; gap: 1.0rem; text-align: left;">
             <!-- Populated via JS -->
         </div>
     </div>
@@ -1923,9 +2084,9 @@
     </div>
 </section>
 
-<section class="section" style="text-align: center; padding-bottom: 8rem;">
+<section class="section" style="text-align: center; padding-bottom: 8.0rem;">
     <p class="small-title">One last thing...</p>
-    <h2 style="font-size: 2.5rem; margin-bottom: 2rem; font-family: 'Cormorant Garamond', serif;">
+    <h2 style="font-size: 2.5rem; margin-bottom: 2.0rem; font-family: 'Cormorant Garamond', serif;">
         There's something I want to tell you
     </h2>
     <button class="main-btn" onclick="openSurprise()">
@@ -1936,8 +2097,8 @@
 <div class="modal" id="surpriseModal">
     <div class="modal-content">
         <button class="close-modal" onclick="closeSurprise()">×</button>
-        <div style="font-size: 3rem; color: #ff6584; margin-bottom: 1rem;">♥</div>
-        <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 2rem; margin-bottom: 1rem;">I Choose You.</h3>
+        <div style="font-size: 3.0rem; color: #ff6584; margin-bottom: 1.0rem;">♥</div>
+        <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 2.0rem; margin-bottom: 1.0rem;">I Choose You.</h3>
         <p style="color: #d1d5db; line-height: 1.6; margin-bottom: 1.5rem;">
             Today.<br>Tomorrow.<br>And in every beautiful moment to come.
         </p>
@@ -1957,7 +2118,7 @@
         </div>
         <div>
             <div class="leith-bubble-text" id="leithMessageText">أهلاً يا لولا 🦁❤️ إزيك النهارده؟</div>
-            <div class="leith-sender-tag" id="leithSenderTag">❤️ جوجو</div>
+            <div id="leithSenderDisplay" style="font-size: 0.75rem; color: #ffb3c1; font-weight: 600; margin-top: 0.2rem;">❤️ جوجو</div>
         </div>
         
         <!-- Daily Summary Box -->
@@ -1976,17 +2137,13 @@
             <button class="leith-action-btn" onclick="triggerLeithSurprise()">🎁 Surprise</button>
         </div>
 
-        <!-- Sender Selection (Jojo / Lola) -->
-        <div class="leith-sender-select-row">
-            <label style="cursor: pointer; display: flex; align-items: center; gap: 0.25rem;">
-                <input type="radio" name="leithSender" value="jojo" checked class="leith-sender-radio"> ❤️ جوجو
-            </label>
-            <label style="cursor: pointer; display: flex; align-items: center; gap: 0.25rem; margin-left: 0.75rem;">
-                <input type="radio" name="leithSender" value="lola" class="leith-sender-radio"> 🤍 لولا
-            </label>
+        <!-- Sender Toggle (Jojo / Lola) -->
+        <div class="leith-sender-toggle">
+            <button type="button" class="leith-sender-btn active" id="senderBtnJojo" onclick="setLeithSender('jojo')">❤️ جوجو</button>
+            <button type="button" class="leith-sender-btn" id="senderBtnLola" onclick="setLeithSender('lola')">🤍 لولا</button>
         </div>
 
-        <!-- User to Leith / Private Message Input -->
+        <!-- User to Leith Input -->
         <div class="leith-input-row">
             <input type="text" id="leithUserInput" class="leith-user-input" placeholder="اكتبي رسالة..." onkeypress="handleLeithKeypress(event)">
             <button class="leith-send-btn" onclick="sendLeithMessage()">إرسال</button>
@@ -2009,7 +2166,7 @@
     // -------------------------------------------------------------
     // CENTRAL APP PERSISTENCE STORAGE ENGINE
     // -------------------------------------------------------------
-    const APP_STORAGE_KEY = 'lola_forever_app_state_v3';
+    const APP_STORAGE_KEY = 'lola_forever_app_state_v4';
 
     let appState = {
         leith: {
@@ -2021,6 +2178,11 @@
         savings: {
             currentSavings: 6000,
             savingsGoal: 300000
+        },
+        timeMessage: {
+            message: "",
+            openDate: "",
+            openTime: ""
         },
         todos: [
             { id: 1, text: "Drink water and smile ❤️", completed: false },
@@ -2109,8 +2271,8 @@
         initCountdown();
         initLoveMessages();
         initTodoList();
-        renderGallery(photos);
-        renderTimedMessages();
+        renderGallery('lola');
+        renderTimeMessageSection();
         createFloatingHearts();
         renderSavingsSection();
         initFaithModule();
@@ -2195,9 +2357,7 @@
         "You are stronger than you think 💪❤️",
         "I will always be proud of you 🫶❤️"
     ];
-    // Generate up to 100 items filling out natural sweet reasons
     for (let i = loveReasonsArray.length + 1; i <= 100; i++) {
-        loveReasonsArray.choices = loveReasonsArray.choices || [];
         loveReasonsArray.push(`سبب رقم ${i}: وجودك يملأ قلبي سعادة وسلامًا كل يوم ❤️`);
     }
 
@@ -2292,23 +2452,49 @@
         return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
     }
 
-    // Gallery & Lightbox Data
-    const photos = [
-        { id: "photo-1", file: "images/alaa-childhood.jpg", title: "Childhood Photo", description: "The sweetest smile from long ago ❤️", category: "special" },
-        { id: "photo-2", file: "images/alaa-eyes.jpg", title: "Your Eyes", description: "The eyes that light up my entire world ❤️", category: "special" },
-        { id: "photo-3", file: "images/our-photo-1.jpg", title: "Together", description: "Every moment together is precious", category: "special" }
-    ];
+    // -------------------------------------------------------------
+    // PHOTOS SECTION — 3 FOLDERS (LOLA, JOJO, TOGETHER)
+    // -------------------------------------------------------------
+    const foldersData = {
+        lola: [
+            { id: "lola-1", file: "images/lola/lola1.jpg", title: "Lola 1", description: "Beautiful moment ❤️" },
+            { id: "lola-2", file: "images/lola/lola2.jpg", title: "Lola 2", description: "Gorgeous smile ✨" },
+            { id: "lola-3", file: "images/lola/lola3.jpg", title: "Lola 3", description: "Precious memory 🌸" },
+            { id: "lola-4", file: "images/lola/lola4.jpg", title: "Lola 4", description: "My favorite person 💖" }
+        ],
+        jojo: [
+            { id: "jojo-1", file: "images/jojo/jojo1.jpg", title: "Jojo 1", description: "Working hard 💻" },
+            { id: "jojo-2", file: "images/jojo/jojo2.jpg", title: "Jojo 2", description: "Ready for the day 🌟" },
+            { id: "jojo-3", file: "images/jojo/jojo3.jpg", title: "Jojo 3", description: "Focused & determined 💪" },
+            { id: "jojo-4", file: "images/jojo/jojo4.jpg", title: "Jojo 4", description: "Always by your side ❤️" }
+        ],
+        together: [
+            { id: "tog-1", file: "images/together/together1.jpg", title: "Together 1", description: "Our special day 🌹" },
+            { id: "tog-2", file: "images/together/together2.jpg", title: "Together 2", description: "Laughs & memories 🥂" },
+            { id: "tog-3", file: "images/together/together3.jpg", title: "Together 3", description: "Side by side 🤝" },
+            { id: "tog-4", file: "images/together/together4.jpg", title: "Together 4", description: "Forever with you ✨" }
+        ]
+    };
 
+    let activeFolder = 'lola';
     let activeLightboxIndex = 0;
 
-    function renderGallery(list) {
+    function renderGallery(folderKey) {
+        activeFolder = folderKey;
         const grid = document.getElementById('photoGrid');
         if (!grid) return;
+
+        document.querySelectorAll('.gallery-tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
+        if (event && event.target && event.target.classList) {
+            event.target.classList.add('active');
+        }
+
+        const photos = foldersData[folderKey] || [];
         grid.innerHTML = '';
-        list.forEach((photo) => {
-            const originalIndex = photos.findIndex(p => p.id === photo.id);
+
+        photos.forEach((photo, idx) => {
             grid.innerHTML += `
-                <div class="photo-card" onclick="openLightbox(${originalIndex})">
+                <div class="photo-card" onclick="openLightbox(${idx})">
                     <div class="photo-img-wrapper">
                         <img src="${photo.file}" alt="${photo.title}" loading="lazy" onerror="this.src='https://placehold.co/600x400/1e1b2e/ff6584?text=Photo';">
                     </div>
@@ -2321,11 +2507,32 @@
         });
     }
 
-    function filterGallery(category, event) {
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        event.target.classList.add('active');
-        if (category === 'all') renderGallery(photos);
-        else renderGallery(photos.filter(p => p.category === category));
+    function filterGallery(folderKey, eventObj) {
+        activeFolder = folderKey;
+        const grid = document.getElementById('photoGrid');
+        if (!grid) return;
+
+        document.querySelectorAll('.gallery-tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
+        if (eventObj && eventObj.target && eventObj.target.classList) {
+            eventObj.target.classList.add('active');
+        }
+
+        const photos = foldersData[folderKey] || [];
+        grid.innerHTML = '';
+
+        photos.forEach((photo, idx) => {
+            grid.innerHTML += `
+                <div class="photo-card" onclick="openLightbox(${idx})">
+                    <div class="photo-img-wrapper">
+                        <img src="${photo.file}" alt="${photo.title}" loading="lazy" onerror="this.src='https://placehold.co/600x400/1e1b2e/ff6584?text=Photo';">
+                    </div>
+                    <div class="photo-info">
+                        <h3>${photo.title}</h3>
+                        <p>${photo.description}</p>
+                    </div>
+                </div>
+            `;
+        });
     }
 
     function openLightbox(index) {
@@ -2339,6 +2546,7 @@
     }
 
     function updateLightboxContent() {
+        const photos = foldersData[activeFolder] || [];
         const photo = photos[activeLightboxIndex];
         if (!photo) return;
         document.getElementById('lightboxImg').src = photo.file;
@@ -2347,71 +2555,98 @@
     }
 
     function prevPhoto() {
+        const photos = foldersData[activeFolder] || [];
         activeLightboxIndex = (activeLightboxIndex - 1 + photos.length) % photos.length;
         updateLightboxContent();
     }
 
     function nextPhoto() {
+        const photos = foldersData[activeFolder] || [];
         activeLightboxIndex = (activeLightboxIndex + 1) % photos.length;
         updateLightboxContent();
     }
 
-    // Timed Messages
-    const timedMessages = [
-        { id: 1, title: 'When you miss me', message: 'I am always thinking of you and right by your side ❤️', date: '2026-08-08', time: '08:00' },
-        { id: 2, title: 'Special Note', message: 'You are the best thing that ever happened to me ✨', date: '2026-08-10', time: '12:00' }
-    ];
+    // -------------------------------------------------------------
+    // TIME MESSAGE SECTION LOGIC
+    // -------------------------------------------------------------
+    function renderTimeMessageSection() {
+        const formContainer = document.getElementById('timeMessageFormContainer');
+        const viewContainer = document.getElementById('timeMessageViewContainer');
+        if (!formContainer || !viewContainer) return;
 
-    function renderTimedMessages() {
-        const grid = document.getElementById('timedMsgGrid');
-        if (!grid) return;
-        grid.innerHTML = '';
+        const tm = appState.timeMessage;
+        if (!tm || !tm.message || !tm.openDate) {
+            formContainer.style.display = 'flex';
+            viewContainer.style.display = 'none';
+            document.getElementById('inputTimeMsgText').value = "";
+            document.getElementById('inputTimeMsgDate').value = "";
+            document.getElementById('inputTimeMsgTime').value = "";
+            return;
+        }
+
+        const targetDateTime = new Date(`${tm.openDate}T${tm.openTime || '00:00'}:00`);
         const now = new Date();
+        const isUnlocked = now >= targetDateTime;
 
-        timedMessages.forEach(msg => {
-            const targetDate = new Date(`${msg.date}T${msg.time}:00`);
-            const isUnlocked = now >= targetDate;
-            grid.innerHTML += `
-                <div class="timed-card">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-weight: 600; color: #ff6584;">${msg.title}</span>
-                        <span class="timed-badge ${isUnlocked ? 'unlocked' : 'locked'}">${isUnlocked ? '💌 Unlocked' : '🔒 Locked'}</span>
-                    </div>
-                    <div style="font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: #fff;">
-                        ${isUnlocked ? msg.message : '🔒 This message will unlock at the scheduled time.'}
-                    </div>
+        if (isUnlocked) {
+            formContainer.style.display = 'none';
+            viewContainer.style.display = 'flex';
+            viewContainer.innerHTML = `
+                <span class="ticket-type-badge">💌 Time Message Unlocked</span>
+                <div style="font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: #fff; font-weight: 600; line-height: 1.5;">
+                    "${escapeHtml(tm.message)}"
                 </div>
+                <div style="color: #9ca3af; font-size: 0.85rem; display: flex; gap: 1.5rem; margin-top: 0.5rem;">
+                    <span>📅 ${escapeHtml(tm.openDate)}</span>
+                    <span>⏰ ${escapeHtml(tm.openTime || '00:00')}</span>
+                </div>
+                <button class="btn-sm-action" style="margin-top: 1rem;" onclick="editTimeMessage()">✏️ تعديل</button>
             `;
-        });
+        } else {
+            formContainer.style.display = 'none';
+            viewContainer.style.display = 'flex';
+            viewContainer.innerHTML = `
+                <span class="ticket-type-badge">🔒 رسالة مؤجلة</span>
+                <div style="font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: #fff; font-weight: 600;">
+                    "في رسالة مستنياكي... ❤️"
+                </div>
+                <div style="color: #ff6584; font-size: 0.9rem; margin-top: 0.5rem;">
+                    تفتح في: ${escapeHtml(tm.openDate)} عند الساعة ${escapeHtml(tm.openTime || '00:00')}
+                </div>
+                <button class="btn-sm-action" style="margin-top: 1rem;" onclick="editTimeMessage()">✏️ تعديل</button>
+            `;
+        }
     }
 
-    // Birthday Countdown Engine for Family
-    function getBirthdayCountdownText(birthdayStr) {
-        if (!birthdayStr) return "";
-        const parts = birthdayStr.split('/');
-        if (parts.length !== 3) return "";
-        const day = parseInt(parts[0], 10);
-        const month = parseInt(parts[1], 10) - 1;
+    function saveTimeMessage() {
+        const text = document.getElementById('inputTimeMsgText').value.trim();
+        const date = document.getElementById('inputTimeMsgDate').value.trim();
+        const time = document.getElementById('inputTimeMsgTime').value.trim();
 
-        const now = new Date();
-        let targetYear = now.getFullYear();
-        let targetDate = new Date(targetYear, month, day);
+        if (!text || !date) return;
 
-        if (now > targetDate) {
-            targetYear++;
-            targetDate = new Date(targetYear, month, day);
-        }
+        appState.timeMessage = {
+            message: text,
+            openDate: date,
+            openTime: time
+        };
 
-        const diffTime = targetDate - now;
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        saveAppState();
+        renderTimeMessageSection();
+    }
 
-        if (diffDays === 0) {
-            return "🎉 Happy Birthday ❤️";
-        } else if (diffDays === 1) {
-            return "⏳ Tomorrow is the Birthday! ❤️";
-        } else {
-            return `⏳ ${diffDays} Days Left`;
-        }
+    function editTimeMessage() {
+        const tm = appState.timeMessage;
+        const formContainer = document.getElementById('timeMessageFormContainer');
+        const viewContainer = document.getElementById('timeMessageViewContainer');
+        if (!formContainer || !viewContainer) return;
+
+        document.getElementById('inputTimeMsgText').value = tm.message || "";
+        document.getElementById('inputTimeMsgDate').value = tm.openDate || "";
+        document.getElementById('inputTimeMsgTime').value = tm.openTime || "";
+
+        viewContainer.style.display = 'none';
+        formContainer.style.display = 'flex';
     }
 
     // Family & Friends Module with App State Persistence
@@ -2452,6 +2687,30 @@
                 </div>
             `;
         });
+    }
+
+    function getBirthdayCountdownText(birthdayStr) {
+        if (!birthdayStr) return "";
+        const parts = birthdayStr.split('/');
+        if (parts.length !== 3) return "";
+        const day = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10) - 1;
+
+        const now = new Date();
+        let targetYear = now.getFullYear();
+        let targetDate = new Date(targetYear, month, day);
+
+        if (now > targetDate) {
+            targetYear++;
+            targetDate = new Date(targetYear, month, day);
+        }
+
+        const diffTime = targetDate - now;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        if (diffDays === 0) return "🎉 Happy Birthday ❤️";
+        else if (diffDays === 1) return "⏳ Tomorrow is the Birthday! ❤️";
+        else return `⏳ ${diffDays} Days Left`;
     }
 
     function openAddPersonModal() {
@@ -2528,7 +2787,7 @@
         const content = document.getElementById('profileModalContent');
         content.innerHTML = `
             <div class="family-avatar" style="width: 100px; height: 100px; font-size: 2.8rem; margin: 0 auto;">${p.avatar || '❤️'}</div>
-            <h3 class="font-serif" style="font-size: 2rem; color: #fff;">${escapeHtml(p.name)}</h3>
+            <h3 class="font-serif" style="font-size: 2.0rem; color: #fff;">${escapeHtml(p.name)}</h3>
             ${p.nickname ? `<p style="color: #ff6584; font-weight: 600;">${escapeHtml(p.nickname)}</p>` : ''}
             <div style="text-align: left; width: 100%; background: rgba(255,255,255,0.03); padding: 1rem; border-radius: 1rem; margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem;">
                 ${p.birthday ? `<div><strong>Birthday:</strong> ${escapeHtml(p.birthday)} (${countdownText})</div>` : ''}
@@ -2538,7 +2797,7 @@
                 ${p.description ? `<div><strong>Description / Goal:</strong> ${escapeHtml(p.description)}</div>` : ''}
                 ${p.quote ? `<div><strong>Dream / Quote:</strong> "${escapeHtml(p.quote)}"</div>` : ''}
             </div>
-            <button class="main-btn" style="width: 100%; justify-content: center; margin-top: 1rem;" onclick="closeModals()">Close</button>
+            <button class="main-btn" style="width: 100%; justify-content: center; margin-top: 1.0rem;" onclick="closeModals()">Close</button>
         `;
         document.getElementById('personProfileModal').classList.add('active');
     }
@@ -2641,14 +2900,14 @@
         const content = document.getElementById('ticketDetailsContent');
         content.innerHTML = `
             <span class="ticket-type-badge" style="align-self: flex-start;">${escapeHtml(t.type)}</span>
-            <h3 class="font-serif" style="font-size: 2rem; color: #fff;">${escapeHtml(t.title)}</h3>
+            <h3 class="font-serif" style="font-size: 2.0rem; color: #fff;">${escapeHtml(t.title)}</h3>
             <div style="color: #9ca3af; font-size: 0.9rem; display: flex; gap: 1.5rem;">
                 <span>📅 ${escapeHtml(t.date)}</span>
                 <span>📍 ${escapeHtml(t.place)}</span>
             </div>
-            <p style="color: #d1d5db; font-size: 1rem; margin-top: 0.5rem; background: rgba(255,255,255,0.03); padding: 1rem; border-radius: 1rem;">${escapeHtml(t.note)}</p>
+            <p style="color: #d1d5db; font-size: 1.0rem; margin-top: 0.5rem; background: rgba(255,255,255,0.03); padding: 1.0rem; border-radius: 1.0rem;">${escapeHtml(t.note)}</p>
             ${t.details ? `<p style="color: #9ca3af; font-size: 0.9rem;">${escapeHtml(t.details)}</p>` : ''}
-            <button class="main-btn" style="width: 100%; justify-content: center; margin-top: 1rem;" onclick="closeModals()">Close</button>
+            <button class="main-btn" style="width: 100%; justify-content: center; margin-top: 1.0rem;" onclick="closeModals()">Close</button>
         `;
         document.getElementById('ticketDetailsModal').classList.add('active');
     }
@@ -2789,7 +3048,6 @@
     ];
 
     function initFaithModule() {
-        // Calculate day-based index for 48 verses cycling
         const startDate = new Date('2026-01-01T00:00:00').getTime();
         const now = new Date().getTime();
         const diffDays = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
@@ -2854,7 +3112,7 @@
                 <div class="faith-prayer-item ${isDone ? 'completed' : ''}" onclick="togglePrayer('${p.key}')">
                     <div style="display: flex; align-items: center; gap: 0.75rem;">
                         <input type="checkbox" ${isDone ? 'checked' : ''} onclick="event.stopPropagation(); togglePrayer('${p.key}')">
-                        <span style="font-weight: 500; font-size: 1rem; color: #f3f4f6;">${p.name}</span>
+                        <span style="font-weight: 500; font-size: 1.0rem; color: #f3f4f6;">${p.name}</span>
                     </div>
                     <span style="font-size: 0.8rem; color: ${isDone ? '#34d399' : '#9ca3af'};">${isDone ? 'Completed' : 'Pending'}</span>
                 </div>
@@ -2878,7 +3136,7 @@
     }
 
     // -------------------------------------------------------------
-    // LEITH 2.0 — PERSISTENT MOOD & SENDER TOGGLE (Jojo / Lola)
+    // LEITH 2.0 — SENDER TOGGLE (Jojo / Lola) & PERSISTENCE
     // -------------------------------------------------------------
     const leithMoodDefinitions = {
         angry: { name: "Angry", emoji: "😡", headEmoji: "🦁🔥", ringClass: "mood-angry", responses: ["متزعليش من جوجو ❤️", "جوجو بيحبك ❤️", "خلاص يا بت 😂❤️", "اهدي بس ❤️"] },
@@ -2931,9 +3189,7 @@
         appState.leith.sender = 'jojo';
         appState.leith.isPersistentMsg = true;
 
-        if (save) {
-            saveAppState();
-        }
+        if (save) saveAppState();
 
         applyLeithMoodUI(moodKey);
         showLeithMessage(randomResp, 'jojo');
@@ -2953,15 +3209,39 @@
         if (title) title.textContent = `🦁 Leith (${def.name})`;
     }
 
+    function setLeithSender(sender) {
+        appState.leith.sender = sender;
+        saveAppState();
+
+        const btnJojo = document.getElementById('senderBtnJojo');
+        const btnLola = document.getElementById('senderBtnLola');
+        if (btnJojo && btnLola) {
+            if (sender === 'jojo') {
+                btnJojo.classList.add('active');
+                btnLola.classList.remove('active');
+            } else {
+                btnLola.classList.add('active');
+                btnJojo.classList.remove('active');
+            }
+        }
+        const senderDisplay = document.getElementById('leithSenderDisplay');
+        if (senderDisplay) {
+            senderDisplay.textContent = sender === 'jojo' ? '❤️ جوجو' : '🤍 لولا';
+        }
+    }
+
     function showLeithMessage(msg, sender = 'jojo') {
         const textEl = document.getElementById('leithMessageText');
-        const senderTag = document.getElementById('leithSenderTag');
+        const senderDisplay = document.getElementById('leithSenderDisplay');
         const dot = document.getElementById('leithUnreadDot');
+
         if (textEl) textEl.textContent = msg;
-        if (senderTag) {
-            senderTag.textContent = sender === 'jojo' ? '❤️ جوجو' : '🤍 لولا';
+        if (senderDisplay) {
+            senderDisplay.textContent = sender === 'jojo' ? '❤️ جوجو' : '🤍 لولا';
         }
         if (dot) dot.classList.add('active');
+
+        setLeithSender(sender);
     }
 
     function checkLeithContextualMessage() {
@@ -3034,17 +3314,15 @@
         const txt = input.value.trim();
         if (!txt) return;
 
-        const radios = document.querySelectorAll('input[name="leithSender"]');
-        let senderVal = 'jojo';
-        radios.forEach(r => { if (r.checked) senderVal = r.value; });
+        const currentSender = appState.leith.sender || 'jojo';
 
         appState.leith.latestMessage = txt;
-        appState.leith.sender = senderVal;
+        appState.leith.sender = currentSender;
         appState.leith.isPersistentMsg = true;
         saveAppState();
 
         input.value = '';
-        showLeithMessage(txt, senderVal);
+        showLeithMessage(txt, currentSender);
     }
 
     function closeModals() {
