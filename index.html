@@ -1714,7 +1714,20 @@
         }
         footer span { color: #ff6584; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-    </style>
+    
+/* TIME MESSAGE UPGRADES */
+.time-msg-upgrades{margin-top:1rem;display:flex;flex-direction:column;gap:.65rem}
+.time-msg-meta{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;color:#9ca3af;font-size:.72rem}
+.time-msg-badge{display:inline-flex;align-items:center;padding:.3rem .55rem;border-radius:999px;background:rgba(255,101,132,.10);border:1px solid rgba(255,101,132,.18);color:#ff9fb1}
+.time-msg-alert{display:none;margin-top:.75rem;padding:.8rem;border-radius:.85rem;background:rgba(255,101,132,.10);border:1px solid rgba(255,101,132,.22);color:#fff}
+.time-msg-archive{margin-top:1rem;display:flex;flex-direction:column;gap:.5rem}
+.time-msg-archive-item{padding:.7rem .8rem;border-radius:.8rem;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06)}
+.time-msg-archive-item small{display:block;color:#9ca3af;margin-top:.25rem}
+.time-msg-reply{margin-top:.6rem;display:flex;gap:.5rem}
+.time-msg-reply input{flex:1;min-width:0}
+.time-msg-settings{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;font-size:.75rem;color:#aaa}
+@media(max-width:520px){.time-msg-reply{flex-direction:column}}
+</style>
 </head>
 <body>
 
@@ -1868,12 +1881,20 @@
                 <label>Open Time:</label>
                 <input type="time" id="inputTimeMsgTime" class="time-msg-input">
             </div>
-            <button class="main-btn" style="justify-content: center; margin-top: 0.5rem;" onclick="saveTimeMessage()">💌 Save Time Message</button>
+            
+            <div class="time-msg-upgrades">
+                <label class="time-msg-settings"><input type="checkbox" id="timeMsgRecurringYearly"> 🔁 تكرار سنويًا</label>
+                <label class="time-msg-settings"><input type="checkbox" id="timeMsgNotifyOpen" checked> 🔔 تنبيه عند فتح الرسالة</label>
+            </div>
+<button class="main-btn" style="justify-content: center; margin-top: 0.5rem;" onclick="saveTimeMessage()">💌 Save Time Message</button>
         </div>
 
         <div id="timeMessageViewContainer" style="display: none;" class="time-msg-display-box">
             <!-- Rendered via JS -->
         </div>
+         <div id="timeMessageAlert" class="time-msg-alert"></div>
+         <div id="timeMessageArchive" class="time-msg-archive"></div>
+
     </div>
 </section>
 
@@ -2660,6 +2681,137 @@
         updateLightboxContent();
     }
 
+
+    // TIME MESSAGE UPGRADE — sync, archive, yearly recurrence, notifications
+    let timeMessageSupabaseClient = null;
+    let timeMessageLastUpdatedAt = null;
+    let timeMessageApplyingRemote = false;
+
+    function ensureTimeMessageState() {
+        if (!Array.isArray(appState.timeMessages)) appState.timeMessages = [];
+        return appState.timeMessages;
+    }
+
+    function showTimeMessageNotification(message) {
+        const box = document.getElementById('timeMessageAlert');
+        if (box) {
+            box.style.display = 'block';
+            box.innerHTML = `💌 <strong>Time Message</strong><br>${escapeHtml(message || 'رسالة جديدة ❤️')}`;
+            setTimeout(() => { box.style.display = 'none'; }, 7000);
+        }
+        if ('Notification' in window && Notification.permission === 'granted') {
+            try { new Notification('💌 Time Message', {body: message || 'رسالة جديدة ❤️'}); } catch (_) {}
+        }
+    }
+
+    async function requestTimeMessageNotificationPermission() {
+        if (!('Notification' in window)) return false;
+        if (Notification.permission === 'granted') return true;
+        if (Notification.permission === 'denied') return false;
+        try { return (await Notification.requestPermission()) === 'granted'; } catch (_) { return false; }
+    }
+
+    function renderTimeMessageArchive() {
+        const box = document.getElementById('timeMessageArchive');
+        if (!box) return;
+        const list = ensureTimeMessageState().filter(x => x && x.opened);
+        if (!list.length) { box.innerHTML = ''; return; }
+        box.innerHTML = `<div class="time-msg-meta"><span class="time-msg-badge">📦 أرشيف الرسائل</span></div>` +
+            list.slice().reverse().slice(0, 8).map(x => `
+                <div class="time-msg-archive-item">
+                    <div style="color:#fff;">${escapeHtml(x.message || '')}</div>
+                    <small>${escapeHtml(x.openDate || '')} ${escapeHtml(x.openTime || '00:00')}</small>
+                    ${x.reply ? `<small>↩️ الرد: ${escapeHtml(x.reply)}</small>` : ''}
+                </div>`).join('');
+    }
+
+    function getTimeMessageTarget(tm) {
+        if (!tm || !tm.openDate) return null;
+        const d = new Date(`${tm.openDate}T${tm.openTime || '00:00'}:00`);
+        if (Number.isNaN(d.getTime())) return null;
+        if (tm.recurringYearly) {
+            const now = new Date();
+            d.setFullYear(now.getFullYear());
+            if (d < now) d.setFullYear(now.getFullYear() + 1);
+        }
+        return d;
+    }
+
+    function checkTimeMessageDue() {
+        const tm = appState.timeMessage;
+        if (!tm || !tm.message || !tm.openDate) return;
+        const target = getTimeMessageTarget(tm);
+        if (!target || new Date() < target) return;
+
+        const list = ensureTimeMessageState();
+        const key = `${tm.message}|${tm.openDate}|${tm.openTime || '00:00'}`;
+        let item = list.find(x => x.key === key);
+        if (!item) {
+            item = {key, message:tm.message, openDate:tm.openDate, openTime:tm.openTime || '00:00',
+                    opened:true, recurringYearly:!!tm.recurringYearly, reply:''};
+            list.push(item);
+            saveAppState();
+            showTimeMessageNotification(tm.message);
+            pushTimeMessageStateToSupabase();
+        }
+    }
+
+    async function initTimeMessageSync() {
+        try {
+            if (typeof window.supabase === 'undefined') return;
+            if (!LEITH_SUPABASE_URL || !LEITH_SUPABASE_ANON_KEY ||
+                LEITH_SUPABASE_URL.indexOf('YOUR_') === 0 || LEITH_SUPABASE_ANON_KEY.indexOf('YOUR_') === 0) return;
+            timeMessageSupabaseClient = window.supabase.createClient(LEITH_SUPABASE_URL, LEITH_SUPABASE_ANON_KEY);
+            const {data, error} = await timeMessageSupabaseClient.from('time_message_state').select('*').eq('id',1).maybeSingle();
+            if (!error && data) applyRemoteTimeMessageState(data);
+            timeMessageSupabaseClient.channel('time_message_state_channel')
+                .on('postgres_changes',{event:'*',schema:'public',table:'time_message_state',filter:'id=eq.1'},
+                    p => { if (p.new) applyRemoteTimeMessageState(p.new); }).subscribe();
+        } catch(e) { console.error('Time Message sync init error:', e); }
+    }
+
+    function applyRemoteTimeMessageState(row) {
+        if (!row) return;
+        if (timeMessageLastUpdatedAt && row.updated_at &&
+            new Date(row.updated_at).getTime() <= new Date(timeMessageLastUpdatedAt).getTime()) return;
+        timeMessageLastUpdatedAt = row.updated_at || timeMessageLastUpdatedAt;
+        timeMessageApplyingRemote = true;
+        if (Array.isArray(row.messages)) appState.timeMessages = row.messages;
+        if (row.current_message) appState.timeMessage = row.current_message;
+        saveAppState();
+        renderTimeMessageSection();
+        renderTimeMessageArchive();
+        timeMessageApplyingRemote = false;
+    }
+
+    async function pushTimeMessageStateToSupabase() {
+        if (!timeMessageSupabaseClient || timeMessageApplyingRemote) return;
+        try {
+            const now = new Date().toISOString();
+            timeMessageLastUpdatedAt = now;
+            const {error} = await timeMessageSupabaseClient.from('time_message_state').upsert({
+                id:1, messages:ensureTimeMessageState(), current_message:appState.timeMessage || null, updated_at:now
+            });
+            if (error) console.error('Time Message push error:', error);
+        } catch(e) { console.error('Time Message push exception:', e); }
+    }
+
+    function replyToTimeMessage() {
+        const input = document.getElementById('timeMessageReplyInput');
+        const reply = input ? input.value.trim() : '';
+        if (!reply) return;
+        const tm = appState.timeMessage;
+        const item = ensureTimeMessageState().find(x => x.message === tm?.message && x.openDate === tm?.openDate);
+        if (item) item.reply = reply;
+        else ensureTimeMessageState().push({
+            key:`${tm?.message}|${tm?.openDate}|${tm?.openTime || '00:00'}`,
+            message:tm?.message || '', openDate:tm?.openDate || '', openTime:tm?.openTime || '00:00',
+            opened:true, reply
+        });
+        saveAppState(); renderTimeMessageArchive(); pushTimeMessageStateToSupabase();
+        if (input) input.value = '';
+    }
+
     // -------------------------------------------------------------
     // TIME MESSAGE SECTION LOGIC
     // -------------------------------------------------------------
@@ -2719,14 +2871,18 @@
 
         if (!text || !date) return;
 
-        appState.timeMessage = {
-            message: text,
-            openDate: date,
-            openTime: time
-        };
-
+        const recurringYearly = !!document.getElementById('timeMsgRecurringYearly')?.checked;
+        const notifyOpen = document.getElementById('timeMsgNotifyOpen')?.checked !== false;
+        appState.timeMessage = { message:text, openDate:date, openTime:time, recurringYearly, notifyOpen };
+        const list = ensureTimeMessageState();
+        const existing = list.find(x => x.message === text && x.openDate === date && x.openTime === time);
+        if (existing) { existing.recurringYearly = recurringYearly; existing.notifyOpen = notifyOpen; }
+        else list.push({key:`${text}|${date}|${time}`, message:text, openDate:date, openTime:time,
+                        recurringYearly, notifyOpen, opened:false, reply:''});
         saveAppState();
         renderTimeMessageSection();
+        pushTimeMessageStateToSupabase();
+        if (notifyOpen) requestTimeMessageNotificationPermission();
     }
 
     function editTimeMessage() {
