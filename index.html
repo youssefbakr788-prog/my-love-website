@@ -2162,6 +2162,9 @@
     <span>♥</span>
 </footer>
 
+<!-- LEITH SYNC — Supabase client (CDN only, does not affect rest of site) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
 <script>
     // -------------------------------------------------------------
     // CENTRAL APP PERSISTENCE STORAGE ENGINE
@@ -3136,6 +3139,99 @@
     }
 
     // -------------------------------------------------------------
+    // LEITH SYNC — SHARED STATE VIA SUPABASE (PHONE A <-> PHONE B)
+    // Only Leith uses this. No other section is affected.
+    // -------------------------------------------------------------
+    const LEITH_SUPABASE_URL = "https://gdngjpzkatjxzydxpqrm.supabase.co";
+    const LEITH_SUPABASE_ANON_KEY = "sb_publishable_3iOeehVNl6Djk1Ut2M6n_g_wQ6Nmwfh";
+
+    let leithSupabaseClient = null;
+    let leithLastUpdatedAt = null;
+    let leithApplyingRemote = false;
+
+    function initLeithSync() {
+        try {
+            if (typeof window.supabase === 'undefined') return;
+            if (!LEITH_SUPABASE_URL || !LEITH_SUPABASE_ANON_KEY ||
+                LEITH_SUPABASE_URL.indexOf('YOUR_') === 0 || LEITH_SUPABASE_ANON_KEY.indexOf('YOUR_') === 0) {
+                return; // not configured yet — Leith keeps working locally
+            }
+            leithSupabaseClient = window.supabase.createClient(LEITH_SUPABASE_URL, LEITH_SUPABASE_ANON_KEY);
+            fetchLeithStateFromSupabase();
+            subscribeToLeith();
+        } catch (e) {
+            console.error("Leith sync init error:", e);
+        }
+    }
+
+    async function fetchLeithStateFromSupabase() {
+        if (!leithSupabaseClient) return;
+        try {
+            const { data, error } = await leithSupabaseClient
+                .from('leith_state')
+                .select('*')
+                .eq('id', 1)
+                .maybeSingle();
+            if (error) { console.error("Leith fetch error:", error); return; }
+            if (data) applyRemoteLeithState(data);
+        } catch (e) {
+            console.error("Leith fetch exception:", e);
+        }
+    }
+
+    function subscribeToLeith() {
+        if (!leithSupabaseClient) return;
+        leithSupabaseClient
+            .channel('leith_state_channel')
+            .on('postgres_changes',
+                { event: '*', schema: 'public', table: 'leith_state', filter: 'id=eq.1' },
+                (payload) => { if (payload.new) applyRemoteLeithState(payload.new); }
+            )
+            .subscribe();
+    }
+
+    function applyRemoteLeithState(row) {
+        if (!row) return;
+        if (leithLastUpdatedAt && row.updated_at &&
+            new Date(row.updated_at).getTime() <= new Date(leithLastUpdatedAt).getTime()) {
+            return; // already have this state or older — avoids duplicates/loops
+        }
+        leithLastUpdatedAt = row.updated_at || leithLastUpdatedAt;
+        leithApplyingRemote = true;
+
+        appState.leith.currentMood = row.mood || appState.leith.currentMood;
+        appState.leith.latestMessage = row.message || appState.leith.latestMessage;
+        appState.leith.sender = row.sender || appState.leith.sender;
+        appState.leith.isPersistentMsg = true;
+        saveAppState();
+
+        applyLeithMoodUI(appState.leith.currentMood);
+        showLeithMessage(appState.leith.latestMessage, appState.leith.sender);
+
+        leithApplyingRemote = false;
+    }
+
+    async function pushLeithStateToSupabase() {
+        if (!leithSupabaseClient || leithApplyingRemote) return;
+        try {
+            const nowIso = new Date().toISOString();
+            leithLastUpdatedAt = nowIso;
+            const { error } = await leithSupabaseClient
+                .from('leith_state')
+                .upsert({
+                    id: 1,
+                    mood: appState.leith.currentMood,
+                    message: appState.leith.latestMessage,
+                    sender: appState.leith.sender,
+                    updated_at: nowIso
+                });
+            if (error) console.error("Leith push error:", error);
+        } catch (e) {
+            console.error("Leith push exception (offline?):", e);
+        }
+    }
+
+    // -------------------------------------------------------------
     // LEITH 2.0 — SENDER TOGGLE (Jojo / Lola) & PERSISTENCE
     // -------------------------------------------------------------
     const leithMoodDefinitions = {
@@ -3161,6 +3257,7 @@
             checkLeithContextualMessage();
         }
         updateLeithDailySummary();
+        initLeithSync();
     }
 
     function toggleLeithBubble() {
@@ -3193,6 +3290,7 @@
 
         applyLeithMoodUI(moodKey);
         showLeithMessage(randomResp, 'jojo');
+        pushLeithStateToSupabase();
     }
 
     function applyLeithMoodUI(moodKey) {
@@ -3300,6 +3398,7 @@
         appState.leith.isPersistentMsg = true;
         saveAppState();
         showLeithMessage(pick, 'jojo');
+        pushLeithStateToSupabase();
     }
 
     function handleLeithKeypress(e) {
@@ -3323,6 +3422,7 @@
 
         input.value = '';
         showLeithMessage(txt, currentSender);
+        pushLeithStateToSupabase();
     }
 
     function closeModals() {
