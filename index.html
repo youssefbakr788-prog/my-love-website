@@ -3052,7 +3052,10 @@
                     payload => { if (payload.new) applyRemoteTimeMessageState(payload.new); }
                 )
                 .subscribe();
-        } catch(e) { console.error('Time Message sync init error:', e); }
+        } catch(e) {
+            console.error('Time Message sync init error:', e);
+            showTimeMessageToast('تعذر تشغيل مزامنة Time Message، لكن الموقع سيكمل محليًا ❤️');
+        }
     }
 
     async function fetchTimeMessageStateFromSupabase() {
@@ -3060,8 +3063,17 @@
         try {
             const {data,error} = await timeMessageSupabaseClient
                 .from(TIME_MESSAGE_TABLE).select('id,state,updated_at').eq('id',1).maybeSingle();
-            if (error) { console.error('Time Message fetch error:', error); return; }
-            if (data) applyRemoteTimeMessageState(data);
+            if (error) {
+                console.error('Time Message fetch error:', error, '| Table required: public.time_message_state with columns id, state, updated_at');
+                showTimeMessageToast('مزامنة Time Message محتاجة جدول Supabase باسم time_message_state ❤️');
+                return;
+            }
+            if (data) {
+                applyRemoteTimeMessageState(data);
+            } else {
+                // Table exists but row #1 does not: create the shared state from local data.
+                await pushTimeMessageStateToSupabase();
+            }
         } catch(e) { console.error('Time Message fetch exception:',e); }
     }
 
@@ -3086,10 +3098,11 @@
         if (!timeMessageSupabaseClient || timeMessageApplyingRemote) return;
         try {
             const nowIso = new Date().toISOString();
+            const stateSnapshot = JSON.parse(JSON.stringify(ensureTimeMessageState()));
             timeMessageLastUpdatedAt = nowIso;
             const {error} = await timeMessageSupabaseClient.from(TIME_MESSAGE_TABLE).upsert({
                 id:1,
-                state:ensureTimeMessageState(),
+                state:stateSnapshot,
                 updated_at:nowIso
             });
             if (error) console.error('Time Message push error:',error);
