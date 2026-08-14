@@ -1178,6 +1178,57 @@
             position: relative;
         }
 
+        /* MONEY UPGRADES */
+        .money-mini-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+            margin: 1rem 0 1.25rem;
+        }
+        .money-mini-card {
+            background: rgba(255,255,255,0.035);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 0.9rem;
+            padding: 0.85rem;
+            text-align: center;
+        }
+        .money-mini-label {
+            display: block;
+            color: #9ca3af;
+            font-size: 0.68rem;
+            margin-bottom: 0.25rem;
+        }
+        .money-mini-value {
+            display: block;
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .money-history {
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .money-history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.7rem 0.8rem;
+            border-radius: 0.8rem;
+            background: rgba(255,255,255,0.025);
+            border: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.78rem;
+        }
+        .money-history-positive { color: #34d399; }
+        .money-history-negative { color: #f87171; }
+        .money-history-date { color: #9ca3af; font-size: 0.68rem; }
+        @media (max-width: 520px) {
+            .money-mini-grid { grid-template-columns: 1fr; }
+        }
+
+
         .goal-progress-fill {
             height: 100%;
             background: linear-gradient(135deg, #ff6584 0%, #d946ef 100%);
@@ -1895,8 +1946,26 @@
             <div id="savingsMilestoneBanner" style="display:none; text-align:center; font-size:0.95rem; font-weight:600; color:#34d399; margin-top:0.5rem; animation: fadeInItem 0.4s ease;"></div>
         </div>
 
-        <div style="display: flex; gap: 1.0rem;">
-            <button class="main-btn" style="flex: 1; justify-content: center;" onclick="openAddAmountModal()">➕ إضافة مبلغ</button>
+        <div class="money-mini-grid">
+            <div class="money-mini-card">
+                <span class="money-mini-label">إجمالي الإضافات</span>
+                <span class="money-mini-value" id="moneyTotalAdded">0 ج.م</span>
+            </div>
+            <div class="money-mini-card">
+                <span class="money-mini-label">إجمالي المصروف</span>
+                <span class="money-mini-value" id="moneyTotalSpent">0 ج.م</span>
+            </div>
+            <div class="money-mini-card">
+                <span class="money-mini-label">عدد العمليات</span>
+                <span class="money-mini-value" id="moneyTransactionCount">0</span>
+            </div>
+        </div>
+
+        <div class="money-history" id="moneyHistoryList"></div>
+
+        <div style="display: flex; gap: 1.0rem; flex-wrap: wrap;">
+            <button class="main-btn" style="flex: 1; min-width: 150px; justify-content: center;" onclick="openAddAmountModal()">➕ إضافة مبلغ</button>
+            <button class="btn-sm-action" style="flex: 1; min-width: 150px; justify-content: center;" onclick="openExpenseModal()">➖ تسجيل مصروف</button>
         </div>
     </div>
 </section>
@@ -1912,6 +1981,25 @@
         </div>
         <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
             <button class="main-btn" style="flex: 1; justify-content: center;" onclick="saveAddedAmount()">حفظ</button>
+            <button class="btn-sm-action" style="flex: 1; padding: 0.8rem;" onclick="closeModals()">إلغاء</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="expenseAmountModal">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeModals()">×</button>
+        <h3 class="font-serif" style="font-size: 1.75rem; color: #fff; margin-bottom: 1.25rem;">تسجيل مصروف</h3>
+        <div class="money-form-group">
+            <label>المبلغ (ج.م)</label>
+            <input type="number" id="inputExpenseAmount" class="money-form-input" placeholder="500" min="0.01" step="0.01">
+        </div>
+        <div class="money-form-group">
+            <label>ملاحظة (اختياري)</label>
+            <input type="text" id="inputExpenseNote" class="money-form-input" placeholder="مثال: مواصلات">
+        </div>
+        <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
+            <button class="main-btn" style="flex: 1; justify-content: center;" onclick="saveExpenseAmount()">حفظ</button>
             <button class="btn-sm-action" style="flex: 1; padding: 0.8rem;" onclick="closeModals()">إلغاء</button>
         </div>
     </div>
@@ -2281,66 +2369,40 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-        loadAppState();
-        initCountdown();
-        initLoveMessages();
-        initTodoList();
-        renderGallery('lola');
-        renderTimeMessageSection();
-        createFloatingHearts();
-        renderSavingsSection();
-        renderSavingsExtras();
-        initMoneySync();
-        initFaithModule();
-        initFaithSync();
-        renderFamilyModule();
-        renderTicketsModule();
-        initLeith2Module();
+        const startupTasks = [
+            ['loadAppState', loadAppState],
+            ['initCountdown', initCountdown],
+            ['initLoveMessages', initLoveMessages],
+            ['initTodoList', initTodoList],
+            ['renderGallery', () => renderGallery('lola')],
+            ['renderTimeMessageSection', renderTimeMessageSection],
+            ['createFloatingHearts', createFloatingHearts],
+            ['renderSavingsSection', renderSavingsSection],
+            ['renderSavingsExtras', renderSavingsExtras],
+            ['initMoneySync', initMoneySync],
+            ['initFaithModule', initFaithModule],
+            ['initFaithSync', initFaithSync],
+            ['renderFamilyModule', renderFamilyModule],
+            ['renderTicketsModule', renderTicketsModule],
+            ['initLeith2Module', initLeith2Module]
+        ];
+        startupTasks.forEach(([name, task]) => {
+            try { task(); }
+            catch (error) { console.error(`Startup error in ${name}:`, error); }
+        });
+
+        // Password was intentionally removed: open the site directly.
+        const gate = document.getElementById('passwordGateOverlay');
+        if (gate) gate.classList.add('unlocked');
     });
 
-    // Password Gate Logic
-    function toggleGatePasswordVisibility() {
-        const input = document.getElementById('gatePasswordInput');
-        const btn = document.getElementById('gateToggleBtn');
-        if (!input || !btn) return;
-        if (input.type === 'password') {
-            input.type = 'text';
-            btn.textContent = '🔒';
-        } else {
-            input.type = 'password';
-            btn.textContent = '👁️';
-        }
-    }
-
+    // Password Gate Logic disabled — the site opens directly.
+    function toggleGatePasswordVisibility() {}
     function verifyGatePassword() {
-        const input = document.getElementById('gatePasswordInput');
-        const errorMsg = document.getElementById('gateErrorMsg');
-        if (!input || !errorMsg) return;
-
-        const val = input.value.trim();
-        const normalizedVal = val.toLowerCase();
-        
-        if (val === "بحبك" || normalizedVal === "love you") {
-            errorMsg.classList.remove('visible');
-            const overlay = document.getElementById('passwordGateOverlay');
-            if (overlay) {
-                overlay.classList.add('unlocked');
-            }
-        } else {
-            errorMsg.classList.add('visible');
-            input.classList.add('shake');
-            setTimeout(() => {
-                input.classList.remove('shake');
-            }, 400);
-        }
+        const overlay = document.getElementById('passwordGateOverlay');
+        if (overlay) overlay.classList.add('unlocked');
     }
-
-    function handleGateKeypress(e) {
-        if (e.key === 'Enter') {
-            verifyGatePassword();
-        }
-    }
-
+    function handleGateKeypress() { }
     // Countdown Logic
     function initCountdown() {
         const startDate = new Date('2026-04-08T00:00:00');
@@ -2401,7 +2463,17 @@
     function initTodoList() {
         renderTodoList();
         initTodoSync();
-    }
+    
+        const todoInput = document.getElementById('todoInput');
+        if (todoInput) {
+            todoInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addTodo();
+                }
+            });
+        }
+        }
 
     function renderTodoList() {
         const container = document.getElementById('todoListContainer');
@@ -2506,7 +2578,8 @@
         if (!grid) return;
 
         document.querySelectorAll('.gallery-tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
-        if (event && event.target && event.target.classList) {
+        // Safe when called programmatically (no browser event exists).
+        if (typeof event !== 'undefined' && event && event.target && event.target.classList) {
             event.target.classList.add('active');
         }
 
@@ -2965,7 +3038,7 @@
 
     function saveAddedAmount() {
         const amt = parseFloat(document.getElementById('inputAddAmount').value);
-        if (isNaN(amt)) return;
+        if (!Number.isFinite(amt) || amt <= 0) return;
         
         if (!appState.savings) {
             appState.savings = { currentSavings: 6000, savingsGoal: 300000 };
@@ -2974,6 +3047,40 @@
         appState.savings.currentSavings = (Number(appState.savings.currentSavings) || 0) + amt;
         saveAppState();
         recordSavingsHistoryEntry(amt);
+        renderSavingsSection();
+        renderSavingsExtras();
+        pushMoneyStateToSupabase();
+        closeModals();
+    }
+
+    function openExpenseModal() {
+        const amountEl = document.getElementById('inputExpenseAmount');
+        const noteEl = document.getElementById('inputExpenseNote');
+        if (amountEl) amountEl.value = '';
+        if (noteEl) noteEl.value = '';
+        const modal = document.getElementById('expenseAmountModal');
+        if (modal) modal.classList.add('active');
+    }
+
+    function saveExpenseAmount() {
+        const amountEl = document.getElementById('inputExpenseAmount');
+        const noteEl = document.getElementById('inputExpenseNote');
+        const amt = parseFloat(amountEl?.value);
+        if (!Number.isFinite(amt) || amt <= 0) return;
+
+        if (!appState.savings) {
+            appState.savings = { currentSavings: 0, savingsGoal: 300000, history: [] };
+        }
+
+        const current = Number(appState.savings.currentSavings) || 0;
+        if (amt > current) {
+            alert('المصروف أكبر من المبلغ الموجود في الادخار.');
+            return;
+        }
+
+        appState.savings.currentSavings = current - amt;
+        saveAppState();
+        recordSavingsHistoryEntry(-amt, noteEl?.value?.trim() || 'مصروف');
         renderSavingsSection();
         renderSavingsExtras();
         pushMoneyStateToSupabase();
@@ -3010,19 +3117,70 @@
     // -------------------------------------------------------------
     let savingsLastMilestoneShown = 0;
 
-    function recordSavingsHistoryEntry(amount) {
+    function recordSavingsHistoryEntry(amount, note = '') {
         if (!appState.savings.history) appState.savings.history = [];
-        appState.savings.history.push({ amount: amount, date: new Date().toISOString() });
+        const numericAmount = Number(amount) || 0;
+        if (!numericAmount) return;
+        appState.savings.history.push({
+            amount: numericAmount,
+            type: numericAmount < 0 ? 'expense' : 'saving',
+            note: String(note || ''),
+            date: new Date().toISOString()
+        });
         if (appState.savings.history.length > 30) {
             appState.savings.history = appState.savings.history.slice(-30);
         }
         saveAppState();
     }
 
+    function renderMoneyHistory() {
+        const list = document.getElementById('moneyHistoryList');
+        if (!list) return;
+
+        const history = Array.isArray(appState.savings?.history) ? appState.savings.history : [];
+        const recent = history.slice(-6).reverse();
+
+        if (!recent.length) {
+            list.innerHTML = '<div style="text-align:center;color:#9ca3af;font-size:0.75rem;padding:0.5rem;">مفيش عمليات مسجلة لسه ❤️</div>';
+            return;
+        }
+
+        list.innerHTML = recent.map(item => {
+            const amount = Number(item.amount) || 0;
+            const positive = amount >= 0;
+            const label = item.note || (positive ? 'إضافة للادخار' : 'مصروف');
+            const date = item.date ? new Date(item.date).toLocaleDateString('ar-EG') : '';
+            return `
+                <div class="money-history-item">
+                    <div>
+                        <div style="color:#fff;">${escapeHtml(label)}</div>
+                        <div class="money-history-date">${escapeHtml(date)}</div>
+                    </div>
+                    <strong class="${positive ? 'money-history-positive' : 'money-history-negative'}">
+                        ${positive ? '+' : ''}${amount.toLocaleString()} ج.م
+                    </strong>
+                </div>
+            `;
+        }).join('');
+    }
+
     function renderSavingsExtras() {
         if (!appState.savings) return;
         const current = Number(appState.savings.currentSavings) || 0;
         const goal = Number(appState.savings.savingsGoal) || 1;
+
+        const history = Array.isArray(appState.savings.history) ? appState.savings.history : [];
+        const totalAdded = history.reduce((sum, h) => sum + Math.max(Number(h.amount) || 0, 0), 0);
+        const totalSpent = history.reduce((sum, h) => sum + Math.max(-(Number(h.amount) || 0), 0), 0);
+
+        const totalAddedEl = document.getElementById('moneyTotalAdded');
+        const totalSpentEl = document.getElementById('moneyTotalSpent');
+        const transactionCountEl = document.getElementById('moneyTransactionCount');
+
+        if (totalAddedEl) totalAddedEl.textContent = totalAdded.toLocaleString() + ' ج.م';
+        if (totalSpentEl) totalSpentEl.textContent = totalSpent.toLocaleString() + ' ج.م';
+        if (transactionCountEl) transactionCountEl.textContent = String(history.length);
+        renderMoneyHistory();
         let percent = goal > 0 ? (current / goal) * 100 : 0;
         if (percent > 100) percent = 100;
 
@@ -3049,7 +3207,6 @@
         // Projected goal date (based on average weekly saving from history)
         const projEl = document.getElementById('displaySavingsProjection');
         if (!projEl) return;
-        const history = appState.savings.history || [];
         if (history.length < 2 || current >= goal) {
             projEl.textContent = '';
             return;
@@ -3459,8 +3616,8 @@
     // LEITH SYNC — SHARED STATE VIA SUPABASE (PHONE A <-> PHONE B)
     // Only Leith uses this. No other section is affected.
     // -------------------------------------------------------------
-    const LEITH_SUPABASE_URL = https://gdngjpzkatjxzydxpqrm.supabase.co"";
-    const LEITH_SUPABASE_ANON_KEY = "sb_publishable_3iOeehVNl6Djk1Ut2M6n_g_wQ6Nmwfh";
+    const LEITH_SUPABASE_URL = "YOUR_SUPABASE_URL";
+    const LEITH_SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
 
     let leithSupabaseClient = null;
     let leithLastUpdatedAt = null;
@@ -3665,6 +3822,7 @@
             checkLeithContextualMessage();
         }
         updateLeithDailySummary();
+        updateLeithStreak();
         initLeithSync();
     }
 
@@ -3841,6 +3999,105 @@
         `;
     }
 
+
+    // -------------------------------------------------------------
+    // LEITH UPGRADE — small personal memory layer
+    // -------------------------------------------------------------
+    function updateLeithStreak() {
+        if (!appState.leith) return;
+        const today = new Date().toISOString().slice(0, 10);
+        const last = appState.leith.lastInteractionDate || '';
+        if (last === today) return;
+
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        const yesterdayKey = yesterday.toISOString().slice(0, 10);
+
+        appState.leith.streak = last === yesterdayKey
+            ? (Number(appState.leith.streak) || 0) + 1
+            : 1;
+        appState.leith.lastInteractionDate = today;
+        saveAppState();
+
+        const streakEl = document.getElementById('leithStreak');
+        if (streakEl) streakEl.textContent = `🔥 ${appState.leith.streak} يوم`;
+    }
+
+    function renderLeithStreak() {
+        const streakEl = document.getElementById('leithStreak');
+        if (streakEl) {
+            streakEl.textContent = `🔥 ${Number(appState.leith.streak) || 0} يوم`;
+        }
+    }
+
+    function addLeithQuickReactions() {
+        const input = document.getElementById('leithUserInput');
+        if (!input || document.getElementById('leithQuickReactions')) return;
+
+        const wrap = document.createElement('div');
+        wrap.id = 'leithQuickReactions';
+        wrap.style.cssText = 'display:flex;gap:.45rem;flex-wrap:wrap;margin:.5rem 0;';
+        [
+            ['❤️', 'حب'],
+            ['😊', 'مبسوطة'],
+            ['😔', 'زعلانة'],
+            ['😴', 'تعبانة'],
+            ['😡', 'متضايقة']
+        ].forEach(([emoji, label]) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'btn-sm-action';
+            btn.textContent = `${emoji} ${label}`;
+            btn.style.cssText = 'padding:.35rem .6rem;font-size:.72rem;';
+            btn.addEventListener('click', () => {
+                const moodMap = {
+                    '❤️': 'love',
+                    '😊': 'happy',
+                    '😔': 'sad',
+                    '😴': 'tired',
+                    '😡': 'angry'
+                };
+                const mood = moodMap[emoji];
+                if (mood && leithMoodDefinitions[mood]) setLeithMood(mood);
+                else sendLeithReaction(emoji);
+            });
+            wrap.appendChild(btn);
+        });
+        input.parentElement?.parentElement?.insertBefore(wrap, input.parentElement);
+    }
+
+    function getLeithContextHint() {
+        const tasks = Array.isArray(appState.todos) ? appState.todos : [];
+        const remaining = tasks.filter(t => !t.completed).length;
+        const completed = tasks.filter(t => t.completed).length;
+        if (remaining > 0) return `عندك ${remaining} مهمة لسه، خلينا نخلص واحدة ❤️`;
+        if (completed > 0) return `خلصتي ${completed} مهمة النهارده 👏❤️`;
+        return '';
+    }
+
+    function updateLeithDailySummary() {
+        const summaryBox = document.getElementById('leithSummaryBox');
+        if (!summaryBox) return;
+
+        const completedTasks = Array.isArray(appState.todos)
+            ? appState.todos.filter(t => t.completed).length
+            : 0;
+        const totalTasks = Array.isArray(appState.todos) ? appState.todos.length : 0;
+        const prayerCount = appState.faith?.prayers
+            ? Object.values(appState.faith.prayers).filter(Boolean).length
+            : 0;
+
+        const hint = getLeithContextHint();
+        summaryBox.innerHTML = `
+            <div>🎯 Tasks: ${completedTasks} / ${totalTasks}</div>
+            <div>🕌 Prayers: ${prayerCount} / 5</div>
+            <div>🔥 Streak: ${Number(appState.leith?.streak) || 0} day(s)</div>
+            ${hint ? `<div style="margin-top:.35rem;color:#ffb4c2;">${escapeHtml(hint)}</div>` : ''}
+        `;
+        renderLeithStreak();
+        addLeithQuickReactions();
+    }
+
     function triggerLeithSurprise() {
         const surprises = [
             "وحشتيني ❤️",
@@ -3876,6 +4133,15 @@
         appState.leith.latestMessage = txt;
         appState.leith.sender = currentSender;
         appState.leith.isPersistentMsg = true;
+        if (!Array.isArray(appState.leith.messageHistory)) appState.leith.messageHistory = [];
+        appState.leith.messageHistory.push({
+            text: txt,
+            sender: currentSender,
+            date: new Date().toISOString()
+        });
+        if (appState.leith.messageHistory.length > 20) {
+            appState.leith.messageHistory = appState.leith.messageHistory.slice(-20);
+        }
         saveAppState();
 
         input.value = '';
