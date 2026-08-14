@@ -1891,6 +1891,8 @@
                 <span id="displaySavingsPercent" style="font-weight: 600; color: #ff6584;">2%</span>
                 <span id="displaySavingsRemaining" style="color: #9ca3af;">باقي 294,000 ج.م</span>
             </div>
+            <div id="displaySavingsProjection" style="font-size: 0.8rem; color: #9ca3af; margin-top: 0.25rem;"></div>
+            <div id="savingsMilestoneBanner" style="display:none; text-align:center; font-size:0.95rem; font-weight:600; color:#34d399; margin-top:0.5rem; animation: fadeInItem 0.4s ease;"></div>
         </div>
 
         <div style="display: flex; gap: 1.0rem;">
@@ -2080,6 +2082,7 @@
             <div class="faith-prayer-list" id="prayersListContainer">
                 <!-- Populated via JS -->
             </div>
+            <div id="prayerStreakText" style="text-align: center; font-size: 0.85rem; color: #ffb3c1; font-weight: 600; margin-top: 0.75rem;"></div>
         </div>
     </div>
 </section>
@@ -2119,6 +2122,7 @@
         <div>
             <div class="leith-bubble-text" id="leithMessageText">أهلاً يا لولا 🦁❤️ إزيك النهارده؟</div>
             <div id="leithSenderDisplay" style="font-size: 0.75rem; color: #ffb3c1; font-weight: 600; margin-top: 0.2rem;">❤️ جوجو</div>
+            <div id="leithStreakDisplay" style="font-size: 0.75rem; color: #ffb3c1; font-weight: 600; margin-top: 0.2rem;"></div>
         </div>
         
         <!-- Daily Summary Box -->
@@ -2147,6 +2151,13 @@
         <div class="leith-input-row">
             <input type="text" id="leithUserInput" class="leith-user-input" placeholder="اكتبي رسالة..." onkeypress="handleLeithKeypress(event)">
             <button class="leith-send-btn" onclick="sendLeithMessage()">إرسال</button>
+        </div>
+
+        <!-- Quick Reactions Row -->
+        <div class="leith-reactions-row" style="display: flex; justify-content: center; gap: 0.5rem; margin-top: 0.5rem;">
+            <button class="leith-action-btn" style="padding: 0.4rem 0.7rem;" onclick="sendLeithReaction('❤️')">❤️</button>
+            <button class="leith-action-btn" style="padding: 0.4rem 0.7rem;" onclick="sendLeithReaction('😂')">😂</button>
+            <button class="leith-action-btn" style="padding: 0.4rem 0.7rem;" onclick="sendLeithReaction('🥺')">🥺</button>
         </div>
     </div>
 
@@ -2278,7 +2289,10 @@
         renderTimeMessageSection();
         createFloatingHearts();
         renderSavingsSection();
+        renderSavingsExtras();
+        initMoneySync();
         initFaithModule();
+        initFaithSync();
         renderFamilyModule();
         renderTicketsModule();
         initLeith2Module();
@@ -2386,6 +2400,7 @@
     // Todo List with Persistent App State
     function initTodoList() {
         renderTodoList();
+        initTodoSync();
     }
 
     function renderTodoList() {
@@ -2428,6 +2443,7 @@
         input.value = '';
         saveAppState();
         renderTodoList();
+        pushTodoStateToSupabase();
     }
 
     function handleTodoKeypress(e) {
@@ -2442,6 +2458,7 @@
             item.completed = !item.completed;
             saveAppState();
             renderTodoList();
+            pushTodoStateToSupabase();
         }
     }
 
@@ -2449,6 +2466,7 @@
         appState.todos = appState.todos.filter(t => t.id !== id);
         saveAppState();
         renderTodoList();
+        pushTodoStateToSupabase();
     }
 
     function escapeHtml(str) {
@@ -2955,7 +2973,10 @@
 
         appState.savings.currentSavings = (Number(appState.savings.currentSavings) || 0) + amt;
         saveAppState();
+        recordSavingsHistoryEntry(amt);
         renderSavingsSection();
+        renderSavingsExtras();
+        pushMoneyStateToSupabase();
         closeModals();
     }
 
@@ -2978,7 +2999,164 @@
         appState.savings.savingsGoal = newGoal;
         saveAppState();
         renderSavingsSection();
+        renderSavingsExtras();
+        pushMoneyStateToSupabase();
         closeModals();
+    }
+
+    // -------------------------------------------------------------
+    // MONEY EXTRAS — Milestone celebration + projected goal date
+    // (Additive only — does not change existing savings logic)
+    // -------------------------------------------------------------
+    let savingsLastMilestoneShown = 0;
+
+    function recordSavingsHistoryEntry(amount) {
+        if (!appState.savings.history) appState.savings.history = [];
+        appState.savings.history.push({ amount: amount, date: new Date().toISOString() });
+        if (appState.savings.history.length > 30) {
+            appState.savings.history = appState.savings.history.slice(-30);
+        }
+        saveAppState();
+    }
+
+    function renderSavingsExtras() {
+        if (!appState.savings) return;
+        const current = Number(appState.savings.currentSavings) || 0;
+        const goal = Number(appState.savings.savingsGoal) || 1;
+        let percent = goal > 0 ? (current / goal) * 100 : 0;
+        if (percent > 100) percent = 100;
+
+        // Milestone celebration
+        const banner = document.getElementById('savingsMilestoneBanner');
+        const milestones = [25, 50, 75, 100];
+        let hit = null;
+        for (const m of milestones) {
+            if (percent >= m && savingsLastMilestoneShown < m) hit = m;
+        }
+        if (hit && banner) {
+            savingsLastMilestoneShown = hit;
+            const msgs = {
+                25: "🎉 وصلتوا رُبع الطريق للحلم!",
+                50: "🎉 نصف الطريق خلص! كملوا كده ❤️",
+                75: "🎉 ربع الطريق باقي بس!",
+                100: "🎊 الحلم بقى حقيقة! مبروك ❤️"
+            };
+            banner.textContent = msgs[hit] || "🎉 خطوة جديدة للحلم!";
+            banner.style.display = 'block';
+            setTimeout(() => { if (banner) banner.style.display = 'none'; }, 5000);
+        }
+
+        // Projected goal date (based on average weekly saving from history)
+        const projEl = document.getElementById('displaySavingsProjection');
+        if (!projEl) return;
+        const history = appState.savings.history || [];
+        if (history.length < 2 || current >= goal) {
+            projEl.textContent = '';
+            return;
+        }
+        const first = new Date(history[0].date).getTime();
+        const last = new Date(history[history.length - 1].date).getTime();
+        const weeksElapsed = Math.max((last - first) / (1000 * 60 * 60 * 24 * 7), 0.5);
+        const totalSaved = history.reduce((sum, h) => sum + (Number(h.amount) || 0), 0);
+        const avgPerWeek = totalSaved / weeksElapsed;
+        if (avgPerWeek <= 0) {
+            projEl.textContent = '';
+            return;
+        }
+        const remaining = goal - current;
+        const weeksNeeded = remaining / avgPerWeek;
+        const projectedDate = new Date(Date.now() + weeksNeeded * 7 * 24 * 60 * 60 * 1000);
+        const formatted = projectedDate.toLocaleDateString('ar-EG', { year: 'numeric', month: 'long' });
+        projEl.textContent = `📈 بمعدلكم الحالي، هتوصلوا للهدف حوالي ${formatted}`;
+    }
+
+    // -------------------------------------------------------------
+    // MONEY SYNC — SHARED SAVINGS VIA SUPABASE (PHONE A <-> PHONE B)
+    // Same Supabase project, separate table.
+    // -------------------------------------------------------------
+    let moneySupabaseClient = null;
+    let moneyLastUpdatedAt = null;
+    let moneyApplyingRemote = false;
+
+    function initMoneySync() {
+        try {
+            if (typeof window.supabase === 'undefined') return;
+            if (!LEITH_SUPABASE_URL || !LEITH_SUPABASE_ANON_KEY ||
+                LEITH_SUPABASE_URL.indexOf('YOUR_') === 0 || LEITH_SUPABASE_ANON_KEY.indexOf('YOUR_') === 0) {
+                return;
+            }
+            moneySupabaseClient = window.supabase.createClient(LEITH_SUPABASE_URL, LEITH_SUPABASE_ANON_KEY);
+            fetchMoneyStateFromSupabase();
+            subscribeToMoney();
+        } catch (e) {
+            console.error("Money sync init error:", e);
+        }
+    }
+
+    async function fetchMoneyStateFromSupabase() {
+        if (!moneySupabaseClient) return;
+        try {
+            const { data, error } = await moneySupabaseClient
+                .from('money_state')
+                .select('*')
+                .eq('id', 1)
+                .maybeSingle();
+            if (error) { console.error("Money fetch error:", error); return; }
+            if (data) applyRemoteMoneyState(data);
+        } catch (e) {
+            console.error("Money fetch exception:", e);
+        }
+    }
+
+    function subscribeToMoney() {
+        if (!moneySupabaseClient) return;
+        moneySupabaseClient
+            .channel('money_state_channel')
+            .on('postgres_changes',
+                { event: '*', schema: 'public', table: 'money_state', filter: 'id=eq.1' },
+                (payload) => { if (payload.new) applyRemoteMoneyState(payload.new); }
+            )
+            .subscribe();
+    }
+
+    function applyRemoteMoneyState(row) {
+        if (!row) return;
+        if (moneyLastUpdatedAt && row.updated_at &&
+            new Date(row.updated_at).getTime() <= new Date(moneyLastUpdatedAt).getTime()) {
+            return;
+        }
+        moneyLastUpdatedAt = row.updated_at || moneyLastUpdatedAt;
+        moneyApplyingRemote = true;
+
+        if (!appState.savings) appState.savings = {};
+        if (typeof row.current_savings === 'number') appState.savings.currentSavings = row.current_savings;
+        if (typeof row.savings_goal === 'number') appState.savings.savingsGoal = row.savings_goal;
+        if (Array.isArray(row.history)) appState.savings.history = row.history;
+        saveAppState();
+        renderSavingsSection();
+        renderSavingsExtras();
+
+        moneyApplyingRemote = false;
+    }
+
+    async function pushMoneyStateToSupabase() {
+        if (!moneySupabaseClient || moneyApplyingRemote) return;
+        try {
+            const nowIso = new Date().toISOString();
+            moneyLastUpdatedAt = nowIso;
+            const { error } = await moneySupabaseClient
+                .from('money_state')
+                .upsert({
+                    id: 1,
+                    current_savings: Number(appState.savings.currentSavings) || 0,
+                    savings_goal: Number(appState.savings.savingsGoal) || 0,
+                    history: appState.savings.history || [],
+                    updated_at: nowIso
+                });
+            if (error) console.error("Money push error:", error);
+        } catch (e) {
+            console.error("Money push exception (offline?):", e);
+        }
     }
 
     // -------------------------------------------------------------
@@ -3136,14 +3314,153 @@
         appState.faith.prayers[key] = !appState.faith.prayers[key];
         saveAppState();
         renderPrayers();
+        updatePrayerStreak();
+        pushFaithStateToSupabase();
+    }
+
+    // -------------------------------------------------------------
+    // PRAYER STREAK — shared "consecutive days all 5 prayers done"
+    // (Additive only. Note: prayer checkboxes don't auto-reset at
+    // midnight in the current app, so the streak only advances when
+    // both of you manually re-check the 5 prayers on a new day.)
+    // -------------------------------------------------------------
+    function updatePrayerStreak() {
+        const allDone = prayerKeys.every(p => !!appState.faith.prayers[p.key]);
+        if (allDone) {
+            const today = new Date().toISOString().slice(0, 10);
+            const last = appState.faith.lastStreakDate;
+            if (last !== today) {
+                const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+                appState.faith.streakCount = (last === yesterday) ? (appState.faith.streakCount || 0) + 1 : 1;
+                appState.faith.lastStreakDate = today;
+                saveAppState();
+            }
+        }
+        renderPrayerStreak();
+    }
+
+    function renderPrayerStreak() {
+        const el = document.getElementById('prayerStreakText');
+        if (!el) return;
+        const streak = appState.faith.streakCount || 0;
+        el.textContent = streak > 0 ? `🔥 ${streak} يوم متتالي صليتوا فيه الخمس صلوات مع بعض` : '';
+    }
+
+    // -------------------------------------------------------------
+    // FAITH SYNC — SHARED PRAYERS VIA SUPABASE (PHONE A <-> PHONE B)
+    // Same Supabase project, separate table.
+    // -------------------------------------------------------------
+    let faithSupabaseClient = null;
+    let faithLastUpdatedAt = null;
+    let faithApplyingRemote = false;
+
+    function initFaithSync() {
+        try {
+            if (typeof window.supabase === 'undefined') return;
+            if (!LEITH_SUPABASE_URL || !LEITH_SUPABASE_ANON_KEY ||
+                LEITH_SUPABASE_URL.indexOf('YOUR_') === 0 || LEITH_SUPABASE_ANON_KEY.indexOf('YOUR_') === 0) {
+                return;
+            }
+            faithSupabaseClient = window.supabase.createClient(LEITH_SUPABASE_URL, LEITH_SUPABASE_ANON_KEY);
+            fetchFaithStateFromSupabase();
+            subscribeToFaith();
+        } catch (e) {
+            console.error("Faith sync init error:", e);
+        }
+    }
+
+    async function fetchFaithStateFromSupabase() {
+        if (!faithSupabaseClient) return;
+        try {
+            const { data, error } = await faithSupabaseClient
+                .from('faith_state')
+                .select('*')
+                .eq('id', 1)
+                .maybeSingle();
+            if (error) { console.error("Faith fetch error:", error); return; }
+            if (data) applyRemoteFaithState(data);
+        } catch (e) {
+            console.error("Faith fetch exception:", e);
+        }
+    }
+
+    function subscribeToFaith() {
+        if (!faithSupabaseClient) return;
+        faithSupabaseClient
+            .channel('faith_state_channel')
+            .on('postgres_changes',
+                { event: '*', schema: 'public', table: 'faith_state', filter: 'id=eq.1' },
+                (payload) => { if (payload.new) applyRemoteFaithState(payload.new); }
+            )
+            .subscribe();
+    }
+
+    function applyRemoteFaithState(row) {
+        if (!row) return;
+        if (faithLastUpdatedAt && row.updated_at &&
+            new Date(row.updated_at).getTime() <= new Date(faithLastUpdatedAt).getTime()) {
+            return;
+        }
+        faithLastUpdatedAt = row.updated_at || faithLastUpdatedAt;
+        faithApplyingRemote = true;
+
+        if (row.prayers) appState.faith.prayers = row.prayers;
+        if (typeof row.streak_count === 'number') appState.faith.streakCount = row.streak_count;
+        if (row.last_streak_date) appState.faith.lastStreakDate = row.last_streak_date;
+        saveAppState();
+        renderPrayers();
+        renderPrayerStreak();
+
+        faithApplyingRemote = false;
+    }
+
+    async function pushFaithStateToSupabase() {
+        if (!faithSupabaseClient || faithApplyingRemote) return;
+        try {
+            const nowIso = new Date().toISOString();
+            faithLastUpdatedAt = nowIso;
+            const { error } = await faithSupabaseClient
+                .from('faith_state')
+                .upsert({
+                    id: 1,
+                    prayers: appState.faith.prayers,
+                    streak_count: appState.faith.streakCount || 0,
+                    last_streak_date: appState.faith.lastStreakDate || null,
+                    updated_at: nowIso
+                });
+            if (error) console.error("Faith push error:", error);
+        } catch (e) {
+            console.error("Faith push exception (offline?):", e);
+        }
+    }
+
+    // -------------------------------------------------------------
+    // LEITH EMOTIONAL STREAK — consecutive days with shared activity
+    // -------------------------------------------------------------
+    function updateLeithStreak() {
+        const today = new Date().toISOString().slice(0, 10);
+        const last = appState.leith.lastActiveDate;
+        if (last !== today) {
+            const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+            appState.leith.streakCount = (last === yesterday) ? (appState.leith.streakCount || 0) + 1 : 1;
+            appState.leith.lastActiveDate = today;
+        }
+        renderLeithStreak();
+    }
+
+    function renderLeithStreak() {
+        const el = document.getElementById('leithStreakDisplay');
+        if (!el) return;
+        const streak = appState.leith.streakCount || 0;
+        el.textContent = streak > 1 ? `🔥 ${streak} أيام متتالية بتكلموا فيها` : '';
     }
 
     // -------------------------------------------------------------
     // LEITH SYNC — SHARED STATE VIA SUPABASE (PHONE A <-> PHONE B)
     // Only Leith uses this. No other section is affected.
     // -------------------------------------------------------------
-    const LEITH_SUPABASE_URL = "https://gdngjpzkatjxzydxpqrm.supabase.co";
-    const LEITH_SUPABASE_ANON_KEY = "sb_publishable_3iOeehVNl6Djk1Ut2M6n_g_wQ6Nmwfh";
+    const LEITH_SUPABASE_URL = "YOUR_SUPABASE_URL";
+    const LEITH_SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
 
     let leithSupabaseClient = null;
     let leithLastUpdatedAt = null;
@@ -3203,10 +3520,13 @@
         appState.leith.latestMessage = row.message || appState.leith.latestMessage;
         appState.leith.sender = row.sender || appState.leith.sender;
         appState.leith.isPersistentMsg = true;
+        if (typeof row.streak_count === 'number') appState.leith.streakCount = row.streak_count;
+        if (row.last_active_date) appState.leith.lastActiveDate = row.last_active_date;
         saveAppState();
 
         applyLeithMoodUI(appState.leith.currentMood);
         showLeithMessage(appState.leith.latestMessage, appState.leith.sender);
+        renderLeithStreak();
 
         leithApplyingRemote = false;
     }
@@ -3223,11 +3543,99 @@
                     mood: appState.leith.currentMood,
                     message: appState.leith.latestMessage,
                     sender: appState.leith.sender,
+                    streak_count: appState.leith.streakCount || 0,
+                    last_active_date: appState.leith.lastActiveDate || null,
                     updated_at: nowIso
                 });
             if (error) console.error("Leith push error:", error);
         } catch (e) {
             console.error("Leith push exception (offline?):", e);
+        }
+    }
+
+    // -------------------------------------------------------------
+    // TODO SYNC — SHARED TODO LIST VIA SUPABASE (PHONE A <-> PHONE B)
+    // Same Supabase project as Leith, separate table. Only Todo List
+    // is affected — no other section touched.
+    // -------------------------------------------------------------
+    let todoSupabaseClient = null;
+    let todoLastUpdatedAt = null;
+    let todoApplyingRemote = false;
+
+    function initTodoSync() {
+        try {
+            if (typeof window.supabase === 'undefined') return;
+            if (!LEITH_SUPABASE_URL || !LEITH_SUPABASE_ANON_KEY ||
+                LEITH_SUPABASE_URL.indexOf('YOUR_') === 0 || LEITH_SUPABASE_ANON_KEY.indexOf('YOUR_') === 0) {
+                return; // not configured yet — Todo List keeps working locally
+            }
+            todoSupabaseClient = window.supabase.createClient(LEITH_SUPABASE_URL, LEITH_SUPABASE_ANON_KEY);
+            fetchTodoStateFromSupabase();
+            subscribeToTodo();
+        } catch (e) {
+            console.error("Todo sync init error:", e);
+        }
+    }
+
+    async function fetchTodoStateFromSupabase() {
+        if (!todoSupabaseClient) return;
+        try {
+            const { data, error } = await todoSupabaseClient
+                .from('todo_state')
+                .select('*')
+                .eq('id', 1)
+                .maybeSingle();
+            if (error) { console.error("Todo fetch error:", error); return; }
+            if (data) applyRemoteTodoState(data);
+        } catch (e) {
+            console.error("Todo fetch exception:", e);
+        }
+    }
+
+    function subscribeToTodo() {
+        if (!todoSupabaseClient) return;
+        todoSupabaseClient
+            .channel('todo_state_channel')
+            .on('postgres_changes',
+                { event: '*', schema: 'public', table: 'todo_state', filter: 'id=eq.1' },
+                (payload) => { if (payload.new) applyRemoteTodoState(payload.new); }
+            )
+            .subscribe();
+    }
+
+    function applyRemoteTodoState(row) {
+        if (!row) return;
+        if (todoLastUpdatedAt && row.updated_at &&
+            new Date(row.updated_at).getTime() <= new Date(todoLastUpdatedAt).getTime()) {
+            return; // already have this state or older — avoids duplicates/loops
+        }
+        todoLastUpdatedAt = row.updated_at || todoLastUpdatedAt;
+        todoApplyingRemote = true;
+
+        if (Array.isArray(row.todos)) {
+            appState.todos = row.todos;
+            saveAppState();
+            renderTodoList();
+        }
+
+        todoApplyingRemote = false;
+    }
+
+    async function pushTodoStateToSupabase() {
+        if (!todoSupabaseClient || todoApplyingRemote) return;
+        try {
+            const nowIso = new Date().toISOString();
+            todoLastUpdatedAt = nowIso;
+            const { error } = await todoSupabaseClient
+                .from('todo_state')
+                .upsert({
+                    id: 1,
+                    todos: appState.todos,
+                    updated_at: nowIso
+                });
+            if (error) console.error("Todo push error:", error);
+        } catch (e) {
+            console.error("Todo push exception (offline?):", e);
         }
     }
 
@@ -3281,7 +3689,11 @@
         const def = leithMoodDefinitions[moodKey] || leithMoodDefinitions['neutral'];
         appState.leith.currentMood = moodKey;
 
-        const randomResp = def.responses[Math.floor(Math.random() * def.responses.length)];
+        let randomResp = def.responses[Math.floor(Math.random() * def.responses.length)];
+        const patternMsg = checkLeithMoodPattern(moodKey);
+        if (patternMsg) randomResp = patternMsg;
+        recordLeithMoodHistory(moodKey);
+
         appState.leith.latestMessage = randomResp;
         appState.leith.sender = 'jojo';
         appState.leith.isPersistentMsg = true;
@@ -3290,6 +3702,51 @@
 
         applyLeithMoodUI(moodKey);
         showLeithMessage(randomResp, 'jojo');
+        updateLeithStreak();
+        pushLeithStateToSupabase();
+    }
+
+    // -------------------------------------------------------------
+    // LEITH بيفتكر — notices repeated moods within the same week
+    // (Local-only pattern detection, does not need its own sync)
+    // -------------------------------------------------------------
+    function recordLeithMoodHistory(moodKey) {
+        if (!appState.leith.moodHistory) appState.leith.moodHistory = [];
+        appState.leith.moodHistory.push({ mood: moodKey, date: new Date().toISOString() });
+        if (appState.leith.moodHistory.length > 30) {
+            appState.leith.moodHistory = appState.leith.moodHistory.slice(-30);
+        }
+    }
+
+    function checkLeithMoodPattern(moodKey) {
+        if (moodKey === 'neutral' || moodKey === 'happy' || moodKey === 'love') return null;
+        const history = appState.leith.moodHistory || [];
+        const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+        const recentSame = history.filter(h => h.mood === moodKey && new Date(h.date).getTime() >= weekAgo);
+        if (recentSame.length >= 2) {
+            const patternMsgs = {
+                tired: "لاحظت إنك تعبانة كتير الأسبوع ده، خدي بالك من نفسك يا لولا ❤️",
+                stressed: "إنتِ مخنوقة كتير الأيام دي... كلمي جوجو، متفضليش لوحدك ❤️",
+                sad: "حاسس إنك زعلانة كتير الفترة دي، إحنا هنا نسمعك ❤️",
+                bored: "شكلك زهقانة الأسبوع ده كله، يلا نعمل حاجة مختلفة 👀",
+                angry: "لاحظت إنك بتعصبي كتير الأيام دي، احكيلي إيه اللي مضايقك ❤️"
+            };
+            return patternMsgs[moodKey] || null;
+        }
+        return null;
+    }
+
+    // -------------------------------------------------------------
+    // LEITH QUICK REACTIONS
+    // -------------------------------------------------------------
+    function sendLeithReaction(emoji) {
+        const currentSender = appState.leith.sender || 'jojo';
+        appState.leith.latestMessage = emoji;
+        appState.leith.sender = currentSender;
+        appState.leith.isPersistentMsg = true;
+        saveAppState();
+        showLeithMessage(emoji, currentSender);
+        updateLeithStreak();
         pushLeithStateToSupabase();
     }
 
@@ -3398,6 +3855,7 @@
         appState.leith.isPersistentMsg = true;
         saveAppState();
         showLeithMessage(pick, 'jojo');
+        updateLeithStreak();
         pushLeithStateToSupabase();
     }
 
@@ -3422,6 +3880,7 @@
 
         input.value = '';
         showLeithMessage(txt, currentSender);
+        updateLeithStreak();
         pushLeithStateToSupabase();
     }
 
