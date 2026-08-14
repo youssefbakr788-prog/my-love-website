@@ -1715,18 +1715,22 @@
         footer span { color: #ff6584; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
     
-/* TIME MESSAGE UPGRADES */
-.time-msg-upgrades{margin-top:1rem;display:flex;flex-direction:column;gap:.65rem}
-.time-msg-meta{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;color:#9ca3af;font-size:.72rem}
-.time-msg-badge{display:inline-flex;align-items:center;padding:.3rem .55rem;border-radius:999px;background:rgba(255,101,132,.10);border:1px solid rgba(255,101,132,.18);color:#ff9fb1}
-.time-msg-alert{display:none;margin-top:.75rem;padding:.8rem;border-radius:.85rem;background:rgba(255,101,132,.10);border:1px solid rgba(255,101,132,.22);color:#fff}
-.time-msg-archive{margin-top:1rem;display:flex;flex-direction:column;gap:.5rem}
-.time-msg-archive-item{padding:.7rem .8rem;border-radius:.8rem;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06)}
-.time-msg-archive-item small{display:block;color:#9ca3af;margin-top:.25rem}
-.time-msg-reply{margin-top:.6rem;display:flex;gap:.5rem}
+/* TIME MESSAGE ENHANCEMENTS — additive only */
+.time-msg-tools{display:flex;gap:.55rem;flex-wrap:wrap;margin-top:.9rem}
+.time-msg-archive{margin-top:1rem;display:flex;flex-direction:column;gap:.55rem}
+.time-msg-history-item{display:flex;justify-content:space-between;gap:.75rem;align-items:center;padding:.75rem .85rem;border:1px solid rgba(255,255,255,.07);border-radius:.85rem;background:rgba(255,255,255,.025)}
+.time-msg-history-item .tmh-main{min-width:0}
+.time-msg-history-item .tmh-title{color:#fff;font-size:.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.time-msg-history-item .tmh-meta{color:#9ca3af;font-size:.68rem;margin-top:.2rem}
+.time-msg-history-item .tmh-actions{display:flex;gap:.35rem;flex-wrap:wrap}
+.time-msg-reply{margin-top:.75rem;display:flex;gap:.45rem}
 .time-msg-reply input{flex:1;min-width:0}
-.time-msg-settings{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;font-size:.75rem;color:#aaa}
-@media(max-width:520px){.time-msg-reply{flex-direction:column}}
+.time-msg-notify{display:flex;align-items:center;justify-content:space-between;gap:.75rem;margin-top:.8rem;padding:.65rem .8rem;border:1px solid rgba(255,101,132,.16);border-radius:.8rem;background:rgba(255,101,132,.04);font-size:.72rem}
+.tm-toast{position:fixed;right:1rem;bottom:1rem;z-index:99999;max-width:min(360px,calc(100vw - 2rem));background:rgba(20,21,30,.96);border:1px solid rgba(255,101,132,.4);border-radius:1rem;padding:1rem;box-shadow:0 20px 50px rgba(0,0,0,.5);display:none}
+.tm-toast.active{display:block;animation:tmToastIn .25s ease}
+@keyframes tmToastIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:520px){.time-msg-history-item{align-items:flex-start;flex-direction:column}.time-msg-history-item .tmh-actions{width:100%}.time-msg-history-item .tmh-actions button{flex:1}}
+
 </style>
 </head>
 <body>
@@ -1881,19 +1885,19 @@
                 <label>Open Time:</label>
                 <input type="time" id="inputTimeMsgTime" class="time-msg-input">
             </div>
-            
-            <div class="time-msg-upgrades">
-                <label class="time-msg-settings"><input type="checkbox" id="timeMsgRecurringYearly"> 🔁 تكرار سنويًا</label>
-                <label class="time-msg-settings"><input type="checkbox" id="timeMsgNotifyOpen" checked> 🔔 تنبيه عند فتح الرسالة</label>
-            </div>
-<button class="main-btn" style="justify-content: center; margin-top: 0.5rem;" onclick="saveTimeMessage()">💌 Save Time Message</button>
+            <button class="main-btn" style="justify-content: center; margin-top: 0.5rem;" onclick="saveTimeMessage()">💌 Save Time Message</button>
         </div>
 
         <div id="timeMessageViewContainer" style="display: none;" class="time-msg-display-box">
             <!-- Rendered via JS -->
         </div>
-         <div id="timeMessageAlert" class="time-msg-alert"></div>
-         <div id="timeMessageArchive" class="time-msg-archive"></div>
+        <div class="time-msg-tools">
+            <button class="btn-sm-action" type="button" onclick="openTimeMessageArchive()">🕰️ الأرشيف</button>
+            <button class="btn-sm-action" type="button" onclick="toggleTimeMessageRecurring()">🔁 تكرار سنوي</button>
+            <button class="btn-sm-action" type="button" onclick="requestTimeMessageNotifications()">🔔 تفعيل الإشعارات</button>
+        </div>
+        <div id="timeMessageNotifyStatus" class="time-msg-notify" style="display:none;"></div>
+        <div id="timeMessageArchive" class="time-msg-archive" style="display:none;"></div>
 
     </div>
 </section>
@@ -2397,6 +2401,7 @@
             ['initTodoList', initTodoList],
             ['renderGallery', () => renderGallery('lola')],
             ['renderTimeMessageSection', renderTimeMessageSection],
+            ['initTimeMessageSync', initTimeMessageSync],
             ['createFloatingHearts', createFloatingHearts],
             ['renderSavingsSection', renderSavingsSection],
             ['renderSavingsExtras', renderSavingsExtras],
@@ -2413,6 +2418,18 @@
         });
 
         // Password was intentionally removed: open the site directly.
+        ensureTimeMessageState();
+        if ('Notification' in window) updateTimeMessageNotificationStatus(Notification.permission);
+        document.addEventListener('pointerdown', () => { window.__tmAudioUnlocked = true; }, { once:true, passive:true });
+        checkTimeMessageUnlock();
+        advanceRecurringTimeMessageIfNeeded();
+        timeMessageUnlockTimer = setInterval(() => {
+            try {
+                advanceRecurringTimeMessageIfNeeded();
+                checkTimeMessageUnlock();
+            } catch(e) { console.warn('Time Message timer error:', e); }
+        }, 15000);
+
         const gate = document.getElementById('passwordGateOverlay');
         if (gate) gate.classList.add('unlocked');
     });
@@ -2681,103 +2698,384 @@
         updateLightboxContent();
     }
 
-
-    // TIME MESSAGE UPGRADE — sync, archive, yearly recurrence, notifications
+    // -------------------------------------------------------------
+    // TIME MESSAGE SECTION LOGIC — SYNC + NOTIFICATIONS + ARCHIVE + RECURRING + REPLY
+    const TIME_MESSAGE_TABLE = 'time_message_state';
     let timeMessageSupabaseClient = null;
     let timeMessageLastUpdatedAt = null;
     let timeMessageApplyingRemote = false;
+    let timeMessageUnlockTimer = null;
+    let timeMessageLastNotifiedId = null;
 
     function ensureTimeMessageState() {
-        if (!Array.isArray(appState.timeMessages)) appState.timeMessages = [];
-        return appState.timeMessages;
+        if (!appState.timeMessage || typeof appState.timeMessage !== 'object') {
+            appState.timeMessage = { message:"", openDate:"", openTime:"", id:null, history:[], recurring:false, replies:[] };
+        }
+        if (!Array.isArray(appState.timeMessage.history)) appState.timeMessage.history = [];
+        if (!Array.isArray(appState.timeMessage.replies)) appState.timeMessage.replies = [];
+        if (typeof appState.timeMessage.recurring !== 'boolean') appState.timeMessage.recurring = false;
+        return appState.timeMessage;
     }
 
-    function showTimeMessageNotification(message) {
-        const box = document.getElementById('timeMessageAlert');
-        if (box) {
-            box.style.display = 'block';
-            box.innerHTML = `💌 <strong>Time Message</strong><br>${escapeHtml(message || 'رسالة جديدة ❤️')}`;
-            setTimeout(() => { box.style.display = 'none'; }, 7000);
+    function getTimeMessageId() {
+        const tm = ensureTimeMessageState();
+        return tm.id || `${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
+    }
+
+    function formatTimeMessageDate(dateStr, timeStr) {
+        try {
+            return new Date(`${dateStr}T${timeStr || '00:00'}:00`).toLocaleString('ar-EG', {
+                dateStyle:'medium', timeStyle:'short'
+            });
+        } catch(e) { return `${dateStr || ''} ${timeStr || ''}`; }
+    }
+
+    function isTimeMessageUnlocked(tm) {
+        if (!tm || !tm.message || !tm.openDate) return false;
+        const target = new Date(`${tm.openDate}T${tm.openTime || '00:00'}:00`);
+        return !Number.isNaN(target.getTime()) && new Date() >= target;
+    }
+
+    function showTimeMessageToast(message) {
+        const toast = document.getElementById('timeMessageToast');
+        const txt = document.getElementById('timeMessageToastText');
+        if (!toast || !txt) return;
+        txt.textContent = message;
+        toast.classList.add('active');
+        setTimeout(() => toast.classList.remove('active'), 9000);
+    }
+
+    async function requestTimeMessageNotifications() {
+        if (!('Notification' in window)) {
+            showTimeMessageToast('المتصفح ده مش بيدعم إشعارات النظام، لكن إشعار الموقع الداخلي شغال ❤️');
+            return;
         }
+        try {
+            const permission = await Notification.requestPermission();
+            updateTimeMessageNotificationStatus(permission);
+            if (permission === 'granted') {
+                new Notification('💌 Time Message', { body:'الإشعارات اتفعلت. هقولك لما رسالة وقتها ييجي ❤️' });
+            }
+        } catch(e) {
+            console.warn('Notification permission error:', e);
+        }
+    }
+
+    function updateTimeMessageNotificationStatus(permission) {
+        const box = document.getElementById('timeMessageNotifyStatus');
+        if (!box) return;
+        if (permission === 'granted') {
+            box.style.display = 'flex';
+            box.innerHTML = '<span>🔔 الإشعارات مفعلة</span><span>جاهزين 💗</span>';
+        } else if (permission === 'denied') {
+            box.style.display = 'flex';
+            box.innerHTML = '<span>🔕 الإشعارات مرفوضة من المتصفح</span><span>الإشعار داخل الصفحة شغال</span>';
+        } else {
+            box.style.display = 'flex';
+            box.innerHTML = '<span>🔔 الإشعارات غير مفعلة</span><span>اضغط تفعيل</span>';
+        }
+    }
+
+    function notifyTimeMessageUnlocked(tm) {
+        if (!tm) return;
+        const id = tm.id || `${tm.openDate}|${tm.openTime}|${tm.message}`;
+        const seenKey = 'jojo_lola_tm_notified_' + id;
+        if (localStorage.getItem(seenKey) === '1') return;
+        localStorage.setItem(seenKey, '1');
+        timeMessageLastNotifiedId = id;
+
+        showTimeMessageToast(`رسالة مؤجلة فتحت ❤️: ${tm.message}`);
+
         if ('Notification' in window && Notification.permission === 'granted') {
-            try { new Notification('💌 Time Message', {body: message || 'رسالة جديدة ❤️'}); } catch (_) {}
+            try { new Notification('💌 رسالة وقتها جه', { body: tm.message }); } catch(e) {}
+        }
+
+        // Audio only after a user has interacted with the page; avoids autoplay errors.
+        try {
+            if (document.visibilityState === 'visible' && window.__tmAudioUnlocked) {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.frequency.value = 880;
+                gain.gain.value = 0.045;
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.start(); osc.stop(ctx.currentTime + 0.16);
+            }
+        } catch(e) {}
+    }
+
+    function checkTimeMessageUnlock() {
+        ensureTimeMessageState();
+        const tm = appState.timeMessage;
+        if (tm.message && tm.openDate && isTimeMessageUnlocked(tm)) {
+            notifyTimeMessageUnlocked(tm);
+            renderTimeMessageSection();
         }
     }
 
-    async function requestTimeMessageNotificationPermission() {
-        if (!('Notification' in window)) return false;
-        if (Notification.permission === 'granted') return true;
-        if (Notification.permission === 'denied') return false;
-        try { return (await Notification.requestPermission()) === 'granted'; } catch (_) { return false; }
+    function renderTimeMessageSection() {
+        const formContainer = document.getElementById('timeMessageFormContainer');
+        const viewContainer = document.getElementById('timeMessageViewContainer');
+        if (!formContainer || !viewContainer) return;
+
+        const tm = ensureTimeMessageState();
+        if (!tm.message || !tm.openDate) {
+            formContainer.style.display = 'flex';
+            viewContainer.style.display = 'none';
+            return;
+        }
+
+        const isUnlocked = isTimeMessageUnlocked(tm);
+        formContainer.style.display = 'none';
+        viewContainer.style.display = 'flex';
+
+        if (isUnlocked) {
+            viewContainer.innerHTML = `
+                <span class="ticket-type-badge">💌 Time Message Unlocked</span>
+                <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:#fff;font-weight:600;line-height:1.5;">
+                    "${escapeHtml(tm.message)}"
+                </div>
+                <div style="color:#9ca3af;font-size:.85rem;display:flex;gap:1.5rem;margin-top:.5rem;flex-wrap:wrap;">
+                    <span>📅 ${escapeHtml(tm.openDate)}</span>
+                    <span>⏰ ${escapeHtml(tm.openTime || '00:00')}</span>
+                </div>
+                <div class="time-msg-reply">
+                    <input id="timeMessageReplyInput" class="time-msg-input" placeholder="اكتب ردك ❤️">
+                    <button class="btn-sm-action" onclick="replyToTimeMessage()">رد</button>
+                </div>
+                <div style="margin-top:.6rem;color:#d1d5db;font-size:.76rem;">
+                    ${renderTimeMessageReplies(tm.id)}
+                </div>
+                <div class="time-msg-tools">
+                    <button class="btn-sm-action" onclick="editTimeMessage()">✏️ تعديل</button>
+                    <button class="btn-sm-action" onclick="archiveCurrentTimeMessage()">🗃️ أرشفة</button>
+                </div>
+            `;
+        } else {
+            viewContainer.innerHTML = `
+                <span class="ticket-type-badge">🔒 رسالة مؤجلة</span>
+                <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:#fff;font-weight:600;">
+                    "في رسالة مستنياكي... ❤️"
+                </div>
+                <div style="color:#ff6584;font-size:.9rem;margin-top:.5rem;">
+                    تفتح في: ${escapeHtml(tm.openDate)} عند الساعة ${escapeHtml(tm.openTime || '00:00')}
+                </div>
+                ${tm.recurring ? '<div style="color:#fbbf24;font-size:.75rem;margin-top:.45rem;">🔁 بتتكرر سنويًا</div>' : ''}
+                <button class="btn-sm-action" style="margin-top:1rem;" onclick="editTimeMessage()">✏️ تعديل</button>
+            `;
+        }
+    }
+
+    function saveTimeMessage() {
+        ensureTimeMessageState();
+        const textEl = document.getElementById('inputTimeMsgText');
+        const dateEl = document.getElementById('inputTimeMsgDate');
+        const timeEl = document.getElementById('inputTimeMsgTime');
+        const text = textEl?.value.trim() || '';
+        const date = dateEl?.value.trim() || '';
+        const time = timeEl?.value.trim() || '00:00';
+        if (!text || !date) return;
+
+        const old = appState.timeMessage;
+        const id = old.id || getTimeMessageId();
+        const newMessage = {
+            id, message:text, openDate:date, openTime:time,
+            recurring: !!old.recurring, replies: Array.isArray(old.replies) ? old.replies : [],
+            createdAt: old.createdAt || new Date().toISOString()
+        };
+
+        if (old.message && old.openDate) {
+            appState.timeMessage.history.push({
+                id: old.id || getTimeMessageId(),
+                message: old.message, openDate: old.openDate, openTime: old.openTime || '00:00',
+                recurring: !!old.recurring, replies: old.replies || [],
+                archivedAt: new Date().toISOString()
+            });
+            if (appState.timeMessage.history.length > 50) appState.timeMessage.history = appState.timeMessage.history.slice(-50);
+        }
+
+        appState.timeMessage = newMessage;
+        saveAppState();
+        renderTimeMessageSection();
+        pushTimeMessageStateToSupabase();
+    }
+
+    function editTimeMessage() {
+        const tm = ensureTimeMessageState();
+        const formContainer = document.getElementById('timeMessageFormContainer');
+        const viewContainer = document.getElementById('timeMessageViewContainer');
+        if (!formContainer || !viewContainer) return;
+        document.getElementById('inputTimeMsgText').value = tm.message || "";
+        document.getElementById('inputTimeMsgDate').value = tm.openDate || "";
+        document.getElementById('inputTimeMsgTime').value = tm.openTime || "";
+        formContainer.style.display = 'flex';
+        viewContainer.style.display = 'none';
+    }
+
+    function archiveCurrentTimeMessage() {
+        const tm = ensureTimeMessageState();
+        if (!tm.message || !tm.openDate) return;
+        tm.history.push({
+            id: tm.id || getTimeMessageId(), message:tm.message, openDate:tm.openDate,
+            openTime:tm.openTime || '00:00', recurring:!!tm.recurring, replies:tm.replies || [],
+            archivedAt:new Date().toISOString()
+        });
+        tm.history = tm.history.slice(-50);
+        appState.timeMessage = { message:"", openDate:"", openTime:"", id:null, history:tm.history, recurring:false, replies:[] };
+        saveAppState();
+        renderTimeMessageSection();
+        renderTimeMessageArchive();
+        pushTimeMessageStateToSupabase();
+    }
+
+    function openTimeMessageArchive() {
+        const box = document.getElementById('timeMessageArchive');
+        if (!box) return;
+        box.style.display = box.style.display === 'none' ? 'flex' : 'none';
+        if (box.style.display !== 'none') renderTimeMessageArchive();
     }
 
     function renderTimeMessageArchive() {
         const box = document.getElementById('timeMessageArchive');
         if (!box) return;
-        const list = ensureTimeMessageState().filter(x => x && x.opened);
-        if (!list.length) { box.innerHTML = ''; return; }
-        box.innerHTML = `<div class="time-msg-meta"><span class="time-msg-badge">📦 أرشيف الرسائل</span></div>` +
-            list.slice().reverse().slice(0, 8).map(x => `
-                <div class="time-msg-archive-item">
-                    <div style="color:#fff;">${escapeHtml(x.message || '')}</div>
-                    <small>${escapeHtml(x.openDate || '')} ${escapeHtml(x.openTime || '00:00')}</small>
-                    ${x.reply ? `<small>↩️ الرد: ${escapeHtml(x.reply)}</small>` : ''}
-                </div>`).join('');
-    }
-
-    function getTimeMessageTarget(tm) {
-        if (!tm || !tm.openDate) return null;
-        const d = new Date(`${tm.openDate}T${tm.openTime || '00:00'}:00`);
-        if (Number.isNaN(d.getTime())) return null;
-        if (tm.recurringYearly) {
-            const now = new Date();
-            d.setFullYear(now.getFullYear());
-            if (d < now) d.setFullYear(now.getFullYear() + 1);
+        const history = ensureTimeMessageState().history.slice().reverse();
+        if (!history.length) {
+            box.innerHTML = '<div style="color:#9ca3af;font-size:.75rem;text-align:center;">الأرشيف لسه فاضي ❤️</div>';
+            return;
         }
-        return d;
+        box.innerHTML = history.map((item, idx) => `
+            <div class="time-msg-history-item">
+                <div class="tmh-main">
+                    <div class="tmh-title">${escapeHtml(item.message || '')}</div>
+                    <div class="tmh-meta">${escapeHtml(formatTimeMessageDate(item.openDate,item.openTime))}${item.recurring ? ' • 🔁 سنوي' : ''}</div>
+                </div>
+                <div class="tmh-actions">
+                    <button class="btn-sm-action" onclick="restoreTimeMessageFromArchive(${history.length-1-idx})">↩️ استرجاع</button>
+                    <button class="btn-sm-action" onclick="deleteTimeMessageArchive(${history.length-1-idx})">🗑️</button>
+                </div>
+            </div>
+        `).join('');
     }
 
-    function checkTimeMessageDue() {
-        const tm = appState.timeMessage;
-        if (!tm || !tm.message || !tm.openDate) return;
-        const target = getTimeMessageTarget(tm);
-        if (!target || new Date() < target) return;
+    function restoreTimeMessageFromArchive(index) {
+        const tm = ensureTimeMessageState();
+        const item = tm.history[index];
+        if (!item) return;
+        appState.timeMessage = {
+            id:item.id || getTimeMessageId(), message:item.message || '',
+            openDate:item.openDate || '', openTime:item.openTime || '00:00',
+            recurring:!!item.recurring, replies:item.replies || [],
+            history:tm.history
+        };
+        saveAppState();
+        renderTimeMessageSection();
+        pushTimeMessageStateToSupabase();
+    }
 
-        const list = ensureTimeMessageState();
-        const key = `${tm.message}|${tm.openDate}|${tm.openTime || '00:00'}`;
-        let item = list.find(x => x.key === key);
-        if (!item) {
-            item = {key, message:tm.message, openDate:tm.openDate, openTime:tm.openTime || '00:00',
-                    opened:true, recurringYearly:!!tm.recurringYearly, reply:''};
-            list.push(item);
+    function deleteTimeMessageArchive(index) {
+        const tm = ensureTimeMessageState();
+        if (!tm.history[index]) return;
+        tm.history.splice(index,1);
+        saveAppState();
+        renderTimeMessageArchive();
+        pushTimeMessageStateToSupabase();
+    }
+
+    function toggleTimeMessageRecurring() {
+        const tm = ensureTimeMessageState();
+        if (!tm.message || !tm.openDate) {
+            showTimeMessageToast('احفظ رسالة الأول وبعدها فعل التكرار السنوي ❤️');
+            return;
+        }
+        tm.recurring = !tm.recurring;
+        saveAppState();
+        renderTimeMessageSection();
+        pushTimeMessageStateToSupabase();
+        showTimeMessageToast(tm.recurring ? 'التكرار السنوي اتفعل 🔁❤️' : 'التكرار السنوي اتقفل');
+    }
+
+    function renderTimeMessageReplies(messageId) {
+        const tm = ensureTimeMessageState();
+        const replies = (tm.replies || []).filter(r => r.messageId === messageId);
+        if (!replies.length) return '<span style="color:#9ca3af;">مفيش ردود لسه.</span>';
+        return replies.slice(-5).map(r => `
+            <div style="margin-top:.35rem;padding:.45rem .55rem;border-radius:.65rem;background:rgba(255,255,255,.03);">
+                <strong style="color:#ffb3c1;">${escapeHtml(r.sender || '❤️')}</strong>
+                <span>${escapeHtml(r.text || '')}</span>
+            </div>
+        `).join('');
+    }
+
+    function replyToTimeMessage() {
+        const input = document.getElementById('timeMessageReplyInput');
+        const text = input?.value.trim() || '';
+        if (!text) return;
+        const tm = ensureTimeMessageState();
+        if (!tm.id) tm.id = getTimeMessageId();
+        tm.replies.push({
+            id:getTimeMessageId(), messageId:tm.id, text,
+            sender:localStorage.getItem('jojo_lola_sender') || '❤️',
+            date:new Date().toISOString()
+        });
+        tm.replies = tm.replies.slice(-30);
+        saveAppState();
+        renderTimeMessageSection();
+        pushTimeMessageStateToSupabase();
+    }
+
+    function advanceRecurringTimeMessageIfNeeded() {
+        const tm = ensureTimeMessageState();
+        if (!tm.recurring || !tm.message || !tm.openDate || !isTimeMessageUnlocked(tm)) return;
+        const target = new Date(`${tm.openDate}T${tm.openTime || '00:00'}:00`);
+        const next = new Date(target);
+        next.setFullYear(next.getFullYear() + 1);
+        if (new Date() >= next) {
+            tm.openDate = next.toISOString().slice(0,10);
             saveAppState();
-            showTimeMessageNotification(tm.message);
             pushTimeMessageStateToSupabase();
         }
     }
 
-    async function initTimeMessageSync() {
+    function initTimeMessageSync() {
         try {
             if (typeof window.supabase === 'undefined') return;
             if (!LEITH_SUPABASE_URL || !LEITH_SUPABASE_ANON_KEY ||
                 LEITH_SUPABASE_URL.indexOf('YOUR_') === 0 || LEITH_SUPABASE_ANON_KEY.indexOf('YOUR_') === 0) return;
-            timeMessageSupabaseClient = window.supabase.createClient(LEITH_SUPABASE_URL, LEITH_SUPABASE_ANON_KEY);
-            const {data, error} = await timeMessageSupabaseClient.from('time_message_state').select('*').eq('id',1).maybeSingle();
-            if (!error && data) applyRemoteTimeMessageState(data);
-            timeMessageSupabaseClient.channel('time_message_state_channel')
-                .on('postgres_changes',{event:'*',schema:'public',table:'time_message_state',filter:'id=eq.1'},
-                    p => { if (p.new) applyRemoteTimeMessageState(p.new); }).subscribe();
+
+            timeMessageSupabaseClient = getSharedSupabaseClient();
+            if (!timeMessageSupabaseClient) return;
+            fetchTimeMessageStateFromSupabase();
+            timeMessageSupabaseClient
+                .channel('time_message_state_channel')
+                .on('postgres_changes',
+                    { event:'*', schema:'public', table:TIME_MESSAGE_TABLE, filter:'id=eq.1' },
+                    payload => { if (payload.new) applyRemoteTimeMessageState(payload.new); }
+                )
+                .subscribe();
         } catch(e) { console.error('Time Message sync init error:', e); }
     }
 
+    async function fetchTimeMessageStateFromSupabase() {
+        if (!timeMessageSupabaseClient) return;
+        try {
+            const {data,error} = await timeMessageSupabaseClient
+                .from(TIME_MESSAGE_TABLE).select('id,state,updated_at').eq('id',1).maybeSingle();
+            if (error) { console.error('Time Message fetch error:', error); return; }
+            if (data) applyRemoteTimeMessageState(data);
+        } catch(e) { console.error('Time Message fetch exception:',e); }
+    }
+
     function applyRemoteTimeMessageState(row) {
-        if (!row) return;
+        if (!row || !row.state) return;
         if (timeMessageLastUpdatedAt && row.updated_at &&
             new Date(row.updated_at).getTime() <= new Date(timeMessageLastUpdatedAt).getTime()) return;
         timeMessageLastUpdatedAt = row.updated_at || timeMessageLastUpdatedAt;
         timeMessageApplyingRemote = true;
-        if (Array.isArray(row.messages)) appState.timeMessages = row.messages;
-        if (row.current_message) appState.timeMessage = row.current_message;
+        const remote = typeof row.state === 'string' ? JSON.parse(row.state) : row.state;
+        appState.timeMessage = Object.assign({
+            message:"",openDate:"",openTime:"",id:null,history:[],recurring:false,replies:[]
+        }, remote || {});
+        ensureTimeMessageState();
         saveAppState();
         renderTimeMessageSection();
         renderTimeMessageArchive();
@@ -2787,116 +3085,15 @@
     async function pushTimeMessageStateToSupabase() {
         if (!timeMessageSupabaseClient || timeMessageApplyingRemote) return;
         try {
-            const now = new Date().toISOString();
-            timeMessageLastUpdatedAt = now;
-            const {error} = await timeMessageSupabaseClient.from('time_message_state').upsert({
-                id:1, messages:ensureTimeMessageState(), current_message:appState.timeMessage || null, updated_at:now
+            const nowIso = new Date().toISOString();
+            timeMessageLastUpdatedAt = nowIso;
+            const {error} = await timeMessageSupabaseClient.from(TIME_MESSAGE_TABLE).upsert({
+                id:1,
+                state:ensureTimeMessageState(),
+                updated_at:nowIso
             });
-            if (error) console.error('Time Message push error:', error);
-        } catch(e) { console.error('Time Message push exception:', e); }
-    }
-
-    function replyToTimeMessage() {
-        const input = document.getElementById('timeMessageReplyInput');
-        const reply = input ? input.value.trim() : '';
-        if (!reply) return;
-        const tm = appState.timeMessage;
-        const item = ensureTimeMessageState().find(x => x.message === tm?.message && x.openDate === tm?.openDate);
-        if (item) item.reply = reply;
-        else ensureTimeMessageState().push({
-            key:`${tm?.message}|${tm?.openDate}|${tm?.openTime || '00:00'}`,
-            message:tm?.message || '', openDate:tm?.openDate || '', openTime:tm?.openTime || '00:00',
-            opened:true, reply
-        });
-        saveAppState(); renderTimeMessageArchive(); pushTimeMessageStateToSupabase();
-        if (input) input.value = '';
-    }
-
-    // -------------------------------------------------------------
-    // TIME MESSAGE SECTION LOGIC
-    // -------------------------------------------------------------
-    function renderTimeMessageSection() {
-        const formContainer = document.getElementById('timeMessageFormContainer');
-        const viewContainer = document.getElementById('timeMessageViewContainer');
-        if (!formContainer || !viewContainer) return;
-
-        const tm = appState.timeMessage;
-        if (!tm || !tm.message || !tm.openDate) {
-            formContainer.style.display = 'flex';
-            viewContainer.style.display = 'none';
-            document.getElementById('inputTimeMsgText').value = "";
-            document.getElementById('inputTimeMsgDate').value = "";
-            document.getElementById('inputTimeMsgTime').value = "";
-            return;
-        }
-
-        const targetDateTime = new Date(`${tm.openDate}T${tm.openTime || '00:00'}:00`);
-        const now = new Date();
-        const isUnlocked = now >= targetDateTime;
-
-        if (isUnlocked) {
-            formContainer.style.display = 'none';
-            viewContainer.style.display = 'flex';
-            viewContainer.innerHTML = `
-                <span class="ticket-type-badge">💌 Time Message Unlocked</span>
-                <div style="font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: #fff; font-weight: 600; line-height: 1.5;">
-                    "${escapeHtml(tm.message)}"
-                </div>
-                <div style="color: #9ca3af; font-size: 0.85rem; display: flex; gap: 1.5rem; margin-top: 0.5rem;">
-                    <span>📅 ${escapeHtml(tm.openDate)}</span>
-                    <span>⏰ ${escapeHtml(tm.openTime || '00:00')}</span>
-                </div>
-                <button class="btn-sm-action" style="margin-top: 1rem;" onclick="editTimeMessage()">✏️ تعديل</button>
-            `;
-        } else {
-            formContainer.style.display = 'none';
-            viewContainer.style.display = 'flex';
-            viewContainer.innerHTML = `
-                <span class="ticket-type-badge">🔒 رسالة مؤجلة</span>
-                <div style="font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: #fff; font-weight: 600;">
-                    "في رسالة مستنياكي... ❤️"
-                </div>
-                <div style="color: #ff6584; font-size: 0.9rem; margin-top: 0.5rem;">
-                    تفتح في: ${escapeHtml(tm.openDate)} عند الساعة ${escapeHtml(tm.openTime || '00:00')}
-                </div>
-                <button class="btn-sm-action" style="margin-top: 1rem;" onclick="editTimeMessage()">✏️ تعديل</button>
-            `;
-        }
-    }
-
-    function saveTimeMessage() {
-        const text = document.getElementById('inputTimeMsgText').value.trim();
-        const date = document.getElementById('inputTimeMsgDate').value.trim();
-        const time = document.getElementById('inputTimeMsgTime').value.trim();
-
-        if (!text || !date) return;
-
-        const recurringYearly = !!document.getElementById('timeMsgRecurringYearly')?.checked;
-        const notifyOpen = document.getElementById('timeMsgNotifyOpen')?.checked !== false;
-        appState.timeMessage = { message:text, openDate:date, openTime:time, recurringYearly, notifyOpen };
-        const list = ensureTimeMessageState();
-        const existing = list.find(x => x.message === text && x.openDate === date && x.openTime === time);
-        if (existing) { existing.recurringYearly = recurringYearly; existing.notifyOpen = notifyOpen; }
-        else list.push({key:`${text}|${date}|${time}`, message:text, openDate:date, openTime:time,
-                        recurringYearly, notifyOpen, opened:false, reply:''});
-        saveAppState();
-        renderTimeMessageSection();
-        pushTimeMessageStateToSupabase();
-        if (notifyOpen) requestTimeMessageNotificationPermission();
-    }
-
-    function editTimeMessage() {
-        const tm = appState.timeMessage;
-        const formContainer = document.getElementById('timeMessageFormContainer');
-        const viewContainer = document.getElementById('timeMessageViewContainer');
-        if (!formContainer || !viewContainer) return;
-
-        document.getElementById('inputTimeMsgText').value = tm.message || "";
-        document.getElementById('inputTimeMsgDate').value = tm.openDate || "";
-        document.getElementById('inputTimeMsgTime').value = tm.openTime || "";
-
-        viewContainer.style.display = 'none';
-        formContainer.style.display = 'flex';
+            if (error) console.error('Time Message push error:',error);
+        } catch(e) { console.error('Time Message push exception:',e); }
     }
 
     // Family & Friends Module with App State Persistence
@@ -3398,7 +3595,8 @@
                 LEITH_SUPABASE_URL.indexOf('YOUR_') === 0 || LEITH_SUPABASE_ANON_KEY.indexOf('YOUR_') === 0) {
                 return;
             }
-            moneySupabaseClient = window.supabase.createClient(LEITH_SUPABASE_URL, LEITH_SUPABASE_ANON_KEY);
+            moneySupabaseClient = getSharedSupabaseClient();
+            if (!moneySupabaseClient) return;
             fetchMoneyStateFromSupabase();
             subscribeToMoney();
         } catch (e) {
@@ -3674,7 +3872,8 @@
                 LEITH_SUPABASE_URL.indexOf('YOUR_') === 0 || LEITH_SUPABASE_ANON_KEY.indexOf('YOUR_') === 0) {
                 return;
             }
-            faithSupabaseClient = window.supabase.createClient(LEITH_SUPABASE_URL, LEITH_SUPABASE_ANON_KEY);
+            faithSupabaseClient = getSharedSupabaseClient();
+            if (!faithSupabaseClient) return;
             fetchFaithStateFromSupabase();
             subscribeToFaith();
         } catch (e) {
@@ -3775,6 +3974,18 @@
     const LEITH_SUPABASE_URL = "https://gdngjpzkatjxzydxpqrm.supabase.co";
     const LEITH_SUPABASE_ANON_KEY = "sb_publishable_3iOeehVNl6Djk1Ut2M6n_g_wQ6Nmwfh";
 
+    let sharedSupabaseClient = null;
+    function getSharedSupabaseClient() {
+        if (typeof window.supabase === 'undefined') return null;
+        if (!sharedSupabaseClient) {
+            sharedSupabaseClient = window.supabase.createClient(
+                LEITH_SUPABASE_URL,
+                LEITH_SUPABASE_ANON_KEY
+            );
+        }
+        return sharedSupabaseClient;
+    }
+
     let leithSupabaseClient = null;
     let leithLastUpdatedAt = null;
     let leithApplyingRemote = false;
@@ -3786,7 +3997,8 @@
                 LEITH_SUPABASE_URL.indexOf('YOUR_') === 0 || LEITH_SUPABASE_ANON_KEY.indexOf('YOUR_') === 0) {
                 return; // not configured yet — Leith keeps working locally
             }
-            leithSupabaseClient = window.supabase.createClient(LEITH_SUPABASE_URL, LEITH_SUPABASE_ANON_KEY);
+            leithSupabaseClient = getSharedSupabaseClient();
+            if (!leithSupabaseClient) return;
             fetchLeithStateFromSupabase();
             subscribeToLeith();
         } catch (e) {
@@ -3882,7 +4094,8 @@
                 LEITH_SUPABASE_URL.indexOf('YOUR_') === 0 || LEITH_SUPABASE_ANON_KEY.indexOf('YOUR_') === 0) {
                 return; // not configured yet — Todo List keeps working locally
             }
-            todoSupabaseClient = window.supabase.createClient(LEITH_SUPABASE_URL, LEITH_SUPABASE_ANON_KEY);
+            todoSupabaseClient = getSharedSupabaseClient();
+            if (!todoSupabaseClient) return;
             fetchTodoStateFromSupabase();
             subscribeToTodo();
         } catch (e) {
@@ -4334,5 +4547,10 @@
     }
 </script>
 
+<div id="timeMessageToast" class="tm-toast">
+    <div style="color:#ff6584;font-weight:700;margin-bottom:.3rem;">💌 Time Message</div>
+    <div id="timeMessageToastText" style="color:#fff;line-height:1.5;"></div>
+    <button class="btn-sm-action" style="margin-top:.7rem;" onclick="document.getElementById('timeMessageToast')?.classList.remove('active')">حاضر ❤️</button>
+</div>
 </body>
 </html>
