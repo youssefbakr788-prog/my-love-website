@@ -855,97 +855,6 @@
             align-items: center;
         }
 
-        .family-container {
-            max-width: 64rem;
-            margin: 0 auto;
-            padding: 4rem 1.5rem;
-            position: relative;
-            z-index: 10;
-        }
-
-        .family-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-        }
-
-        @media (min-width: 640px) { .family-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (min-width: 1024px) { .family-grid { grid-template-columns: repeat(3, 1fr); } }
-
-        .family-card {
-            background: rgba(20, 21, 30, 0.75);
-            backdrop-filter: blur(14px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 1.5rem;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            gap: 1rem;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-            transition: transform 0.3s, border-color 0.3s;
-            position: relative;
-        }
-
-        .family-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(255, 101, 132, 0.4);
-        }
-
-        .family-card.primary-main {
-            border-color: rgba(255, 101, 132, 0.5);
-            background: linear-gradient(135deg, rgba(20, 21, 30, 0.85) 0%, rgba(45, 25, 45, 0.6) 100%);
-        }
-
-        .family-badge {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            background: rgba(255, 101, 132, 0.15);
-            color: #ff6584;
-            padding: 0.25rem 0.6rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            border: 1px solid rgba(255, 101, 132, 0.3);
-        }
-
-        .family-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, rgba(255,101,132,0.2) 0%, rgba(217,70,239,0.2) 100%);
-            border: 2px solid rgba(255, 101, 132, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.2rem;
-            box-shadow: 0 0 20px rgba(255, 101, 132, 0.15);
-        }
-
-        .family-card-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #fff;
-            margin-bottom: 0.1rem;
-        }
-
-        .family-card-sub {
-            font-size: 0.85rem;
-            color: #ff6584;
-            font-weight: 500;
-        }
-
-        .family-card-desc {
-            font-size: 0.9rem;
-            color: #9ca3af;
-            line-height: 1.4;
-        }
-
         .tickets-container {
             max-width: 64rem;
             margin: 0 auto;
@@ -1017,239 +926,6 @@
             color: #d1d5db;
         }
 
-        /* MONEY DASHBOARD */
-        .money-dashboard-container {
-            max-width: 64rem;
-            margin: 0 auto;
-            padding: 4rem 1.5rem;
-            position: relative;
-            z-index: 10;
-        }
-
-        .money-grid-top {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-            margin-bottom: 2.5rem;
-        }
-
-        @media (min-width: 768px) {
-            .money-grid-top {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .money-card {
-            background: rgba(20, 21, 30, 0.75);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 101, 132, 0.25);
-            border-radius: 1.5rem;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            position: relative;
-        }
-
-        .money-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.25rem;
-        }
-
-        .money-card-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #ff6584;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .money-value-display {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 0.5rem;
-        }
-
-        .money-sub-value {
-            font-size: 0.95rem;
-            color: #9ca3af;
-        }
-
-        .goals-section-wrapper {
-            background: rgba(20, 21, 30, 0.75);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 1.5rem;
-            padding: 2rem;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-        }
-
-        .goals-header-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.75rem;
-            flex-wrap: wrap;
-            gap: 1.0rem;
-        }
-
-        .goals-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.25rem;
-        }
-
-        @media (min-width: 768px) {
-            .goals-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .goal-card-item {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1.0rem;
-            transition: border-color 0.2s;
-        }
-
-        .goal-card-item:hover {
-            border-color: rgba(255, 101, 132, 0.4);
-        }
-
-        .goal-item-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-
-        .goal-title {
-            font-size: 1.15rem;
-            font-weight: 600;
-            color: #fff;
-            font-family: 'Cormorant Garamond', serif;
-        }
-
-        .goal-note {
-            font-size: 0.8rem;
-            color: #9ca3af;
-            margin-top: 0.2rem;
-        }
-
-        .goal-amounts-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.5rem;
-            text-align: center;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 0.75rem 0.5rem;
-            border-radius: 0.75rem;
-            font-size: 0.85rem;
-        }
-
-        .goal-amt-label {
-            font-size: 0.65rem;
-            color: #9ca3af;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.15rem;
-        }
-
-        .goal-amt-val {
-            font-weight: 600;
-            color: #fff;
-        }
-
-        .goal-progress-container {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 9999px;
-            height: 10px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* MONEY UPGRADES */
-        .money-mini-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.75rem;
-            margin: 1rem 0 1.25rem;
-        }
-        .money-mini-card {
-            background: rgba(255,255,255,0.035);
-            border: 1px solid rgba(255,255,255,0.07);
-            border-radius: 0.9rem;
-            padding: 0.85rem;
-            text-align: center;
-        }
-        .money-mini-label {
-            display: block;
-            color: #9ca3af;
-            font-size: 0.68rem;
-            margin-bottom: 0.25rem;
-        }
-        .money-mini-value {
-            display: block;
-            color: #fff;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-        .money-history {
-            margin-top: 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        .money-history-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.7rem 0.8rem;
-            border-radius: 0.8rem;
-            background: rgba(255,255,255,0.025);
-            border: 1px solid rgba(255,255,255,0.05);
-            font-size: 0.78rem;
-        }
-        .money-history-positive { color: #34d399; }
-        .money-history-negative { color: #f87171; }
-        .money-history-date { color: #9ca3af; font-size: 0.68rem; }
-        @media (max-width: 520px) {
-            .money-mini-grid { grid-template-columns: 1fr; }
-        }
-
-
-        .goal-progress-fill {
-            height: 100%;
-            background: linear-gradient(135deg, #ff6584 0%, #d946ef 100%);
-            border-radius: 9999px;
-            transition: width 0.5s ease;
-        }
-
-        .goal-progress-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.85rem;
-        }
-
-        .goal-actions-row {
-            display: flex;
-            gap: 0.5rem;
-            justify-content: flex-end;
-            margin-top: 0.5rem;
-        }
-
         .btn-sm-action {
             background: rgba(255, 255, 255, 0.06);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -1270,167 +946,6 @@
         .btn-sm-danger:hover {
             background: #f87171 !important;
             border-color: #f87171 !important;
-        }
-
-        .money-form-group {
-            margin-bottom: 1.25rem;
-            text-align: left;
-        }
-
-        .money-form-group label {
-            display: block;
-            font-size: 0.85rem;
-            color: #d1d5db;
-            margin-bottom: 0.4rem;
-            font-weight: 500;
-        }
-
-        .money-form-input {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 0.75rem;
-            padding: 0.75rem 1rem;
-            color: #fff;
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.95rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .money-form-input:focus {
-            border-color: #ff6584;
-        }
-
-        .faith-container {
-            max-width: 64rem;
-            margin: 0 auto;
-            padding: 4rem 1.5rem;
-            position: relative;
-            z-index: 10;
-        }
-
-        .faith-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-        }
-
-        @media (min-width: 768px) {
-            .faith-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .faith-card {
-            background: rgba(20, 21, 30, 0.7);
-            backdrop-filter: blur(14px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 1.5rem;
-            padding: 2.0rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1.25rem;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-            position: relative;
-        }
-
-        .faith-card.full-width {
-            grid-column: 1 / -1;
-        }
-
-        .faith-card-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #ff6584;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            padding-bottom: 0.75rem;
-        }
-
-        .faith-verse-box {
-            text-align: center;
-            padding: 1.0rem 0;
-            direction: rtl;
-        }
-
-        .faith-verse-text {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #fff;
-            line-height: 1.8;
-            margin-bottom: 1.0rem;
-        }
-
-        .faith-verse-ref {
-            font-size: 0.9rem;
-            color: #ff6584;
-            letter-spacing: 0.05em;
-        }
-
-        .faith-adhkar-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            max-height: 280px;
-            overflow-y: auto;
-            padding-right: 0.25rem;
-            direction: rtl;
-            text-align: right;
-        }
-
-        .faith-adhkar-item {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 0.85rem;
-            padding: 0.85rem 1.0rem;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.15rem;
-            color: #f3f4f6;
-            line-height: 1.5;
-            transition: background 0.2s;
-        }
-
-        .faith-adhkar-item:hover {
-            background: rgba(255, 255, 255, 0.06);
-        }
-
-        .faith-prayer-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .faith-prayer-item {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 0.85rem;
-            padding: 0.85rem 1.0rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .faith-prayer-item:hover {
-            background: rgba(255, 255, 255, 0.06);
-        }
-
-        .faith-prayer-item.completed span {
-            text-decoration: line-through;
-            color: #6b7280;
-        }
-
-        .faith-prayer-item input[type="checkbox"] {
-            accent-color: #ff6584;
-            width: 1.2rem;
-            height: 1.2rem;
-            cursor: pointer;
         }
 
         /* ------------------------------------------------------------- */
@@ -1762,10 +1277,7 @@
         <a href="#home">Home</a>
         <a href="#memories">Memories</a>
         <a href="#timeMessageSection">Time Message</a>
-        <a href="#familySection">Family</a>
         <a href="#ticketsSection">Tickets</a>
-        <a href="#moneySection">Money</a>
-        <a href="#faithSection">Faith</a>
     </div>
 </nav>
 
@@ -1902,22 +1414,6 @@
     </div>
 </section>
 
-<section id="familySection" class="family-container">
-    <div class="section-title">
-        <p>The people who make life special ❤️</p>
-        <h2>👨‍👩‍👧‍👦 <span>Family & Friends</span></h2>
-        <p id="familyCountSub" style="margin-top: 0.5rem; color: #9ca3af; font-size: 0.9rem;">3 People • One Little World</p>
-    </div>
-
-    <div style="display: flex; justify-content: flex-end; margin-bottom: 1.5rem;">
-        <button class="main-btn" onclick="openAddPersonModal()">+ Add Person</button>
-    </div>
-
-    <div class="family-grid" id="familyGridContainer">
-        <!-- Populated via JS -->
-    </div>
-</section>
-
 <section id="ticketsSection" class="tickets-container">
     <div class="section-title">
         <p>Tickets to the moments we'll never forget ❤️</p>
@@ -1933,205 +1429,35 @@
     </div>
 </section>
 
-<section id="moneySection" class="money-dashboard-container">
-    <div class="section-title">
-        <p>A small step every day brings us closer to our dreams ❤️</p>
-        <h2>💰 <span>ادخاري</span></h2>
-    </div>
-
-    <div class="goals-section-wrapper">
-        <div class="goals-header-row">
-            <div>
-                <h3 class="font-serif" style="font-size: 1.5rem; color: #fff;">عشان نتجوز ❤️</h3>
-                <p style="color: #9ca3af; font-size: 0.85rem;">تتبع هدفنا خطوة بخطوة</p>
-            </div>
-            <button class="btn-sm-action" onclick="openEditGoalModal()">✏️ تعديل الهدف</button>
-        </div>
-
-        <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1.0rem; margin-bottom: 1.5rem;">
-            <div>
-                <div style="font-size: 0.75rem; text-transform: uppercase; color: #9ca3af; font-weight: 600;">المبلغ الحالي</div>
-                <div id="displayCurrentSavings" style="font-family: 'Cormorant Garamond', serif; font-size: 2.25rem; font-weight: 700; color: #ff6584;">6,000 ج.م</div>
-            </div>
-            <div style="text-align: right;">
-                <div style="font-size: 0.75rem; text-transform: uppercase; color: #9ca3af; font-weight: 600;">الهدف</div>
-                <div id="displaySavingsGoal" style="font-family: 'Cormorant Garamond', serif; font-size: 2.25rem; font-weight: 700; color: #fff;">300,000 ج.م</div>
-            </div>
-        </div>
-
-        <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.5rem;">
-            <div class="goal-progress-container">
-                <div class="goal-progress-fill" id="savingsProgressFill" style="width: 2%;"></div>
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem;">
-                <span id="displaySavingsPercent" style="font-weight: 600; color: #ff6584;">2%</span>
-                <span id="displaySavingsRemaining" style="color: #9ca3af;">باقي 294,000 ج.م</span>
-            </div>
-            <div id="displaySavingsProjection" style="font-size: 0.8rem; color: #9ca3af; margin-top: 0.25rem;"></div>
-            <div id="savingsMilestoneBanner" style="display:none; text-align:center; font-size:0.95rem; font-weight:600; color:#34d399; margin-top:0.5rem; animation: fadeInItem 0.4s ease;"></div>
-        </div>
-
-        <div class="money-mini-grid">
-            <div class="money-mini-card">
-                <span class="money-mini-label">إجمالي الإضافات</span>
-                <span class="money-mini-value" id="moneyTotalAdded">0 ج.م</span>
-            </div>
-            <div class="money-mini-card">
-                <span class="money-mini-label">إجمالي المصروف</span>
-                <span class="money-mini-value" id="moneyTotalSpent">0 ج.م</span>
-            </div>
-            <div class="money-mini-card">
-                <span class="money-mini-label">عدد العمليات</span>
-                <span class="money-mini-value" id="moneyTransactionCount">0</span>
-            </div>
-        </div>
-
-        <div class="money-history" id="moneyHistoryList"></div>
-
-        <div style="display: flex; gap: 1.0rem; flex-wrap: wrap;">
-            <button class="main-btn" style="flex: 1; min-width: 150px; justify-content: center;" onclick="openAddAmountModal()">➕ إضافة مبلغ</button>
-            <button class="btn-sm-action" style="flex: 1; min-width: 150px; justify-content: center;" onclick="openExpenseModal()">➖ تسجيل مصروف</button>
-        </div>
-    </div>
-</section>
-
-<!-- Savings Modals -->
-<div class="modal" id="addAmountModal">
-    <div class="modal-content">
-        <button class="close-modal" onclick="closeModals()">×</button>
-        <h3 class="font-serif" style="font-size: 1.75rem; color: #fff; margin-bottom: 1.25rem;">إضافة مبلغ للادخار</h3>
-        <div class="money-form-group">
-            <label>المبلغ (ج.م)</label>
-            <input type="number" id="inputAddAmount" class="money-form-input" placeholder="1000">
-        </div>
-        <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
-            <button class="main-btn" style="flex: 1; justify-content: center;" onclick="saveAddedAmount()">حفظ</button>
-            <button class="btn-sm-action" style="flex: 1; padding: 0.8rem;" onclick="closeModals()">إلغاء</button>
-        </div>
-    </div>
-</div>
-
-<div class="modal" id="expenseAmountModal">
-    <div class="modal-content">
-        <button class="close-modal" onclick="closeModals()">×</button>
-        <h3 class="font-serif" style="font-size: 1.75rem; color: #fff; margin-bottom: 1.25rem;">تسجيل مصروف</h3>
-        <div class="money-form-group">
-            <label>المبلغ (ج.م)</label>
-            <input type="number" id="inputExpenseAmount" class="money-form-input" placeholder="500" min="0.01" step="0.01">
-        </div>
-        <div class="money-form-group">
-            <label>ملاحظة (اختياري)</label>
-            <input type="text" id="inputExpenseNote" class="money-form-input" placeholder="مثال: مواصلات">
-        </div>
-        <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
-            <button class="main-btn" style="flex: 1; justify-content: center;" onclick="saveExpenseAmount()">حفظ</button>
-            <button class="btn-sm-action" style="flex: 1; padding: 0.8rem;" onclick="closeModals()">إلغاء</button>
-        </div>
-    </div>
-</div>
-
-<div class="modal" id="editSavingsGoalModal">
-    <div class="modal-content">
-        <button class="close-modal" onclick="closeModals()">×</button>
-        <h3 class="font-serif" style="font-size: 1.75rem; color: #fff; margin-bottom: 1.25rem;">تعديل هدف الادخار</h3>
-        <div class="money-form-group">
-            <label>الهدف الجديد (ج.م)</label>
-            <input type="number" id="inputNewGoal" class="money-form-input" placeholder="300000">
-        </div>
-        <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
-            <button class="main-btn" style="flex: 1; justify-content: center;" onclick="saveNewSavingsGoal()">حفظ</button>
-            <button class="btn-sm-action" style="flex: 1; padding: 0.8rem;" onclick="closeModals()">إلغاء</button>
-        </div>
-    </div>
-</div>
-
-<!-- Family & Friends Modals -->
-<div class="modal" id="personModal">
-    <div class="modal-content">
-        <button class="close-modal" onclick="closeModals()">×</button>
-        <h3 class="font-serif" style="font-size: 1.75rem; color: #fff; margin-bottom: 1.25rem;" id="personModalTitle">Add Person</h3>
-        <input type="hidden" id="editPersonIndex" value="-1">
-        <div class="money-form-group">
-            <label>Name</label>
-            <input type="text" id="inputPersonName" class="money-form-input" placeholder="Name">
-        </div>
-        <div class="money-form-group">
-            <label>Nickname</label>
-            <input type="text" id="inputPersonNickname" class="money-form-input" placeholder="Nickname">
-        </div>
-        <div class="money-form-group">
-            <label>Birthday</label>
-            <input type="text" id="inputPersonBirthday" class="money-form-input" placeholder="DD/MM/YYYY">
-        </div>
-        <div class="money-form-group">
-            <label>Profession / Education</label>
-            <input type="text" id="inputPersonProfession" class="money-form-input" placeholder="Profession or Faculty">
-        </div>
-        <div class="money-form-group">
-            <label>Department / Specialization</label>
-            <input type="text" id="inputPersonDepartment" class="money-form-input" placeholder="Department">
-        </div>
-        <div class="money-form-group">
-            <label>Relationship</label>
-            <input type="text" id="inputPersonRelationship" class="money-form-input" placeholder="Relationship">
-        </div>
-        <div class="money-form-group">
-            <label>Short Description / Goal</label>
-            <input type="text" id="inputPersonDesc" class="money-form-input" placeholder="Description or Current Goal">
-        </div>
-        <div class="money-form-group">
-            <label>Dream / Quote</label>
-            <input type="text" id="inputPersonQuote" class="money-form-input" placeholder="Dream or Quote">
-        </div>
-        <div class="money-form-group">
-            <label>Avatar (Emoji / Symbol)</label>
-            <input type="text" id="inputPersonAvatar" class="money-form-input" placeholder="❤️ or 🩺">
-        </div>
-        <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
-            <button class="main-btn" style="flex: 1; justify-content: center;" onclick="savePersonItem()">Save</button>
-            <button class="btn-sm-action" style="flex: 1; padding: 0.8rem;" onclick="closeModals()">Cancel</button>
-        </div>
-    </div>
-</div>
-
-<div class="modal" id="personProfileModal">
-    <div class="modal-content">
-        <button class="close-modal" onclick="closeModals()">×</button>
-        <div id="profileModalContent" style="display: flex; flex-direction: column; align-items: center; gap: 1.0rem; text-align: center;">
-            <!-- Populated via JS -->
-        </div>
-    </div>
-</div>
-
 <!-- Memory Tickets Modals -->
 <div class="modal" id="ticketModal">
     <div class="modal-content">
         <button class="close-modal" onclick="closeModals()">×</button>
         <h3 class="font-serif" style="font-size: 1.75rem; color: #fff; margin-bottom: 1.25rem;" id="ticketModalTitle">Add Memory Ticket</h3>
         <input type="hidden" id="editTicketIndex" value="-1">
-        <div class="money-form-group">
-            <label>Memory Title</label>
-            <input type="text" id="inputTicketTitle" class="money-form-input" placeholder="Cinema Night">
+        <div class="money-form-group" style="margin-bottom: 1.25rem; text-align: left;">
+            <label style="display: block; font-size: 0.85rem; color: #d1d5db; margin-bottom: 0.4rem; font-weight: 500;">Memory Title</label>
+            <input type="text" id="inputTicketTitle" class="time-msg-input" placeholder="Cinema Night">
         </div>
-        <div class="money-form-group">
-            <label>Type</label>
-            <input type="text" id="inputTicketType" class="money-form-input" placeholder="🎬 Cinema">
+        <div class="money-form-group" style="margin-bottom: 1.25rem; text-align: left;">
+            <label style="display: block; font-size: 0.85rem; color: #d1d5db; margin-bottom: 0.4rem; font-weight: 500;">Type</label>
+            <input type="text" id="inputTicketType" class="time-msg-input" placeholder="🎬 Cinema">
         </div>
-        <div class="money-form-group">
-            <label>Date</label>
-            <input type="text" id="inputTicketDate" class="money-form-input" placeholder="15 August 2026">
+        <div class="money-form-group" style="margin-bottom: 1.25rem; text-align: left;">
+            <label style="display: block; font-size: 0.85rem; color: #d1d5db; margin-bottom: 0.4rem; font-weight: 500;">Date</label>
+            <input type="text" id="inputTicketDate" class="time-msg-input" placeholder="15 August 2026">
         </div>
-        <div class="money-form-group">
-            <label>Place</label>
-            <input type="text" id="inputTicketPlace" class="money-form-input" placeholder="Mall of Egypt">
+        <div class="money-form-group" style="margin-bottom: 1.25rem; text-align: left;">
+            <label style="display: block; font-size: 0.85rem; color: #d1d5db; margin-bottom: 0.4rem; font-weight: 500;">Place</label>
+            <input type="text" id="inputTicketPlace" class="time-msg-input" placeholder="Mall of Egypt">
         </div>
-        <div class="money-form-group">
-            <label>Short Note</label>
-            <input type="text" id="inputTicketNote" class="money-form-input" placeholder="Our first movie night ❤️">
+        <div class="money-form-group" style="margin-bottom: 1.25rem; text-align: left;">
+            <label style="display: block; font-size: 0.85rem; color: #d1d5db; margin-bottom: 0.4rem; font-weight: 500;">Short Note</label>
+            <input type="text" id="inputTicketNote" class="time-msg-input" placeholder="Our first movie night ❤️">
         </div>
-        <div class="money-form-group">
-            <label>Details</label>
-            <input type="text" id="inputTicketDetails" class="money-form-input" placeholder="Longer memory description">
+        <div class="money-form-group" style="margin-bottom: 1.25rem; text-align: left;">
+            <label style="display: block; font-size: 0.85rem; color: #d1d5db; margin-bottom: 0.4rem; font-weight: 500;">Details</label>
+            <input type="text" id="inputTicketDetails" class="time-msg-input" placeholder="Longer memory description">
         </div>
         <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
             <button class="main-btn" style="flex: 1; justify-content: center;" onclick="saveTicketItem()">Save</button>
@@ -2148,57 +1474,6 @@
         </div>
     </div>
 </div>
-
-<section id="faithSection" class="faith-container">
-    <div class="section-title">
-        <p>Peace, tranquility, and remembrance ❤️</p>
-        <h2>🤍 <span>Faith</span></h2>
-    </div>
-
-    <div class="faith-grid">
-        <div class="faith-card full-width">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
-                <div class="faith-card-title" style="border: none; padding: 0; margin: 0;">📖 Verse of the Day</div>
-            </div>
-            <div class="faith-verse-box">
-                <div class="faith-verse-text" id="verseOfDayText">"وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ"</div>
-                <div class="faith-verse-ref" id="verseOfDayRef">— سورة الطلاق (65:3)</div>
-            </div>
-        </div>
-
-        <div class="faith-card">
-            <div class="faith-card-title">🌅 Morning Adhkar</div>
-            <div class="faith-adhkar-list" id="morningAdhkarContainer">
-                <!-- Populated via JS -->
-            </div>
-        </div>
-
-        <div class="faith-card">
-            <div class="faith-card-title">🌙 Evening Adhkar</div>
-            <div class="faith-adhkar-list" id="eveningAdhkarContainer">
-                <!-- Populated via JS -->
-            </div>
-        </div>
-
-        <div class="faith-card">
-            <div class="faith-card-title">🌌 Before Sleep</div>
-            <div class="faith-adhkar-list" id="beforeSleepContainer">
-                <!-- Populated via JS -->
-            </div>
-        </div>
-
-        <div class="faith-card">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div class="faith-card-title" style="border: none; padding: 0; margin: 0;">🕌 My Prayers</div>
-                <span id="prayersStatusText" style="font-size: 0.85rem; color: #ff6584; font-weight: 600;">0 / 5 completed</span>
-            </div>
-            <div class="faith-prayer-list" id="prayersListContainer">
-                <!-- Populated via JS -->
-            </div>
-            <div id="prayerStreakText" style="text-align: center; font-size: 0.85rem; color: #ffb3c1; font-weight: 600; margin-top: 0.75rem;"></div>
-        </div>
-    </div>
-</section>
 
 <section class="section" style="text-align: center; padding-bottom: 8.0rem;">
     <p class="small-title">One last thing...</p>
@@ -2302,10 +1577,6 @@
             sender: "jojo",
             isPersistentMsg: true
         },
-        savings: {
-            currentSavings: 6000,
-            savingsGoal: 300000
-        },
         timeMessage: {
             message: "",
             openDate: "",
@@ -2314,44 +1585,6 @@
         todos: [
             { id: 1, text: "Drink water and smile ❤️", completed: false },
             { id: 2, text: "Talk to Youssef ✨", completed: true }
-        ],
-        family: [
-            {
-                name: "Jojo",
-                nickname: "",
-                birthday: "12/07/2004",
-                profession: "Biomedical Engineer",
-                department: "مهندس أجهزة طبية",
-                relationship: "",
-                description: "Biomedical Engineer (مهندس أجهزة طبية)",
-                quote: "",
-                avatar: "❤️",
-                badge: "Special ❤️"
-            },
-            {
-                name: "Lola",
-                nickname: "",
-                birthday: "01/01/2008",
-                profession: "Faculty of Science",
-                department: "كلية علوم • قسم تحاليل (Medical Analysis)",
-                relationship: "",
-                description: "مهمتها الحالية: تذاكر وبس 📚❤️ • تحلم تشتغل في شركة أدوية 💊❤️",
-                quote: "تحلم تشتغل في شركة أدوية 💊❤️",
-                avatar: "❤️",
-                badge: "Our People"
-            },
-            {
-                name: "Dr. Mai",
-                nickname: "Mayoush",
-                birthday: "",
-                profession: "",
-                department: "",
-                relationship: "خالة وعمة العيال",
-                description: "خالة وعمة العيال",
-                quote: "",
-                avatar: "🩺",
-                badge: ""
-            }
         ],
         tickets: [
             {
@@ -2363,9 +1596,6 @@
                 details: "An amazing evening watching a wonderful movie together with popcorn and laughs."
             }
         ],
-        faith: {
-            prayers: { fajr: false, dhuhr: false, asr: false, maghrib: false, isha: false }
-        },
         loveMsgIndex: 0
     };
 
@@ -2403,12 +1633,6 @@
             ['renderTimeMessageSection', renderTimeMessageSection],
             ['initTimeMessageSync', initTimeMessageSync],
             ['createFloatingHearts', createFloatingHearts],
-            ['renderSavingsSection', renderSavingsSection],
-            ['renderSavingsExtras', renderSavingsExtras],
-            ['initMoneySync', initMoneySync],
-            ['initFaithModule', initFaithModule],
-            ['initFaithSync', initFaithSync],
-            ['renderFamilyModule', renderFamilyModule],
             ['renderTicketsModule', renderTicketsModule],
             ['initLeith2Module', initLeith2Module]
         ];
@@ -2417,7 +1641,6 @@
             catch (error) { console.error(`Startup error in ${name}:`, error); }
         });
 
-        // Password was intentionally removed: open the site directly.
         ensureTimeMessageState();
         if ('Notification' in window) updateTimeMessageNotificationStatus(Notification.permission);
         document.addEventListener('pointerdown', () => { window.__tmAudioUnlocked = true; }, { once:true, passive:true });
@@ -2434,14 +1657,13 @@
         if (gate) gate.classList.add('unlocked');
     });
 
-    // Password Gate Logic disabled — the site opens directly.
     function toggleGatePasswordVisibility() {}
     function verifyGatePassword() {
         const overlay = document.getElementById('passwordGateOverlay');
         if (overlay) overlay.classList.add('unlocked');
     }
     function handleGateKeypress() { }
-    // Countdown Logic
+
     function initCountdown() {
         const startDate = new Date('2026-04-08T00:00:00');
         setInterval(() => {
@@ -2461,7 +1683,6 @@
         }, 1000);
     }
 
-    // Love Message — 100 Reasons Generator
     const loveReasonsArray = [
         "مفيش سبب، إنتِ تتحبي من غير حاجة ❤️",
         "هفضل معاكي ❤️",
@@ -2497,7 +1718,6 @@
         }, 500);
     }
 
-    // Todo List with Persistent App State
     function initTodoList() {
         renderTodoList();
         initTodoSync();
@@ -2507,11 +1727,11 @@
             todoInput.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') {
                     e.preventDefault();
-                    addTodo();
+                    addTodoItem();
                 }
             });
         }
-        }
+    }
 
     function renderTodoList() {
         const container = document.getElementById('todoListContainer');
@@ -2583,9 +1803,6 @@
         return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
     }
 
-    // -------------------------------------------------------------
-    // PHOTOS SECTION — 3 FOLDERS (LOLA, JOJO, TOGETHER)
-    // -------------------------------------------------------------
     const foldersData = {
         lola: [
             { id: "lola-1", file: "images/lola/lola1.jpg", title: "Lola 1", description: "Beautiful moment ❤️" },
@@ -2616,7 +1833,6 @@
         if (!grid) return;
 
         document.querySelectorAll('.gallery-tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
-        // Safe when called programmatically (no browser event exists).
         if (typeof event !== 'undefined' && event && event.target && event.target.classList) {
             event.target.classList.add('active');
         }
@@ -2698,8 +1914,6 @@
         updateLightboxContent();
     }
 
-    // -------------------------------------------------------------
-    // TIME MESSAGE SECTION LOGIC — SYNC + NOTIFICATIONS + ARCHIVE + RECURRING + REPLY
     const TIME_MESSAGE_TABLE = 'time_message_state';
     let timeMessageSupabaseClient = null;
     let timeMessageLastUpdatedAt = null;
@@ -2790,7 +2004,6 @@
             try { new Notification('💌 رسالة وقتها جه', { body: tm.message }); } catch(e) {}
         }
 
-        // Audio only after a user has interacted with the page; avoids autoplay errors.
         try {
             if (document.visibilityState === 'visible' && window.__tmAudioUnlocked) {
                 const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -3045,16 +2258,19 @@
             timeMessageSupabaseClient = getSharedSupabaseClient();
             if (!timeMessageSupabaseClient) return;
             fetchTimeMessageStateFromSupabase();
-            timeMessageSupabaseClient
-                .channel('time_message_state_channel')
-                .on('postgres_changes',
-                    { event:'*', schema:'public', table:TIME_MESSAGE_TABLE, filter:'id=eq.1' },
-                    payload => { if (payload.new) applyRemoteTimeMessageState(payload.new); }
-                )
-                .subscribe();
+            try {
+                timeMessageSupabaseClient
+                    .channel('time_message_state_channel')
+                    .on('postgres_changes',
+                        { event:'*', schema:'public', table:TIME_MESSAGE_TABLE, filter:'id=eq.1' },
+                        payload => { if (payload.new) applyRemoteTimeMessageState(payload.new); }
+                    )
+                    .subscribe();
+            } catch(wsErr) {
+                console.warn("WebSocket not allowed or failed for time message channel:", wsErr);
+            }
         } catch(e) {
-            console.error('Time Message sync init error:', e);
-            showTimeMessageToast('تعذر تشغيل مزامنة Time Message، لكن الموقع سيكمل محليًا ❤️');
+            console.warn('Time Message sync init skipped (running in Canvas offline/sandboxed mode).');
         }
     }
 
@@ -3064,17 +2280,14 @@
             const {data,error} = await timeMessageSupabaseClient
                 .from(TIME_MESSAGE_TABLE).select('id,state,updated_at').eq('id',1).maybeSingle();
             if (error) {
-                console.error('Time Message fetch error:', error, '| Table required: public.time_message_state with columns id, state, updated_at');
-                showTimeMessageToast('مزامنة Time Message محتاجة جدول Supabase باسم time_message_state ❤️');
                 return;
             }
             if (data) {
                 applyRemoteTimeMessageState(data);
             } else {
-                // Table exists but row #1 does not: create the shared state from local data.
                 await pushTimeMessageStateToSupabase();
             }
-        } catch(e) { console.error('Time Message fetch exception:',e); }
+        } catch(e) {}
     }
 
     function applyRemoteTimeMessageState(row) {
@@ -3105,161 +2318,8 @@
                 state:stateSnapshot,
                 updated_at:nowIso
             });
-            if (error) console.error('Time Message push error:',error);
-        } catch(e) { console.error('Time Message push exception:',e); }
-    }
-
-    // Family & Friends Module with App State Persistence
-    function renderFamilyModule() {
-        const grid = document.getElementById('familyGridContainer');
-        const countSub = document.getElementById('familyCountSub');
-        if (!grid) return;
-
-        if (countSub) {
-            countSub.textContent = `${appState.family.length} People • One Little World`;
-        }
-
-        if (appState.family.length === 0) {
-            grid.innerHTML = `<p style="grid-column: span 3; text-align: center; color: #9ca3af; padding: 2rem;">No people added yet.</p>`;
-            return;
-        }
-
-        grid.innerHTML = '';
-        appState.family.forEach((person, idx) => {
-            const isPrimary = idx === 0 || idx === 1;
-            const countdownText = getBirthdayCountdownText(person.birthday);
-
-            grid.innerHTML += `
-                <div class="family-card ${isPrimary ? 'primary-main' : ''}">
-                    ${person.badge ? `<div class="family-badge">${escapeHtml(person.badge)}</div>` : (isPrimary ? `<div class="family-badge">Special</div>` : '')}
-                    <div class="family-avatar">${person.avatar || '❤️'}</div>
-                    <div>
-                        <h3 class="family-card-title">${escapeHtml(person.name)}</h3>
-                        ${person.nickname ? `<div class="family-card-sub">${escapeHtml(person.nickname)}</div>` : ''}
-                    </div>
-                    <p class="family-card-desc">${escapeHtml(person.description || person.quote || 'Special person in our world ❤️')}</p>
-                    ${person.birthday ? `<div style="font-size: 0.85rem; color: #ffb3c1; font-weight: 500; background: rgba(255,101,132,0.08); padding: 0.3rem 0.8rem; border-radius: 9999px;">🎂 ${escapeHtml(person.birthday)} • ${countdownText}</div>` : ''}
-                    <div style="display: flex; gap: 0.5rem; margin-top: auto; flex-wrap: wrap; justify-content: center;">
-                        <button class="btn-sm-action" onclick="openPersonProfile(${idx})">View Profile</button>
-                        <button class="btn-sm-action" onclick="openEditPersonModal(${idx})">✏️</button>
-                        <button class="btn-sm-action btn-sm-danger" onclick="deletePersonItem(${idx})">🗑️</button>
-                    </div>
-                </div>
-            `;
-        });
-    }
-
-    function getBirthdayCountdownText(birthdayStr) {
-        if (!birthdayStr) return "";
-        const parts = birthdayStr.split('/');
-        if (parts.length !== 3) return "";
-        const day = parseInt(parts[0], 10);
-        const month = parseInt(parts[1], 10) - 1;
-
-        const now = new Date();
-        let targetYear = now.getFullYear();
-        let targetDate = new Date(targetYear, month, day);
-
-        if (now > targetDate) {
-            targetYear++;
-            targetDate = new Date(targetYear, month, day);
-        }
-
-        const diffTime = targetDate - now;
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-        if (diffDays === 0) return "🎉 Happy Birthday ❤️";
-        else if (diffDays === 1) return "⏳ Tomorrow is the Birthday! ❤️";
-        else return `⏳ ${diffDays} Days Left`;
-    }
-
-    function openAddPersonModal() {
-        document.getElementById('personModalTitle').textContent = "Add Person";
-        document.getElementById('editPersonIndex').value = "-1";
-        document.getElementById('inputPersonName').value = "";
-        document.getElementById('inputPersonNickname').value = "";
-        document.getElementById('inputPersonBirthday').value = "";
-        document.getElementById('inputPersonProfession').value = "";
-        document.getElementById('inputPersonDepartment').value = "";
-        document.getElementById('inputPersonRelationship').value = "";
-        document.getElementById('inputPersonDesc').value = "";
-        document.getElementById('inputPersonQuote').value = "";
-        document.getElementById('inputPersonAvatar').value = "❤️";
-        document.getElementById('personModal').classList.add('active');
-    }
-
-    function openEditPersonModal(index) {
-        const p = appState.family[index];
-        if (!p) return;
-        document.getElementById('personModalTitle').textContent = "Edit Person";
-        document.getElementById('editPersonIndex').value = index;
-        document.getElementById('inputPersonName').value = p.name || "";
-        document.getElementById('inputPersonNickname').value = p.nickname || "";
-        document.getElementById('inputPersonBirthday').value = p.birthday || "";
-        document.getElementById('inputPersonProfession').value = p.profession || "";
-        document.getElementById('inputPersonDepartment').value = p.department || "";
-        document.getElementById('inputPersonRelationship').value = p.relationship || "";
-        document.getElementById('inputPersonDesc').value = p.description || "";
-        document.getElementById('inputPersonQuote').value = p.quote || "";
-        document.getElementById('inputPersonAvatar').value = p.avatar || "❤️";
-        document.getElementById('personModal').classList.add('active');
-    }
-
-    function savePersonItem() {
-        const index = parseInt(document.getElementById('editPersonIndex').value, 10);
-        const name = document.getElementById('inputPersonName').value.trim();
-        const nickname = document.getElementById('inputPersonNickname').value.trim();
-        const birthday = document.getElementById('inputPersonBirthday').value.trim();
-        const profession = document.getElementById('inputPersonProfession').value.trim();
-        const department = document.getElementById('inputPersonDepartment').value.trim();
-        const relationship = document.getElementById('inputPersonRelationship').value.trim();
-        const description = document.getElementById('inputPersonDesc').value.trim();
-        const quote = document.getElementById('inputPersonQuote').value.trim();
-        const avatar = document.getElementById('inputPersonAvatar').value.trim() || "❤️";
-
-        if (!name) return;
-
-        const obj = { name, nickname, birthday, profession, department, relationship, description, quote, avatar };
-
-        if (index === -1) {
-            appState.family.push(obj);
-        } else {
-            appState.family[index] = obj;
-        }
-
-        saveAppState();
-        renderFamilyModule();
-        closeModals();
-    }
-
-    function deletePersonItem(index) {
-        if (confirm("Are you sure you want to delete this person?")) {
-            appState.family.splice(index, 1);
-            saveAppState();
-            renderFamilyModule();
-        }
-    }
-
-    function openPersonProfile(index) {
-        const p = appState.family[index];
-        if (!p) return;
-        const countdownText = getBirthdayCountdownText(p.birthday);
-        const content = document.getElementById('profileModalContent');
-        content.innerHTML = `
-            <div class="family-avatar" style="width: 100px; height: 100px; font-size: 2.8rem; margin: 0 auto;">${p.avatar || '❤️'}</div>
-            <h3 class="font-serif" style="font-size: 2.0rem; color: #fff;">${escapeHtml(p.name)}</h3>
-            ${p.nickname ? `<p style="color: #ff6584; font-weight: 600;">${escapeHtml(p.nickname)}</p>` : ''}
-            <div style="text-align: left; width: 100%; background: rgba(255,255,255,0.03); padding: 1rem; border-radius: 1rem; margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem;">
-                ${p.birthday ? `<div><strong>Birthday:</strong> ${escapeHtml(p.birthday)} (${countdownText})</div>` : ''}
-                ${p.profession ? `<div><strong>Profession/Education:</strong> ${escapeHtml(p.profession)}</div>` : ''}
-                ${p.department ? `<div><strong>Department:</strong> ${escapeHtml(p.department)}</div>` : ''}
-                ${p.relationship ? `<div><strong>Relationship:</strong> ${escapeHtml(p.relationship)}</div>` : ''}
-                ${p.description ? `<div><strong>Description / Goal:</strong> ${escapeHtml(p.description)}</div>` : ''}
-                ${p.quote ? `<div><strong>Dream / Quote:</strong> "${escapeHtml(p.quote)}"</div>` : ''}
-            </div>
-            <button class="main-btn" style="width: 100%; justify-content: center; margin-top: 1.0rem;" onclick="closeModals()">Close</button>
-        `;
-        document.getElementById('personProfileModal').classList.add('active');
+            if (error) {}
+        } catch(e) {}
     }
 
     // Memory Tickets Module with App State Persistence
@@ -3372,1019 +2432,6 @@
         document.getElementById('ticketDetailsModal').classList.add('active');
     }
 
-    // SIMPLIFIED SAVINGS SECTION LOGIC
-    function renderSavingsSection() {
-        if (!appState.savings) {
-            appState.savings = { currentSavings: 6000, savingsGoal: 300000 };
-        }
-
-        const current = Number(appState.savings.currentSavings) || 0;
-        const goal = Number(appState.savings.savingsGoal) || 300000;
-        const remaining = Math.max(0, goal - current);
-        let percent = goal > 0 ? (current / goal) * 100 : 0;
-        if (percent > 100) percent = 100;
-
-        const curEl = document.getElementById('displayCurrentSavings');
-        const goalEl = document.getElementById('displaySavingsGoal');
-        const fillEl = document.getElementById('savingsProgressFill');
-        const percentEl = document.getElementById('displaySavingsPercent');
-        const remEl = document.getElementById('displaySavingsRemaining');
-
-        if (curEl) curEl.textContent = current.toLocaleString() + " ج.م";
-        if (goalEl) goalEl.textContent = goal.toLocaleString() + " ج.م";
-        if (fillEl) fillEl.style.width = percent.toFixed(1) + "%";
-        if (percentEl) percentEl.textContent = percent.toFixed(1) + "%";
-        if (remEl) remEl.textContent = `باقي ${remaining.toLocaleString()} ج.م`;
-    }
-
-    function openAddAmountModal() {
-        document.getElementById('inputAddAmount').value = "";
-        document.getElementById('addAmountModal').classList.add('active');
-    }
-
-    function saveAddedAmount() {
-        const amt = parseFloat(document.getElementById('inputAddAmount').value);
-        if (!Number.isFinite(amt) || amt <= 0) return;
-        
-        if (!appState.savings) {
-            appState.savings = { currentSavings: 6000, savingsGoal: 300000 };
-        }
-
-        appState.savings.currentSavings = (Number(appState.savings.currentSavings) || 0) + amt;
-        saveAppState();
-        recordSavingsHistoryEntry(amt);
-        renderSavingsSection();
-        renderSavingsExtras();
-        pushMoneyStateToSupabase();
-        closeModals();
-    }
-
-    function openExpenseModal() {
-        const amountEl = document.getElementById('inputExpenseAmount');
-        const noteEl = document.getElementById('inputExpenseNote');
-        if (amountEl) amountEl.value = '';
-        if (noteEl) noteEl.value = '';
-        const modal = document.getElementById('expenseAmountModal');
-        if (modal) modal.classList.add('active');
-    }
-
-    function saveExpenseAmount() {
-        const amountEl = document.getElementById('inputExpenseAmount');
-        const noteEl = document.getElementById('inputExpenseNote');
-        const amt = parseFloat(amountEl?.value);
-        if (!Number.isFinite(amt) || amt <= 0) return;
-
-        if (!appState.savings) {
-            appState.savings = { currentSavings: 0, savingsGoal: 300000, history: [] };
-        }
-
-        const current = Number(appState.savings.currentSavings) || 0;
-        if (amt > current) {
-            alert('المصروف أكبر من المبلغ الموجود في الادخار.');
-            return;
-        }
-
-        appState.savings.currentSavings = current - amt;
-        saveAppState();
-        recordSavingsHistoryEntry(-amt, noteEl?.value?.trim() || 'مصروف');
-        renderSavingsSection();
-        renderSavingsExtras();
-        pushMoneyStateToSupabase();
-        closeModals();
-    }
-
-    function openEditGoalModal() {
-        if (!appState.savings) {
-            appState.savings = { currentSavings: 6000, savingsGoal: 300000 };
-        }
-        document.getElementById('inputNewGoal').value = appState.savings.savingsGoal;
-        document.getElementById('editSavingsGoalModal').classList.add('active');
-    }
-
-    function saveNewSavingsGoal() {
-        const newGoal = parseFloat(document.getElementById('inputNewGoal').value);
-        if (isNaN(newGoal) || newGoal <= 0) return;
-
-        if (!appState.savings) {
-            appState.savings = { currentSavings: 6000, savingsGoal: 300000 };
-        }
-
-        appState.savings.savingsGoal = newGoal;
-        saveAppState();
-        renderSavingsSection();
-        renderSavingsExtras();
-        pushMoneyStateToSupabase();
-        closeModals();
-    }
-
-    // -------------------------------------------------------------
-    // MONEY EXTRAS — Milestone celebration + projected goal date
-    // (Additive only — does not change existing savings logic)
-    // -------------------------------------------------------------
-    let savingsLastMilestoneShown = 0;
-
-    function recordSavingsHistoryEntry(amount, note = '') {
-        if (!appState.savings.history) appState.savings.history = [];
-        const numericAmount = Number(amount) || 0;
-        if (!numericAmount) return;
-        appState.savings.history.push({
-            amount: numericAmount,
-            type: numericAmount < 0 ? 'expense' : 'saving',
-            note: String(note || ''),
-            date: new Date().toISOString()
-        });
-        if (appState.savings.history.length > 30) {
-            appState.savings.history = appState.savings.history.slice(-30);
-        }
-        saveAppState();
-    }
-
-    function renderMoneyHistory() {
-        const list = document.getElementById('moneyHistoryList');
-        if (!list) return;
-
-        const history = Array.isArray(appState.savings?.history) ? appState.savings.history : [];
-        const recent = history.slice(-6).reverse();
-
-        if (!recent.length) {
-            list.innerHTML = '<div style="text-align:center;color:#9ca3af;font-size:0.75rem;padding:0.5rem;">مفيش عمليات مسجلة لسه ❤️</div>';
-            return;
-        }
-
-        list.innerHTML = recent.map(item => {
-            const amount = Number(item.amount) || 0;
-            const positive = amount >= 0;
-            const label = item.note || (positive ? 'إضافة للادخار' : 'مصروف');
-            const date = item.date ? new Date(item.date).toLocaleDateString('ar-EG') : '';
-            return `
-                <div class="money-history-item">
-                    <div>
-                        <div style="color:#fff;">${escapeHtml(label)}</div>
-                        <div class="money-history-date">${escapeHtml(date)}</div>
-                    </div>
-                    <strong class="${positive ? 'money-history-positive' : 'money-history-negative'}">
-                        ${positive ? '+' : ''}${amount.toLocaleString()} ج.م
-                    </strong>
-                </div>
-            `;
-        }).join('');
-    }
-
-    function renderSavingsExtras() {
-        if (!appState.savings) return;
-        const current = Number(appState.savings.currentSavings) || 0;
-        const goal = Number(appState.savings.savingsGoal) || 1;
-
-        const history = Array.isArray(appState.savings.history) ? appState.savings.history : [];
-        const totalAdded = history.reduce((sum, h) => sum + Math.max(Number(h.amount) || 0, 0), 0);
-        const totalSpent = history.reduce((sum, h) => sum + Math.max(-(Number(h.amount) || 0), 0), 0);
-
-        const totalAddedEl = document.getElementById('moneyTotalAdded');
-        const totalSpentEl = document.getElementById('moneyTotalSpent');
-        const transactionCountEl = document.getElementById('moneyTransactionCount');
-
-        if (totalAddedEl) totalAddedEl.textContent = totalAdded.toLocaleString() + ' ج.م';
-        if (totalSpentEl) totalSpentEl.textContent = totalSpent.toLocaleString() + ' ج.م';
-        if (transactionCountEl) transactionCountEl.textContent = String(history.length);
-        renderMoneyHistory();
-        let percent = goal > 0 ? (current / goal) * 100 : 0;
-        if (percent > 100) percent = 100;
-
-        // Milestone celebration
-        const banner = document.getElementById('savingsMilestoneBanner');
-        const milestones = [25, 50, 75, 100];
-        let hit = null;
-        for (const m of milestones) {
-            if (percent >= m && savingsLastMilestoneShown < m) hit = m;
-        }
-        if (hit && banner) {
-            savingsLastMilestoneShown = hit;
-            const msgs = {
-                25: "🎉 وصلتوا رُبع الطريق للحلم!",
-                50: "🎉 نصف الطريق خلص! كملوا كده ❤️",
-                75: "🎉 ربع الطريق باقي بس!",
-                100: "🎊 الحلم بقى حقيقة! مبروك ❤️"
-            };
-            banner.textContent = msgs[hit] || "🎉 خطوة جديدة للحلم!";
-            banner.style.display = 'block';
-            setTimeout(() => { if (banner) banner.style.display = 'none'; }, 5000);
-        }
-
-        // Projected goal date (based on average weekly saving from history)
-        const projEl = document.getElementById('displaySavingsProjection');
-        if (!projEl) return;
-        if (history.length < 2 || current >= goal) {
-            projEl.textContent = '';
-            return;
-        }
-        const first = new Date(history[0].date).getTime();
-        const last = new Date(history[history.length - 1].date).getTime();
-        const weeksElapsed = Math.max((last - first) / (1000 * 60 * 60 * 24 * 7), 0.5);
-        const totalSaved = history.reduce((sum, h) => sum + (Number(h.amount) || 0), 0);
-        const avgPerWeek = totalSaved / weeksElapsed;
-        if (avgPerWeek <= 0) {
-            projEl.textContent = '';
-            return;
-        }
-        const remaining = goal - current;
-        const weeksNeeded = remaining / avgPerWeek;
-        const projectedDate = new Date(Date.now() + weeksNeeded * 7 * 24 * 60 * 60 * 1000);
-        const formatted = projectedDate.toLocaleDateString('ar-EG', { year: 'numeric', month: 'long' });
-        projEl.textContent = `📈 بمعدلكم الحالي، هتوصلوا للهدف حوالي ${formatted}`;
-    }
-
-    // -------------------------------------------------------------
-    // MONEY SYNC — SHARED SAVINGS VIA SUPABASE (PHONE A <-> PHONE B)
-    // Same Supabase project, separate table.
-    // -------------------------------------------------------------
-    let moneySupabaseClient = null;
-    let moneyLastUpdatedAt = null;
-    let moneyApplyingRemote = false;
-
-    function initMoneySync() {
-        try {
-            if (typeof window.supabase === 'undefined') return;
-            if (!LEITH_SUPABASE_URL || !LEITH_SUPABASE_ANON_KEY ||
-                LEITH_SUPABASE_URL.indexOf('YOUR_') === 0 || LEITH_SUPABASE_ANON_KEY.indexOf('YOUR_') === 0) {
-                return;
-            }
-            moneySupabaseClient = getSharedSupabaseClient();
-            if (!moneySupabaseClient) return;
-            fetchMoneyStateFromSupabase();
-            subscribeToMoney();
-        } catch (e) {
-            console.error("Money sync init error:", e);
-        }
-    }
-
-    async function fetchMoneyStateFromSupabase() {
-        if (!moneySupabaseClient) return;
-        try {
-            const { data, error } = await moneySupabaseClient
-                .from('money_state')
-                .select('*')
-                .eq('id', 1)
-                .maybeSingle();
-            if (error) { console.error("Money fetch error:", error); return; }
-            if (data) applyRemoteMoneyState(data);
-        } catch (e) {
-            console.error("Money fetch exception:", e);
-        }
-    }
-
-    function subscribeToMoney() {
-        if (!moneySupabaseClient) return;
-        moneySupabaseClient
-            .channel('money_state_channel')
-            .on('postgres_changes',
-                { event: '*', schema: 'public', table: 'money_state', filter: 'id=eq.1' },
-                (payload) => { if (payload.new) applyRemoteMoneyState(payload.new); }
-            )
-            .subscribe();
-    }
-
-    function applyRemoteMoneyState(row) {
-        if (!row) return;
-        if (moneyLastUpdatedAt && row.updated_at &&
-            new Date(row.updated_at).getTime() <= new Date(moneyLastUpdatedAt).getTime()) {
-            return;
-        }
-        moneyLastUpdatedAt = row.updated_at || moneyLastUpdatedAt;
-        moneyApplyingRemote = true;
-
-        if (!appState.savings) appState.savings = {};
-        if (typeof row.current_savings === 'number') appState.savings.currentSavings = row.current_savings;
-        if (typeof row.savings_goal === 'number') appState.savings.savingsGoal = row.savings_goal;
-        if (Array.isArray(row.history)) appState.savings.history = row.history;
-        saveAppState();
-        renderSavingsSection();
-        renderSavingsExtras();
-
-        moneyApplyingRemote = false;
-    }
-
-    async function pushMoneyStateToSupabase() {
-        if (!moneySupabaseClient || moneyApplyingRemote) return;
-        try {
-            const nowIso = new Date().toISOString();
-            moneyLastUpdatedAt = nowIso;
-            const { error } = await moneySupabaseClient
-                .from('money_state')
-                .upsert({
-                    id: 1,
-                    current_savings: Number(appState.savings.currentSavings) || 0,
-                    savings_goal: Number(appState.savings.savingsGoal) || 0,
-                    history: appState.savings.history || [],
-                    updated_at: nowIso
-                });
-            if (error) console.error("Money push error:", error);
-        } catch (e) {
-            console.error("Money push exception (offline?):", e);
-        }
-    }
-
-    // -------------------------------------------------------------
-    // FAITH MODULE — 48 QURANIC VERSES (1 Per Day Looping)
-    // -------------------------------------------------------------
-    const fortyEightVerses = [
-        { text: "وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً", ref: "سورة الروم (21)" },
-        { text: "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ", ref: "سورة الطلاق (3)" },
-        { text: "إِنَّ مَعَ الْعُسْرِ يُسْرًا", ref: "سورة الشرح (6)" },
-        { text: "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي", ref: "سورة طه (25-26)" },
-        { text: "وَاصْبِرْ لِحُكْمِ رَبِّكَ فَإِنَّكَ بِأَعْيُنِنَا", ref: "سورة الطور (48)" },
-        { text: "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا", ref: "سورة الفرقان (74)" },
-        { text: "وَهُوَ الَّذِي خَلَقَ مِنَ الْمَاءِ بَشَرًا فَجَعَلَهُ نَسَبًا وَصِهْرًا", ref: "سورة الفرقان (54)" },
-        { text: "إِنَّ اللَّهَ مَعَ الَّذِينَ اتَّقَوا وَّالَّذِينَ هُم مُّحْسِنُونَ", ref: "سورة النحل (128)" },
-        { text: "وَعَسَىٰ أَن تَكْرَهُوا شَيْئًا وَهُوَ خَيْرٌ لَّكُمْ", ref: "سورة البقرة (216)" },
-        { text: "فَسَوْفَ يُؤْتِيهِ أَجْرًا عَظِيمًا", ref: "سورة النساء (74)" },
-        { text: "إِنَّ رَبِّي قَرِيبٌ مَّجِيبٌ", ref: "سورة هود (61)" },
-        { text: "وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰ", ref: "سورة الضحى (5)" },
-        { text: "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ", ref: "سورة الرعد (28)" },
-        { text: "قُل لَّن يُصِيبَنَا إِلَّا مَا كَتَبَ اللَّهُ لَنَا", ref: "سورة التوبة (51)" },
-        { text: "وَإِذَا سَأَلَكَ عِبَادِي عَنِّي فَإِنِّي قَرِيبٌ", ref: "سورة البقرة (186)" },
-        { text: "رَبِّ أَدْخِلْنِي مُدْخَلَ صِدْقٍ وَأَخْرِجْنِي مُخْرَجَ صِدْقٍ", ref: "سورة الإسراء (80)" },
-        { text: "حَسْبِيَ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ ۖ عَلَيْهِ تَوَكَّلْتُ", ref: "سورة التوبة (129)" },
-        { text: "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا ۝ إِنَّ مَعَ الْعُسْرِ يُسْرًا", ref: "سورة الشرح (5-6)" },
-        { text: "وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا وَيَرْزُقْهُ مِنْ حَيْثُ لَا يَحْتَسِبُ", ref: "سورة الطلاق (2-3)" },
-        { text: "وَاصْبِرْ فَإِنَّ اللَّهَ لَا يُضِيعُ أَجْرَ الْمُحْسِنِينَ", ref: "سورة هود (115)" },
-        { text: "رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَتَوَفَّنَا مُسْلِمِينَ", ref: "سورة الأعراف (126)" },
-        { text: "وَمَا تَوْفِيقِي إِلَّا بِاللَّهِ ۚ عَلَيْهِ تَوَكَّلْتُ وَإِلَيْهِ أُنِيبُ", ref: "سورة هود (88)" },
-        { text: "وَتُوبُوا إِلَى اللَّهِ جَمِيعًا أَيُّهَ الْمُؤْمِنُونَ لَعَلَّكُمْ تُفْلِحُونَ", ref: "سورة النور (31)" },
-        { text: "إِنَّ اللَّهَ يُحِبُّ التَّوَّابِينَ وَيُحِبُّ الْمُتَطَهِّرِينَ", ref: "سورة البقرة (222)" },
-        { text: "رَبَّنَا ظَلَمْنَا أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ", ref: "سورة الأعراف (23)" },
-        { text: "وَهُوَ الْغَفُورُ الْوَدُودُ", ref: "سورة البروج (14)" },
-        { text: "وَإِنِّي لَغَفَّارٌ لِّمَن تابَ وَآمَنَ وَعَمِلَ صَالِحًا", ref: "سورة طه (82)" },
-        { text: "رَبَّنَا اغْفِرْ لَنَا ذُنُوبَنَا وَإِسْرَافَنَا فِي أَمْرِنَا", ref: "سورة آل عمران (147)" },
-        { text: "وَقُل رَّبِّ اغْفِرْ وَارْحَمْ وَأَنتَ خَيْرُ الرَّاحِمِينَ", ref: "سورة المؤمنون (118)" },
-        { text: "يَا أَيُّهَا الَّذِينَ آمَنُوا اذْكُرُوا اللَّهَ ذِكْرًا كَثِيرًا", ref: "سورة الأحزاب (41)" },
-        { text: "الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ", ref: "سورة الرعد (28)" },
-        { text: "وَسَارِعُوا إِلَىٰ مَغْفِرَةٍ مِّن رَّبِّكُمْ وَجَنَّةٍ عَرْضُهَا السَّمَاوَاتُ وَالْأَرْضُ", ref: "سورة آل عمران (133)" },
-        { text: "قُل لِّعِبَادِيَ الَّذِينَ آمَنُوا يُقِيمُوا الصَّلَاةَ وَيُنفِقُوا مِمَّا رَزَقْنَاهُمْ سِرًّا وَعَلَانِيَةً", ref: "سورة إبراهيم (31)" },
-        { text: "وَاصْبِرْ نَفْسَكَ مَعَ الَّذِينَ يَدْعُونَ رَبَّهُم بِالْغَدَاةِ وَالْعَشِيِّ يُرِيدُونَ وَجْهَهُ", ref: "سورة الكهف (28)" },
-        { text: "وَقُولُوا لِلنَّاسِ حُسْنًا", ref: "سورة البقرة (83)" },
-        { text: "خُذِ الْعَفْوَ وَأْمُرْ بِالْعُرْفِ وَأَعْرِضْ عَنِ الْجَاهِلِينَ", ref: "سورة الأعراف (199)" },
-        { text: "وَتَعَاوَنُوا عَلَى الْبِرِّ وَالتَّقْوَىٰ ۖ وَلَا تَعَاوَنُوا عَلَى الْإِثْمِ وَالْعُدْوَانِ", ref: "سورة المائدة (2)" },
-        { text: "إِنَّ أكْرَمَكُمْ عِندَ اللَّهِ أَتْقَاكُمْ", ref: "سورة الحجرات (13)" },
-        { text: "وَقضَىٰ رَبُّكَ أَلَّا تَعْبُدُوا إِلَّا إِيَّاهُ وَبِالْوَالِدَيْنِ إِحْسَانًا", ref: "سورة الإسراء (23)" },
-        { text: "رَبِّ هَبْ لِي مِن لَدُنْكَ ذُرِّيَّةً طَيِّبَةً ۖ إِنَّكَ سَمِيعُ الدُّعَاءِ", ref: "سورة آل عمران (38)" },
-        { text: "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ", ref: "سورة الفرقان (74)" },
-        { text: "وَاللَّهُ جَعَلَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا وَجَعَلَ لَكُم مِّنْ أَزْوَاجِكُم بَنِينَ وَحَفَدَةً", ref: "سورة النحل (72)" },
-        { text: "هُنَالِكَ دَعَا زَكَرِيَّا رَبَّهُ ۖ قَالَ رَبِّ هَبْ لِي مِن لَدُنْكَ ذُرِّيَّةً طَيِّبَةً", ref: "سورة آل عمران (38)" },
-        { text: "فَاسْتَجَبْنَا لَهُ وَوَهَبْنَا لَهُ يَحْيَىٰ وَأَصْلَحْنَا لَهُ زَوْجَهُ", ref: "سورة الأنبياء (90)" },
-        { text: "وَعَلَى اللَّهِ فَتَوَكَّلُوا إِن كُنتُم مُّؤْمِنِينَ", ref: "سورة المائدة (23)" },
-        { text: "إِنَّ رَبِّي لطِيفٌ لِّما يَشَاءُ ۚ إِنَّهُ هُوَ الْعَلِيمُ الْحَكِيمُ", ref: "سورة يوسف (100)" },
-        { text: "رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِن لَّدُنكَ رَحْمَةً", ref: "سورة آل عمران (8)" },
-        { text: "سَبِّحِ اسْمَ رَبِّكَ الْأَعْلَى", ref: "سورة الأعلى (1)" }
-    ];
-
-    const morningAdhkarList = [
-        "أصبحنا وأصبح الملك لله، والحمد لله، لا إله إلا الله وحده لا شريك له.",
-        "اللهم بك أصبحنا وبك أمسينا، وبك نحيا وبك نموت وإليك النشور."
-    ];
-
-    const eveningAdhkarList = [
-        "أمسينا وأمسى الملك لله، والحمد لله، لا إله إلا الله وحده لا شريك له.",
-        "اللهم بك أمسينا وبك أصبحنا، وبك نحيا وبك نموت وإليك المصير."
-    ];
-
-    const beforeSleepList = [
-        "قراءة آية الكرسي والمعوذتين.",
-        "باسمك ربي وضعت جنبي وبك أرفعه."
-    ];
-
-    function initFaithModule() {
-        const startDate = new Date('2026-01-01T00:00:00').getTime();
-        const now = new Date().getTime();
-        const diffDays = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
-        const verseIdx = Math.abs(diffDays) % fortyEightVerses.length;
-
-        renderVerseOfDay(verseIdx);
-        renderAdhkar();
-        renderPrayers();
-    }
-
-    function renderVerseOfDay(index) {
-        const verse = fortyEightVerses[index] || fortyEightVerses[0];
-        document.getElementById('verseOfDayText').textContent = `"${verse.text}"`;
-        document.getElementById('verseOfDayRef').textContent = `— ${verse.ref}`;
-    }
-
-    function renderAdhkar() {
-        const morningEl = document.getElementById('morningAdhkarContainer');
-        if (morningEl) {
-            morningEl.innerHTML = '';
-            morningAdhkarList.forEach(item => {
-                morningEl.innerHTML += `<div class="faith-adhkar-item">✨ ${item}</div>`;
-            });
-        }
-        const eveningEl = document.getElementById('eveningAdhkarContainer');
-        if (eveningEl) {
-            eveningEl.innerHTML = '';
-            eveningAdhkarList.forEach(item => {
-                eveningEl.innerHTML += `<div class="faith-adhkar-item">🌙 ${item}</div>`;
-            });
-        }
-        const sleepEl = document.getElementById('beforeSleepContainer');
-        if (sleepEl) {
-            sleepEl.innerHTML = '';
-            beforeSleepList.forEach(item => {
-                sleepEl.innerHTML += `<div class="faith-adhkar-item">🌌 ${item}</div>`;
-            });
-        }
-    }
-
-    const prayerKeys = [
-        { key: 'fajr', name: 'Fajr' },
-        { key: 'dhuhr', name: 'Dhuhr' },
-        { key: 'asr', name: 'Asr' },
-        { key: 'maghrib', name: 'Maghrib' },
-        { key: 'isha', name: 'Isha' }
-    ];
-
-    function renderPrayers() {
-        const listEl = document.getElementById('prayersListContainer');
-        const statusEl = document.getElementById('prayersStatusText');
-        if (!listEl || !statusEl) return;
-
-        listEl.innerHTML = '';
-        let completedCount = 0;
-
-        prayerKeys.forEach(p => {
-            const isDone = !!appState.faith.prayers[p.key];
-            if (isDone) completedCount++;
-
-            listEl.innerHTML += `
-                <div class="faith-prayer-item ${isDone ? 'completed' : ''}" onclick="togglePrayer('${p.key}')">
-                    <div style="display: flex; align-items: center; gap: 0.75rem;">
-                        <input type="checkbox" ${isDone ? 'checked' : ''} onclick="event.stopPropagation(); togglePrayer('${p.key}')">
-                        <span style="font-weight: 500; font-size: 1.0rem; color: #f3f4f6;">${p.name}</span>
-                    </div>
-                    <span style="font-size: 0.8rem; color: ${isDone ? '#34d399' : '#9ca3af'};">${isDone ? 'Completed' : 'Pending'}</span>
-                </div>
-            `;
-        });
-
-        if (completedCount === 5) {
-            statusEl.textContent = "🤍 All prayers completed today";
-            statusEl.style.color = "#34d399";
-        } else {
-            statusEl.textContent = `${completedCount} / 5 completed`;
-            statusEl.style.color = "#ff6584";
-        }
-        updateLeithDailySummary();
-    }
-
-    function togglePrayer(key) {
-        appState.faith.prayers[key] = !appState.faith.prayers[key];
-        saveAppState();
-        renderPrayers();
-        updatePrayerStreak();
-        pushFaithStateToSupabase();
-    }
-
-    // -------------------------------------------------------------
-    // PRAYER STREAK — shared "consecutive days all 5 prayers done"
-    // (Additive only. Note: prayer checkboxes don't auto-reset at
-    // midnight in the current app, so the streak only advances when
-    // both of you manually re-check the 5 prayers on a new day.)
-    // -------------------------------------------------------------
-    function updatePrayerStreak() {
-        const allDone = prayerKeys.every(p => !!appState.faith.prayers[p.key]);
-        if (allDone) {
-            const today = new Date().toISOString().slice(0, 10);
-            const last = appState.faith.lastStreakDate;
-            if (last !== today) {
-                const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
-                appState.faith.streakCount = (last === yesterday) ? (appState.faith.streakCount || 0) + 1 : 1;
-                appState.faith.lastStreakDate = today;
-                saveAppState();
-            }
-        }
-        renderPrayerStreak();
-    }
-
-    function renderPrayerStreak() {
-        const el = document.getElementById('prayerStreakText');
-        if (!el) return;
-        const streak = appState.faith.streakCount || 0;
-        el.textContent = streak > 0 ? `🔥 ${streak} يوم متتالي صليتوا فيه الخمس صلوات مع بعض` : '';
-    }
-
-    // -------------------------------------------------------------
-    // FAITH SYNC — SHARED PRAYERS VIA SUPABASE (PHONE A <-> PHONE B)
-    // Same Supabase project, separate table.
-    // -------------------------------------------------------------
-    let faithSupabaseClient = null;
-    let faithLastUpdatedAt = null;
-    let faithApplyingRemote = false;
-
-    function initFaithSync() {
-        try {
-            if (typeof window.supabase === 'undefined') return;
-            if (!LEITH_SUPABASE_URL || !LEITH_SUPABASE_ANON_KEY ||
-                LEITH_SUPABASE_URL.indexOf('YOUR_') === 0 || LEITH_SUPABASE_ANON_KEY.indexOf('YOUR_') === 0) {
-                return;
-            }
-            faithSupabaseClient = getSharedSupabaseClient();
-            if (!faithSupabaseClient) return;
-            fetchFaithStateFromSupabase();
-            subscribeToFaith();
-        } catch (e) {
-            console.error("Faith sync init error:", e);
-        }
-    }
-
-    async function fetchFaithStateFromSupabase() {
-        if (!faithSupabaseClient) return;
-        try {
-            const { data, error } = await faithSupabaseClient
-                .from('faith_state')
-                .select('*')
-                .eq('id', 1)
-                .maybeSingle();
-            if (error) { console.error("Faith fetch error:", error); return; }
-            if (data) applyRemoteFaithState(data);
-        } catch (e) {
-            console.error("Faith fetch exception:", e);
-        }
-    }
-
-    function subscribeToFaith() {
-        if (!faithSupabaseClient) return;
-        faithSupabaseClient
-            .channel('faith_state_channel')
-            .on('postgres_changes',
-                { event: '*', schema: 'public', table: 'faith_state', filter: 'id=eq.1' },
-                (payload) => { if (payload.new) applyRemoteFaithState(payload.new); }
-            )
-            .subscribe();
-    }
-
-    function applyRemoteFaithState(row) {
-        if (!row) return;
-        if (faithLastUpdatedAt && row.updated_at &&
-            new Date(row.updated_at).getTime() <= new Date(faithLastUpdatedAt).getTime()) {
-            return;
-        }
-        faithLastUpdatedAt = row.updated_at || faithLastUpdatedAt;
-        faithApplyingRemote = true;
-
-        if (row.prayers) appState.faith.prayers = row.prayers;
-        if (typeof row.streak_count === 'number') appState.faith.streakCount = row.streak_count;
-        if (row.last_streak_date) appState.faith.lastStreakDate = row.last_streak_date;
-        saveAppState();
-        renderPrayers();
-        renderPrayerStreak();
-
-        faithApplyingRemote = false;
-    }
-
-    async function pushFaithStateToSupabase() {
-        if (!faithSupabaseClient || faithApplyingRemote) return;
-        try {
-            const nowIso = new Date().toISOString();
-            faithLastUpdatedAt = nowIso;
-            const { error } = await faithSupabaseClient
-                .from('faith_state')
-                .upsert({
-                    id: 1,
-                    prayers: appState.faith.prayers,
-                    streak_count: appState.faith.streakCount || 0,
-                    last_streak_date: appState.faith.lastStreakDate || null,
-                    updated_at: nowIso
-                });
-            if (error) console.error("Faith push error:", error);
-        } catch (e) {
-            console.error("Faith push exception (offline?):", e);
-        }
-    }
-
-    // -------------------------------------------------------------
-    // LEITH EMOTIONAL STREAK — consecutive days with shared activity
-    // -------------------------------------------------------------
-    function updateLeithStreak() {
-        const today = new Date().toISOString().slice(0, 10);
-        const last = appState.leith.lastActiveDate;
-        if (last !== today) {
-            const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
-            appState.leith.streakCount = (last === yesterday) ? (appState.leith.streakCount || 0) + 1 : 1;
-            appState.leith.lastActiveDate = today;
-        }
-        renderLeithStreak();
-    }
-
-    function renderLeithStreak() {
-        const el = document.getElementById('leithStreakDisplay');
-        if (!el) return;
-        const streak = appState.leith.streakCount || 0;
-        el.textContent = streak > 1 ? `🔥 ${streak} أيام متتالية بتكلموا فيها` : '';
-    }
-
-    // -------------------------------------------------------------
-    // LEITH SYNC — SHARED STATE VIA SUPABASE (PHONE A <-> PHONE B)
-    // Only Leith uses this. No other section is affected.
-    // -------------------------------------------------------------
-    const LEITH_SUPABASE_URL = "https://gdngjpzkatjxzydxpqrm.supabase.co";
-    const LEITH_SUPABASE_ANON_KEY = "sb_publishable_3iOeehVNl6Djk1Ut2M6n_g_wQ6Nmwfh";
-
-    let sharedSupabaseClient = null;
-    function getSharedSupabaseClient() {
-        if (typeof window.supabase === 'undefined') return null;
-        if (!sharedSupabaseClient) {
-            sharedSupabaseClient = window.supabase.createClient(
-                LEITH_SUPABASE_URL,
-                LEITH_SUPABASE_ANON_KEY
-            );
-        }
-        return sharedSupabaseClient;
-    }
-
-    let leithSupabaseClient = null;
-    let leithLastUpdatedAt = null;
-    let leithApplyingRemote = false;
-
-    function initLeithSync() {
-        try {
-            if (typeof window.supabase === 'undefined') return;
-            if (!LEITH_SUPABASE_URL || !LEITH_SUPABASE_ANON_KEY ||
-                LEITH_SUPABASE_URL.indexOf('YOUR_') === 0 || LEITH_SUPABASE_ANON_KEY.indexOf('YOUR_') === 0) {
-                return; // not configured yet — Leith keeps working locally
-            }
-            leithSupabaseClient = getSharedSupabaseClient();
-            if (!leithSupabaseClient) return;
-            fetchLeithStateFromSupabase();
-            subscribeToLeith();
-        } catch (e) {
-            console.error("Leith sync init error:", e);
-        }
-    }
-
-    async function fetchLeithStateFromSupabase() {
-        if (!leithSupabaseClient) return;
-        try {
-            const { data, error } = await leithSupabaseClient
-                .from('leith_state')
-                .select('*')
-                .eq('id', 1)
-                .maybeSingle();
-            if (error) { console.error("Leith fetch error:", error); return; }
-            if (data) applyRemoteLeithState(data);
-        } catch (e) {
-            console.error("Leith fetch exception:", e);
-        }
-    }
-
-    function subscribeToLeith() {
-        if (!leithSupabaseClient) return;
-        leithSupabaseClient
-            .channel('leith_state_channel')
-            .on('postgres_changes',
-                { event: '*', schema: 'public', table: 'leith_state', filter: 'id=eq.1' },
-                (payload) => { if (payload.new) applyRemoteLeithState(payload.new); }
-            )
-            .subscribe();
-    }
-
-    function applyRemoteLeithState(row) {
-        if (!row) return;
-        if (leithLastUpdatedAt && row.updated_at &&
-            new Date(row.updated_at).getTime() <= new Date(leithLastUpdatedAt).getTime()) {
-            return; // already have this state or older — avoids duplicates/loops
-        }
-        leithLastUpdatedAt = row.updated_at || leithLastUpdatedAt;
-        leithApplyingRemote = true;
-
-        appState.leith.currentMood = row.mood || appState.leith.currentMood;
-        appState.leith.latestMessage = row.message || appState.leith.latestMessage;
-        appState.leith.sender = row.sender || appState.leith.sender;
-        appState.leith.isPersistentMsg = true;
-        if (typeof row.streak_count === 'number') appState.leith.streakCount = row.streak_count;
-        if (row.last_active_date) appState.leith.lastActiveDate = row.last_active_date;
-        saveAppState();
-
-        applyLeithMoodUI(appState.leith.currentMood);
-        showLeithMessage(appState.leith.latestMessage, appState.leith.sender);
-        renderLeithStreak();
-
-        leithApplyingRemote = false;
-    }
-
-    async function pushLeithStateToSupabase() {
-        if (!leithSupabaseClient || leithApplyingRemote) return;
-        try {
-            const nowIso = new Date().toISOString();
-            leithLastUpdatedAt = nowIso;
-            const { error } = await leithSupabaseClient
-                .from('leith_state')
-                .upsert({
-                    id: 1,
-                    mood: appState.leith.currentMood,
-                    message: appState.leith.latestMessage,
-                    sender: appState.leith.sender,
-                    streak_count: appState.leith.streakCount || 0,
-                    last_active_date: appState.leith.lastActiveDate || null,
-                    updated_at: nowIso
-                });
-            if (error) console.error("Leith push error:", error);
-        } catch (e) {
-            console.error("Leith push exception (offline?):", e);
-        }
-    }
-
-    // -------------------------------------------------------------
-    // TODO SYNC — SHARED TODO LIST VIA SUPABASE (PHONE A <-> PHONE B)
-    // Same Supabase project as Leith, separate table. Only Todo List
-    // is affected — no other section touched.
-    // -------------------------------------------------------------
-    let todoSupabaseClient = null;
-    let todoLastUpdatedAt = null;
-    let todoApplyingRemote = false;
-
-    function initTodoSync() {
-        try {
-            if (typeof window.supabase === 'undefined') return;
-            if (!LEITH_SUPABASE_URL || !LEITH_SUPABASE_ANON_KEY ||
-                LEITH_SUPABASE_URL.indexOf('YOUR_') === 0 || LEITH_SUPABASE_ANON_KEY.indexOf('YOUR_') === 0) {
-                return; // not configured yet — Todo List keeps working locally
-            }
-            todoSupabaseClient = getSharedSupabaseClient();
-            if (!todoSupabaseClient) return;
-            fetchTodoStateFromSupabase();
-            subscribeToTodo();
-        } catch (e) {
-            console.error("Todo sync init error:", e);
-        }
-    }
-
-    async function fetchTodoStateFromSupabase() {
-        if (!todoSupabaseClient) return;
-        try {
-            const { data, error } = await todoSupabaseClient
-                .from('todo_state')
-                .select('*')
-                .eq('id', 1)
-                .maybeSingle();
-            if (error) { console.error("Todo fetch error:", error); return; }
-            if (data) applyRemoteTodoState(data);
-        } catch (e) {
-            console.error("Todo fetch exception:", e);
-        }
-    }
-
-    function subscribeToTodo() {
-        if (!todoSupabaseClient) return;
-        todoSupabaseClient
-            .channel('todo_state_channel')
-            .on('postgres_changes',
-                { event: '*', schema: 'public', table: 'todo_state', filter: 'id=eq.1' },
-                (payload) => { if (payload.new) applyRemoteTodoState(payload.new); }
-            )
-            .subscribe();
-    }
-
-    function applyRemoteTodoState(row) {
-        if (!row) return;
-        if (todoLastUpdatedAt && row.updated_at &&
-            new Date(row.updated_at).getTime() <= new Date(todoLastUpdatedAt).getTime()) {
-            return; // already have this state or older — avoids duplicates/loops
-        }
-        todoLastUpdatedAt = row.updated_at || todoLastUpdatedAt;
-        todoApplyingRemote = true;
-
-        if (Array.isArray(row.todos)) {
-            appState.todos = row.todos;
-            saveAppState();
-            renderTodoList();
-        }
-
-        todoApplyingRemote = false;
-    }
-
-    async function pushTodoStateToSupabase() {
-        if (!todoSupabaseClient || todoApplyingRemote) return;
-        try {
-            const nowIso = new Date().toISOString();
-            todoLastUpdatedAt = nowIso;
-            const { error } = await todoSupabaseClient
-                .from('todo_state')
-                .upsert({
-                    id: 1,
-                    todos: appState.todos,
-                    updated_at: nowIso
-                });
-            if (error) console.error("Todo push error:", error);
-        } catch (e) {
-            console.error("Todo push exception (offline?):", e);
-        }
-    }
-
-    // -------------------------------------------------------------
-    // LEITH 2.0 — SENDER TOGGLE (Jojo / Lola) & PERSISTENCE
-    // -------------------------------------------------------------
-    const leithMoodDefinitions = {
-        angry: { name: "Angry", emoji: "😡", headEmoji: "🦁🔥", ringClass: "mood-angry", responses: ["متزعليش من جوجو ❤️", "جوجو بيحبك ❤️", "خلاص يا بت 😂❤️", "اهدي بس ❤️"] },
-        sad: { name: "Sad", emoji: "😔", headEmoji: "🦁💧", ringClass: "mood-sad", responses: ["متزعليش ❤️", "أنا معاكي ❤️", "تعالي هنا 🤍", "مالك بس؟ ❤️"] },
-        love: { name: "In Love", emoji: "😍", headEmoji: "🦁💖", ringClass: "mood-love", responses: ["وأنا كمان بحبك ❤️", "إنتِ قلبي ❤️", "وأنا بحبك أكتر 😂❤️"] },
-        bored: { name: "Bored", emoji: "😑", headEmoji: "🦁🥱", ringClass: "mood-bored", responses: ["اطبخي يلا لجوجو 😂❤️", "يلا برموت، كلمي جوجو 😂", "تعالي نعمل حاجة بدل الزهق 👀"] },
-        stressed: { name: "Stressed", emoji: "😰", headEmoji: "🦁💫", ringClass: "mood-stressed", responses: ["مالك مخنوقة ليه؟ ❤️", "كلمي جوجو، متفضليش مخنوقة لوحدك ❤️", "خدي نفس كده... واحدة واحدة ❤️"] },
-        tired: { name: "Tired", emoji: "😴", headEmoji: "🦁💤", ringClass: "mood-tired", responses: ["كفاية سهر... نامي بدري 😴❤️"] },
-        happy: { name: "Happy", emoji: "😊", headEmoji: "🦁✨", ringClass: "mood-happy", responses: ["حلو إنك مبسوطة النهارده ❤️"] },
-        neutral: { name: "Neutral", emoji: "🤍", headEmoji: "🦁", ringClass: "mood-neutral", responses: ["أنا معاكي كالعادة 🦁❤️"] }
-    };
-
-    let leithSecretTaps = 0;
-
-    function initLeith2Module() {
-        const moodKey = appState.leith.currentMood || 'neutral';
-        applyLeithMoodUI(moodKey);
-        
-        if (appState.leith.latestMessage) {
-            showLeithMessage(appState.leith.latestMessage, appState.leith.sender || 'jojo');
-        } else {
-            checkLeithContextualMessage();
-        }
-        updateLeithDailySummary();
-        updateLeithStreak();
-        initLeithSync();
-    }
-
-    function toggleLeithBubble() {
-        const bubble = document.getElementById('leithSpeechBubble');
-        const dot = document.getElementById('leithUnreadDot');
-        if (bubble) {
-            bubble.classList.toggle('active');
-            if (bubble.classList.contains('active') && dot) {
-                dot.classList.remove('active');
-            }
-        }
-        
-        leithSecretTaps++;
-        if (leithSecretTaps === 5) {
-            showLeithMessage("إنتِ اكتشفتي السر؟ 👀🦁", 'jojo');
-            leithSecretTaps = 0;
-        }
-    }
-
-    function setLeithMood(moodKey, save = true) {
-        const def = leithMoodDefinitions[moodKey] || leithMoodDefinitions['neutral'];
-        appState.leith.currentMood = moodKey;
-
-        let randomResp = def.responses[Math.floor(Math.random() * def.responses.length)];
-        const patternMsg = checkLeithMoodPattern(moodKey);
-        if (patternMsg) randomResp = patternMsg;
-        recordLeithMoodHistory(moodKey);
-
-        appState.leith.latestMessage = randomResp;
-        appState.leith.sender = 'jojo';
-        appState.leith.isPersistentMsg = true;
-
-        if (save) saveAppState();
-
-        applyLeithMoodUI(moodKey);
-        showLeithMessage(randomResp, 'jojo');
-        updateLeithStreak();
-        pushLeithStateToSupabase();
-    }
-
-    // -------------------------------------------------------------
-    // LEITH بيفتكر — notices repeated moods within the same week
-    // (Local-only pattern detection, does not need its own sync)
-    // -------------------------------------------------------------
-    function recordLeithMoodHistory(moodKey) {
-        if (!appState.leith.moodHistory) appState.leith.moodHistory = [];
-        appState.leith.moodHistory.push({ mood: moodKey, date: new Date().toISOString() });
-        if (appState.leith.moodHistory.length > 30) {
-            appState.leith.moodHistory = appState.leith.moodHistory.slice(-30);
-        }
-    }
-
-    function checkLeithMoodPattern(moodKey) {
-        if (moodKey === 'neutral' || moodKey === 'happy' || moodKey === 'love') return null;
-        const history = appState.leith.moodHistory || [];
-        const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
-        const recentSame = history.filter(h => h.mood === moodKey && new Date(h.date).getTime() >= weekAgo);
-        if (recentSame.length >= 2) {
-            const patternMsgs = {
-                tired: "لاحظت إنك تعبانة كتير الأسبوع ده، خدي بالك من نفسك يا لولا ❤️",
-                stressed: "إنتِ مخنوقة كتير الأيام دي... كلمي جوجو، متفضليش لوحدك ❤️",
-                sad: "حاسس إنك زعلانة كتير الفترة دي، إحنا هنا نسمعك ❤️",
-                bored: "شكلك زهقانة الأسبوع ده كله، يلا نعمل حاجة مختلفة 👀",
-                angry: "لاحظت إنك بتعصبي كتير الأيام دي، احكيلي إيه اللي مضايقك ❤️"
-            };
-            return patternMsgs[moodKey] || null;
-        }
-        return null;
-    }
-
-    // -------------------------------------------------------------
-    // LEITH QUICK REACTIONS
-    // -------------------------------------------------------------
-    function sendLeithReaction(emoji) {
-        const currentSender = appState.leith.sender || 'jojo';
-        appState.leith.latestMessage = emoji;
-        appState.leith.sender = currentSender;
-        appState.leith.isPersistentMsg = true;
-        saveAppState();
-        showLeithMessage(emoji, currentSender);
-        updateLeithStreak();
-        pushLeithStateToSupabase();
-    }
-
-    function applyLeithMoodUI(moodKey) {
-        const def = leithMoodDefinitions[moodKey] || leithMoodDefinitions['neutral'];
-        const head = document.getElementById('leithChatHead');
-        if (head) {
-            head.className = `leith-chat-head ${def.ringClass}`;
-        }
-
-        const headEmoji = document.getElementById('leithHeadEmoji');
-        if (headEmoji) headEmoji.textContent = def.emoji;
-
-        const title = document.getElementById('leithMoodIndicatorTitle');
-        if (title) title.textContent = `🦁 Leith (${def.name})`;
-    }
-
-    function setLeithSender(sender) {
-        appState.leith.sender = sender;
-        saveAppState();
-
-        const btnJojo = document.getElementById('senderBtnJojo');
-        const btnLola = document.getElementById('senderBtnLola');
-        if (btnJojo && btnLola) {
-            if (sender === 'jojo') {
-                btnJojo.classList.add('active');
-                btnLola.classList.remove('active');
-            } else {
-                btnLola.classList.add('active');
-                btnJojo.classList.remove('active');
-            }
-        }
-        const senderDisplay = document.getElementById('leithSenderDisplay');
-        if (senderDisplay) {
-            senderDisplay.textContent = sender === 'jojo' ? '❤️ جوجو' : '🤍 لولا';
-        }
-    }
-
-    function showLeithMessage(msg, sender = 'jojo') {
-        const textEl = document.getElementById('leithMessageText');
-        const senderDisplay = document.getElementById('leithSenderDisplay');
-        const dot = document.getElementById('leithUnreadDot');
-
-        if (textEl) textEl.textContent = msg;
-        if (senderDisplay) {
-            senderDisplay.textContent = sender === 'jojo' ? '❤️ جوجو' : '🤍 لولا';
-        }
-        if (dot) dot.classList.add('active');
-
-        setLeithSender(sender);
-    }
-
-    function checkLeithContextualMessage() {
-        if (appState.leith.isPersistentMsg && appState.leith.latestMessage) {
-            showLeithMessage(appState.leith.latestMessage, appState.leith.sender || 'jojo');
-            return;
-        }
-
-        const hour = new Date().getHours();
-        let timeMsg = "أهلاً يا لولا 🦁❤️ إزيك النهارده؟";
-        if (hour >= 5 && hour < 12) {
-            timeMsg = "صباح الخير يا آلاء ❤️ يلا نبدأ اليوم بهدوء";
-        } else if (hour >= 12 && hour < 17) {
-            timeMsg = "يومك ماشي إزاي؟ عملتي إيه لحد دلوقتي؟ 👀";
-        } else if (hour >= 17 && hour < 22) {
-            timeMsg = "مساء الخير يا آلاء ❤️ شوفي إيه اللي لسه ناقصك.";
-        } else {
-            timeMsg = "قبل ما تنامي، متنسيش وردك 🤍 نامي بدري يا لولا.";
-        }
-
-        showLeithMessage(timeMsg, 'jojo');
-    }
-
-    function updateLeithDailySummary() {
-        const summaryBox = document.getElementById('leithSummaryBox');
-        if (!summaryBox) return;
-
-        let completedTasks = 0;
-        if (appState.todos) {
-            completedTasks = appState.todos.filter(t => t.completed).length;
-        }
-
-        let prayerCount = 0;
-        if (appState.faith && appState.faith.prayers) {
-            prayerCount = Object.values(appState.faith.prayers).filter(Boolean).length;
-        }
-
-        summaryBox.innerHTML = `
-            <div>🎯 Tasks done: ${completedTasks}</div>
-            <div>🕌 Prayers: ${prayerCount} / 5</div>
-            <div>🦁 Status: Active & Ready</div>
-        `;
-    }
-
-
-    // -------------------------------------------------------------
-    // LEITH UPGRADE — small personal memory layer
-    // -------------------------------------------------------------
     function updateLeithStreak() {
         if (!appState.leith) return;
         const today = new Date().toISOString().slice(0, 10);
@@ -4465,19 +2512,376 @@
             ? appState.todos.filter(t => t.completed).length
             : 0;
         const totalTasks = Array.isArray(appState.todos) ? appState.todos.length : 0;
-        const prayerCount = appState.faith?.prayers
-            ? Object.values(appState.faith.prayers).filter(Boolean).length
-            : 0;
 
         const hint = getLeithContextHint();
         summaryBox.innerHTML = `
             <div>🎯 Tasks: ${completedTasks} / ${totalTasks}</div>
-            <div>🕌 Prayers: ${prayerCount} / 5</div>
             <div>🔥 Streak: ${Number(appState.leith?.streak) || 0} day(s)</div>
             ${hint ? `<div style="margin-top:.35rem;color:#ffb4c2;">${escapeHtml(hint)}</div>` : ''}
         `;
         renderLeithStreak();
         addLeithQuickReactions();
+    }
+
+    const LEITH_SUPABASE_URL = "https://gdngjpzkatjxzydxpqrm.supabase.co";
+    const LEITH_SUPABASE_ANON_KEY = "sb_publishable_3iOeehVNl6Djk1Ut2M6n_g_wQ6Nmwfh";
+
+    let sharedSupabaseClient = null;
+    function getSharedSupabaseClient() {
+        if (typeof window.supabase === 'undefined') return null;
+        if (!sharedSupabaseClient) {
+            sharedSupabaseClient = window.supabase.createClient(
+                LEITH_SUPABASE_URL,
+                LEITH_SUPABASE_ANON_KEY
+            );
+        }
+        return sharedSupabaseClient;
+    }
+
+    let leithSupabaseClient = null;
+    let leithLastUpdatedAt = null;
+    let leithApplyingRemote = false;
+
+    function initLeithSync() {
+        try {
+            if (typeof window.supabase === 'undefined') return;
+            if (!LEITH_SUPABASE_URL || !LEITH_SUPABASE_ANON_KEY ||
+                LEITH_SUPABASE_URL.indexOf('YOUR_') === 0 || LEITH_SUPABASE_ANON_KEY.indexOf('YOUR_') === 0) {
+                return;
+            }
+            leithSupabaseClient = getSharedSupabaseClient();
+            if (!leithSupabaseClient) return;
+            fetchLeithStateFromSupabase();
+            subscribeToLeith();
+        } catch (e) {
+            console.warn("Leith sync init skipped (running in Canvas offline/sandboxed mode).");
+        }
+    }
+
+    async function fetchLeithStateFromSupabase() {
+        if (!leithSupabaseClient) return;
+        try {
+            const { data, error } = await leithSupabaseClient
+                .from('leith_state')
+                .select('*')
+                .eq('id', 1)
+                .maybeSingle();
+            if (error) { return; }
+            if (data) applyRemoteLeithState(data);
+        } catch (e) {}
+    }
+
+    function subscribeToLeith() {
+        if (!leithSupabaseClient) return;
+        try {
+            leithSupabaseClient
+                .channel('leith_state_channel')
+                .on('postgres_changes',
+                    { event: '*', schema: 'public', table: 'leith_state', filter: 'id=eq.1' },
+                    (payload) => { if (payload.new) applyRemoteLeithState(payload.new); }
+                )
+                .subscribe();
+        } catch(wsErr) {
+            console.warn("WebSocket not allowed for leith channel:", wsErr);
+        }
+    }
+
+    function applyRemoteLeithState(row) {
+        if (!row) return;
+        if (leithLastUpdatedAt && row.updated_at &&
+            new Date(row.updated_at).getTime() <= new Date(leithLastUpdatedAt).getTime()) {
+            return;
+        }
+        leithLastUpdatedAt = row.updated_at || leithLastUpdatedAt;
+        leithApplyingRemote = true;
+
+        appState.leith.currentMood = row.mood || appState.leith.currentMood;
+        appState.leith.latestMessage = row.message || appState.leith.latestMessage;
+        appState.leith.sender = row.sender || appState.leith.sender;
+        appState.leith.isPersistentMsg = true;
+        if (typeof row.streak_count === 'number') appState.leith.streakCount = row.streak_count;
+        if (row.last_active_date) appState.leith.lastActiveDate = row.last_active_date;
+        saveAppState();
+
+        applyLeithMoodUI(appState.leith.currentMood);
+        showLeithMessage(appState.leith.latestMessage, appState.leith.sender);
+        renderLeithStreak();
+
+        leithApplyingRemote = false;
+    }
+
+    async function pushLeithStateToSupabase() {
+        if (!leithSupabaseClient || leithApplyingRemote) return;
+        try {
+            const nowIso = new Date().toISOString();
+            leithLastUpdatedAt = nowIso;
+            const { error } = await leithSupabaseClient
+                .from('leith_state')
+                .upsert({
+                    id: 1,
+                    mood: appState.leith.currentMood,
+                    message: appState.leith.latestMessage,
+                    sender: appState.leith.sender,
+                    streak_count: appState.leith.streakCount || 0,
+                    last_active_date: appState.leith.lastActiveDate || null,
+                    updated_at: nowIso
+                });
+            if (error) {}
+        } catch (e) {}
+    }
+
+    let todoSupabaseClient = null;
+    let todoLastUpdatedAt = null;
+    let todoApplyingRemote = false;
+
+    function initTodoSync() {
+        try {
+            if (typeof window.supabase === 'undefined') return;
+            if (!LEITH_SUPABASE_URL || !LEITH_SUPABASE_ANON_KEY ||
+                LEITH_SUPABASE_URL.indexOf('YOUR_') === 0 || LEITH_SUPABASE_ANON_KEY.indexOf('YOUR_') === 0) {
+                return;
+            }
+            todoSupabaseClient = getSharedSupabaseClient();
+            if (!todoSupabaseClient) return;
+            fetchTodoStateFromSupabase();
+            subscribeToTodo();
+        } catch (e) {
+            console.warn("Todo sync init skipped (running in Canvas offline/sandboxed mode).");
+        }
+    }
+
+    async function fetchTodoStateFromSupabase() {
+        if (!todoSupabaseClient) return;
+        try {
+            const { data, error } = await todoSupabaseClient
+                .from('todo_state')
+                .select('*')
+                .eq('id', 1)
+                .maybeSingle();
+            if (error) { return; }
+            if (data) applyRemoteTodoState(data);
+        } catch (e) {}
+    }
+
+    function subscribeToTodo() {
+        if (!todoSupabaseClient) return;
+        try {
+            todoSupabaseClient
+                .channel('todo_state_channel')
+                .on('postgres_changes',
+                    { event: '*', schema: 'public', table: 'todo_state', filter: 'id=eq.1' },
+                    (payload) => { if (payload.new) applyRemoteTodoState(payload.new); }
+                )
+                .subscribe();
+        } catch(wsErr) {
+            console.warn("WebSocket not allowed for todo channel:", wsErr);
+        }
+    }
+
+    function applyRemoteTodoState(row) {
+        if (!row) return;
+        if (todoLastUpdatedAt && row.updated_at &&
+            new Date(row.updated_at).getTime() <= new Date(todoLastUpdatedAt).getTime()) {
+            return;
+        }
+        todoLastUpdatedAt = row.updated_at || todoLastUpdatedAt;
+        todoApplyingRemote = true;
+
+        if (Array.isArray(row.todos)) {
+            appState.todos = row.todos;
+            saveAppState();
+            renderTodoList();
+        }
+
+        todoApplyingRemote = false;
+    }
+
+    async function pushTodoStateToSupabase() {
+        if (!todoSupabaseClient || todoApplyingRemote) return;
+        try {
+            const nowIso = new Date().toISOString();
+            todoLastUpdatedAt = nowIso;
+            const { error } = await todoSupabaseClient
+                .from('todo_state')
+                .upsert({
+                    id: 1,
+                    todos: appState.todos,
+                    updated_at: nowIso
+                });
+            if (error) {}
+        } catch (e) {}
+    }
+
+    const leithMoodDefinitions = {
+        angry: { name: "Angry", emoji: "😡", headEmoji: "🦁🔥", ringClass: "mood-angry", responses: ["متزعليش من جوجو ❤️", "جوجو بيحبك ❤️", "خلاص يا بت 😂❤️", "اهدي بس ❤️"] },
+        sad: { name: "Sad", emoji: "😔", headEmoji: "🦁💧", ringClass: "mood-sad", responses: ["متزعليش ❤️", "أنا معاكي ❤️", "تعالي هنا 🤍", "مالك بس؟ ❤️"] },
+        love: { name: "In Love", emoji: "😍", headEmoji: "🦁💖", ringClass: "mood-love", responses: ["وأنا كمان بحبك ❤️", "إنتِ قلبي ❤️", "وأنا بحبك أكتر 😂❤️"] },
+        bored: { name: "Bored", emoji: "😑", headEmoji: "🦁🥱", ringClass: "mood-bored", responses: ["اطبخي يلا لجوجو 😂❤️", "يلا برموت، كلمي جوجو 😂", "تعالي نعمل حاجة بدل الزهق 👀"] },
+        stressed: { name: "Stressed", emoji: "😰", headEmoji: "🦁💫", ringClass: "mood-stressed", responses: ["مالك مخنوقة ليه؟ ❤️", "كلمي جوجو، متفضليش مخنوقة لوحدك ❤️", "خدي نفس كده... واحدة واحدة ❤️"] },
+        tired: { name: "Tired", emoji: "😴", headEmoji: "🦁💤", ringClass: "mood-tired", responses: ["كفاية سهر... نامي بدري 😴❤️"] },
+        happy: { name: "Happy", emoji: "😊", headEmoji: "🦁✨", ringClass: "mood-happy", responses: ["حلو إنك مبسوطة النهارده ❤️"] },
+        neutral: { name: "Neutral", emoji: "🤍", headEmoji: "🦁", ringClass: "mood-neutral", responses: ["أنا معاكي كالعادة 🦁❤️"] }
+    };
+
+    let leithSecretTaps = 0;
+
+    function initLeith2Module() {
+        const moodKey = appState.leith.currentMood || 'neutral';
+        applyLeithMoodUI(moodKey);
+        
+        if (appState.leith.latestMessage) {
+            showLeithMessage(appState.leith.latestMessage, appState.leith.sender || 'jojo');
+        } else {
+            checkLeithContextualMessage();
+        }
+        updateLeithDailySummary();
+        updateLeithStreak();
+        initLeithSync();
+    }
+
+    function toggleLeithBubble() {
+        const bubble = document.getElementById('leithSpeechBubble');
+        const dot = document.getElementById('leithUnreadDot');
+        if (bubble) {
+            bubble.classList.toggle('active');
+            if (bubble.classList.contains('active') && dot) {
+                dot.classList.remove('active');
+            }
+        }
+        
+        leithSecretTaps++;
+        if (leithSecretTaps === 5) {
+            showLeithMessage("إنتِ اكتشفتي السر؟ 👀🦁", 'jojo');
+            leithSecretTaps = 0;
+        }
+    }
+
+    function setLeithMood(moodKey, save = true) {
+        const def = leithMoodDefinitions[moodKey] || leithMoodDefinitions['neutral'];
+        appState.leith.currentMood = moodKey;
+
+        let randomResp = def.responses[Math.floor(Math.random() * def.responses.length)];
+        const patternMsg = checkLeithMoodPattern(moodKey);
+        if (patternMsg) randomResp = patternMsg;
+        recordLeithMoodHistory(moodKey);
+
+        appState.leith.latestMessage = randomResp;
+        appState.leith.sender = 'jojo';
+        appState.leith.isPersistentMsg = true;
+
+        if (save) saveAppState();
+
+        applyLeithMoodUI(moodKey);
+        showLeithMessage(randomResp, 'jojo');
+        updateLeithStreak();
+        pushLeithStateToSupabase();
+    }
+
+    function recordLeithMoodHistory(moodKey) {
+        if (!appState.leith.moodHistory) appState.leith.moodHistory = [];
+        appState.leith.moodHistory.push({ mood: moodKey, date: new Date().toISOString() });
+        if (appState.leith.moodHistory.length > 30) {
+            appState.leith.moodHistory = appState.leith.moodHistory.slice(-30);
+        }
+    }
+
+    function checkLeithMoodPattern(moodKey) {
+        if (moodKey === 'neutral' || moodKey === 'happy' || moodKey === 'love') return null;
+        const history = appState.leith.moodHistory || [];
+        const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+        const recentSame = history.filter(h => h.mood === moodKey && new Date(h.date).getTime() >= weekAgo);
+        if (recentSame.length >= 2) {
+            const patternMsgs = {
+                tired: "لاحظت إنك تعبانة كتير الأسبوع ده، خدي بالك من نفسك يا لولا ❤️",
+                stressed: "إنتِ مخنوقة كتير الأيام دي... كلمي جوجو، متفضليش لوحدك ❤️",
+                sad: "حاسس إنك زعلانة كتير الفترة دي، إحنا هنا نسمعك ❤️",
+                bored: "شكلك زهقانة الأسبوع ده كله، يلا نعمل حاجة مختلفة 👀",
+                angry: "لاحظت إنك بتعصبي كتير الأيام دي، احكيلي إيه اللي مضايقك ❤️"
+            };
+            return patternMsgs[moodKey] || null;
+        }
+        return null;
+    }
+
+    function sendLeithReaction(emoji) {
+        const currentSender = appState.leith.sender || 'jojo';
+        appState.leith.latestMessage = emoji;
+        appState.leith.sender = currentSender;
+        appState.leith.isPersistentMsg = true;
+        saveAppState();
+        showLeithMessage(emoji, currentSender);
+        updateLeithStreak();
+        pushLeithStateToSupabase();
+    }
+
+    function applyLeithMoodUI(moodKey) {
+        const def = leithMoodDefinitions[moodKey] || leithMoodDefinitions['neutral'];
+        const head = document.getElementById('leithChatHead');
+        if (head) {
+            head.className = `leith-chat-head ${def.ringClass}`;
+        }
+
+        const headEmoji = document.getElementById('leithHeadEmoji');
+        if (headEmoji) headEmoji.textContent = def.emoji;
+
+        const title = document.getElementById('leithMoodIndicatorTitle');
+        if (title) title.textContent = `🦁 Leith (${def.name})`;
+    }
+
+    function setLeithSender(sender) {
+        appState.leith.sender = sender;
+        saveAppState();
+
+        const btnJojo = document.getElementById('senderBtnJojo');
+        const btnLola = document.getElementById('senderBtnLola');
+        if (btnJojo && btnLola) {
+            if (sender === 'jojo') {
+                btnJojo.classList.add('active');
+                btnLola.classList.remove('active');
+            } else {
+                btnLola.classList.add('active');
+                btnJojo.classList.remove('active');
+            }
+        }
+        const senderDisplay = document.getElementById('leithSenderDisplay');
+        if (senderDisplay) {
+            senderDisplay.textContent = sender === 'jojo' ? '❤️ جوجو' : '🤍 لولا';
+        }
+    }
+
+    function showLeithMessage(msg, sender = 'jojo') {
+        const textEl = document.getElementById('leithMessageText');
+        const senderDisplay = document.getElementById('leithSenderDisplay');
+        const dot = document.getElementById('leithUnreadDot');
+
+        if (textEl) textEl.textContent = msg;
+        if (senderDisplay) {
+            senderDisplay.textContent = sender === 'jojo' ? '❤️ جوجو' : '🤍 لولا';
+        }
+        if (dot) dot.classList.add('active');
+
+        setLeithSender(sender);
+    }
+
+    function checkLeithContextualMessage() {
+        if (appState.leith.isPersistentMsg && appState.leith.latestMessage) {
+            showLeithMessage(appState.leith.latestMessage, appState.leith.sender || 'jojo');
+            return;
+        }
+
+        const hour = new Date().getHours();
+        let timeMsg = "أهلاً يا لولا 🦁❤️ إزيك النهارده؟";
+        if (hour >= 5 && hour < 12) {
+            timeMsg = "صباح الخير يا آلاء ❤️ يلا نبدأ اليوم بهدوء";
+        } else if (hour >= 12 && hour < 17) {
+            timeMsg = "يومك ماشي إزاي؟ عملتي إيه لحد دلوقتي؟ 👀";
+        } else if (hour >= 17 && hour < 22) {
+            timeMsg = "مساء الخير يا آلاء ❤️ شوفي إيه اللي لسه ناقصك.";
+        } else {
+            timeMsg = "قبل ما تنامي، متنسيش وردك 🤍 نامي بدري يا لولا.";
+        }
+
+        showLeithMessage(timeMsg, 'jojo');
     }
 
     function triggerLeithSurprise() {
