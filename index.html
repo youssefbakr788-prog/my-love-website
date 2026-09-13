@@ -1,2251 +1,2973 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For You ❤️ | Forever With You</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #0c0d12;
-            color: #f3f4f6;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
-
-        h1, h2, h3, .font-serif {
-            font-family: 'Cormorant Garamond', serif;
-        }
-
-        /* PASSWORD GATE STYLES */
-        #passwordGateOverlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(12, 13, 18, 0.98);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            z-index: 99999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
-            opacity: 1;
-            transition: opacity 0.6s ease, visibility 0.6s ease;
-        }
-
-        #passwordGateOverlay.unlocked {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        .gate-card {
-            background: rgba(20, 21, 30, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 101, 132, 0.35);
-            border-radius: 2rem;
-            padding: 2.75rem 2rem;
-            max-width: 420px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.7), 0 0 40px rgba(255, 101, 132, 0.15);
-            position: relative;
-        }
-
-        .gate-heart-icon {
-            font-size: 2.75rem;
-            color: #ff6584;
-            margin-bottom: 1rem;
-            animation: pulse 2s infinite;
-        }
-
-        .gate-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.85rem;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 0.5rem;
-            line-height: 1.3;
-        }
-
-        .gate-subtitle {
-            font-size: 0.9rem;
-            color: #9ca3af;
-            margin-bottom: 2rem;
-        }
-
-        .gate-input-wrapper {
-            position: relative;
-            margin-bottom: 0.75rem;
-        }
-
-        .gate-input {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 1rem;
-            padding: 0.9rem 3rem 0.9rem 1.25rem;
-            color: #fff;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
-            outline: none;
-            direction: auto;
-            unicode-bidi: plaintext;
-        }
-
-        .gate-submit-btn {
-            width: 100%;
-            background: linear-gradient(135deg, #ff6584 0%, #d946ef 100%);
-            border: none;
-            color: white;
-            padding: 0.9rem;
-            border-radius: 1rem;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(255, 101, 132, 0.35);
-        }
-
-        .hearts-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
-
-        .floating-heart {
-            position: absolute;
-            color: rgba(255, 101, 132, 0.25);
-            animation: floatUp 8s linear infinite;
-            bottom: -50px;
-            font-size: 1.5rem;
-            user-select: none;
-        }
-
-        @keyframes floatUp {
-            0% { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 0; }
-            20% { opacity: 0.85; }
-            80% { opacity: 0.85; }
-            100% { transform: translateY(-105vh) rotate(360deg) scale(1.3); opacity: 0; }
-        }
-
-        .glass-nav {
-            background: rgba(12, 13, 18, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 50;
-            padding: 1rem 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.6rem;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .logo span {
-            color: #ff6584;
-            animation: pulse 2s infinite;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 1.2rem;
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: #d1d5db;
-            flex-wrap: wrap;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: inherit;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: #ff6584;
-        }
-
-        .glow-effect {
-            position: absolute;
-            width: 450px;
-            height: 450px;
-            background: radial-gradient(circle, rgba(255,101,132,0.18) 0%, rgba(217,70,239,0.06) 50%, transparent 70%);
-            border-radius: 50%;
-            z-index: 0;
-            filter: blur(70px);
-            pointer-events: none;
-        }
-
-        .hero {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 7.5rem 1rem 4rem 1rem;
-            z-index: 10;
-        }
-
-        .hero-intro {
-            margin-bottom: 1.5rem;
-        }
-
-        .small-title {
-            display: inline-block;
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.15em;
-            color: #ff6584;
-            background: rgba(255, 101, 132, 0.1);
-            padding: 0.5rem 1.2rem;
-            border-radius: 9999px;
-            border: 1px solid rgba(255, 101, 132, 0.25);
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-        }
-
-        .hero h1 {
-            font-size: 2.75rem;
-            font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 0.5rem;
-        }
-
-        .hero-lola {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 3.8rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #ff6584 0%, #fb7185 50%, #d946ef 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
-            filter: drop-shadow(0 4px 15px rgba(255,101,132,0.3));
-        }
-
-        .home-dashboard {
-            width: 100%;
-            max-width: 36rem;
-            display: flex;
-            justify-content: center;
-            margin-top: 1rem;
-        }
-
-        .dash-card {
-            background: rgba(20, 21, 30, 0.7);
-            backdrop-filter: blur(14px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 1.5rem;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-            width: 100%;
-        }
-
-        .countdown-grid-creative {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0.75rem;
-            justify-content: center;
-            margin-top: 1.5rem;
-            width: 100%;
-        }
-
-        .countdown-card-item {
-            background: linear-gradient(135deg, rgba(255, 101, 132, 0.1) 0%, rgba(217, 70, 239, 0.05) 100%);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 101, 132, 0.3);
-            border-radius: 1rem;
-            padding: 1rem 0.5rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .countdown-number-huge {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 2.2rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #fff 0%, #ff6584 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1.1;
-            margin-bottom: 0.25rem;
-        }
-
-        .countdown-label-text {
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: #ffb3c1;
-            font-weight: 600;
-        }
-
-        .section {
-            position: relative;
-            padding: 6rem 1.5rem;
-            max-width: 64rem;
-            margin: 0 auto;
-            z-index: 10;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 3.5rem;
-        }
-
-        .section-title p {
-            font-size: 0.75rem;
-            letter-spacing: 0.2em;
-            color: #ff6584;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-        }
-
-        .section-title h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
-        }
-
-        .section-title h2 span { color: #ff6584; }
-
-        .main-btn {
-            background: linear-gradient(135deg, #ff6584 0%, #d946ef 100%);
-            border: none;
-            color: white;
-            padding: 0.8rem 1.75rem;
-            border-radius: 0.75rem;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            box-shadow: 0 4px 15px rgba(255, 101, 132, 0.3);
-            transition: all 0.2s;
-        }
-
-        .main-btn:hover { 
-            opacity: 0.95; 
-            transform: translateY(-2px); 
-            box-shadow: 0 6px 20px rgba(255, 101, 132, 0.45);
-        }
-
-        .love-messages-container {
-            max-width: 44rem;
-            margin: 0 auto;
-            padding: 4rem 1.5rem;
-            position: relative;
-            z-index: 10;
-        }
-
-        .love-msg-card {
-            background: rgba(20, 21, 30, 0.75);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 101, 132, 0.35);
-            border-radius: 1.5rem;
-            padding: 2.5rem;
-            text-align: center;
-            box-shadow: 0 0 35px rgba(255, 101, 132, 0.15);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .love-msg-display {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.75rem;
-            font-weight: 600;
-            color: #fff;
-            min-height: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            line-height: 1.5;
-            margin-bottom: 1.5rem;
-            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-        }
-
-        .love-msg-display.fade-out {
-            opacity: 0;
-            transform: translateY(-12px);
-        }
-
-        .todo-container {
-            max-width: 44rem;
-            margin: 0 auto;
-            padding: 2rem 1.5rem 6rem 1.5rem;
-            position: relative;
-            z-index: 10;
-        }
-
-        .todo-card {
-            background: rgba(20, 21, 30, 0.75);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 1.5rem;
-            padding: 2rem;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-
-        .todo-input-group {
-            display: flex;
-            gap: 0.75rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .todo-input {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 0.75rem;
-            padding: 0.75rem 1rem;
-            color: #fff;
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.95rem;
-            outline: none;
-        }
-
-        .todo-list-items {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            max-height: 350px;
-            overflow-y: auto;
-        }
-
-        .todo-item {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 0.85rem;
-            padding: 0.85rem 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-        }
-
-        .todo-item.completed span {
-            text-decoration: line-through;
-            color: #6b7280;
-        }
-
-        .todo-delete-btn {
-            background: none;
-            border: none;
-            color: #9ca3af;
-            cursor: pointer;
-            font-size: 1.1rem;
-        }
-
-        .gallery-container {
-            max-width: 72rem;
-            margin: 0 auto;
-            padding: 6rem 1.5rem;
-            position: relative;
-            z-index: 10;
-        }
-
-        .gallery-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-            margin-bottom: 2.5rem;
-        }
-
-        .tab-btn {
-            background: rgba(20, 21, 30, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #d1d5db;
-            padding: 0.5rem 1.25rem;
-            border-radius: 9999px;
-            font-size: 0.875rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .tab-btn.active, .tab-btn:hover {
-            background: #ff6584;
-            border-color: #ff6584;
-            color: white;
-        }
-
-        .photo-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-        }
-
-        @media (min-width: 640px) { .photo-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (min-width: 1024px) { .photo-grid { grid-template-columns: repeat(3, 1fr); } }
-
-        .photo-card {
-            background: rgba(20, 21, 30, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 1.25rem;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            cursor: pointer;
-            position: relative;
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-
-        .photo-card:hover { transform: translateY(-5px); border-color: rgba(255, 101, 132, 0.4); }
-
-        .photo-img-wrapper {
-            width: 100%;
-            height: 240px;
-            overflow: hidden;
-            background: #181922;
-            position: relative;
-        }
-
-        .photo-img-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .photo-card:hover .photo-img-wrapper img { transform: scale(1.05); }
-
-        .photo-info {
-            padding: 1.25rem;
-        }
-
-        .photo-info h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .photo-info p {
-            font-size: 0.85rem;
-            color: #9ca3af;
-        }
-
-        .lightbox-modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(12, 13, 18, 0.94);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-
-        .lightbox-modal.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .lightbox-container {
-            position: relative;
-            max-width: 90vw;
-            max-height: 90vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-
-        .lightbox-image-wrapper {
-            position: relative;
-            max-width: 85vw;
-            max-height: 70vh;
-            overflow: hidden;
-            border-radius: 1rem;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8);
-            background: #14151e;
-        }
-
-        .lightbox-image-wrapper img {
-            max-width: 100%;
-            max-height: 70vh;
-            object-fit: contain;
-            display: block;
-        }
-
-        .lightbox-caption {
-            margin-top: 1rem;
-            max-width: 600px;
-        }
-
-        .lightbox-close {
-            position: absolute;
-            top: -50px;
-            right: 0;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: #fff;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        .lightbox-nav-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(20, 21, 30, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: #fff;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            font-size: 1.25rem;
-            cursor: pointer;
-            z-index: 10;
-        }
-
-        .lightbox-prev { left: -20px; }
-        .lightbox-next { right: -20px; }
-
-        /* FUTURE WITH YOU SECTION */
-        .future-section {
-            position: relative;
-            max-width: 50rem;
-            margin: 0 auto;
-            padding: 6rem 1.5rem;
-            z-index: 10;
-        }
-        .future-timeline-container {
-            position: relative;
-            padding: 2rem 0;
-        }
-        .future-timeline-line {
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: linear-gradient(180deg, #ff6584 0%, #d946ef 50%, rgba(255,101,132,0.2) 100%);
-            transform: translateX(-50%);
-            z-index: 1;
-        }
-        @media(max-width: 640px) {
-            .future-timeline-line { left: 24px; transform: none; }
-        }
-        .future-station {
-            position: relative;
-            margin-bottom: 2.5rem;
-            display: flex;
-            justify-content: flex-start;
-            width: 100%;
-            z-index: 2;
-        }
-        .future-station:nth-child(even) {
-            justify-content: flex-end;
-        }
-        @media(max-width: 640px) {
-            .future-station, .future-station:nth-child(even) {
-                justify-content: flex-start;
-                padding-left: 54px;
-            }
-        }
-        .future-station-card {
-            background: rgba(20, 21, 30, 0.85);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 101, 132, 0.3);
-            border-radius: 1.25rem;
-            padding: 1.25rem 1.5rem;
-            width: calc(50% - 2.5rem);
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4), 0 0 15px rgba(255, 101, 132, 0.1);
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-        @media(max-width: 640px) {
-            .future-station-card { width: 100%; }
-        }
-        .future-station-card:hover {
-            transform: translateY(-4px);
-            border-color: #ff6584;
-        }
-        .future-station-dot {
-            position: absolute;
-            left: 50%;
-            top: 1.5rem;
-            width: 20px;
-            height: 20px;
-            background: #ff6584;
-            border: 3px solid #0c0d12;
-            border-radius: 50%;
-            transform: translateX(-50%);
-            z-index: 3;
-            box-shadow: 0 0 12px #ff6584;
-        }
-        @media(max-width: 640px) {
-            .future-station-dot { left: 24px; transform: none; }
-        }
-        .future-station-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.35rem;
-            font-weight: 700;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.35rem;
-        }
-        .future-station-preview {
-            font-size: 0.85rem;
-            color: #9ca3af;
-        }
-        .future-modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.82);
-            backdrop-filter: blur(12px);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-        .future-modal.future-active { opacity: 1; pointer-events: auto; }
-        .future-modal-content {
-            background: rgba(20, 21, 30, 0.96);
-            border: 1px solid rgba(255, 101, 132, 0.35);
-            border-radius: 1.5rem;
-            padding: 2.5rem;
-            max-width: 420px;
-            width: 100%;
-            text-align: center;
-            position: relative;
-        }
-        .future-modal-close {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: rgba(255,255,255,0.08);
-            border: none;
-            color: #fff;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            font-size: 1.25rem;
-            cursor: pointer;
-        }
-
-        /* ------------------------------------------------------------- */
-        /* ISOLATED BOUQUET SECTION STYLES (All prefixed with bouquet-) */
-        /* ------------------------------------------------------------- */
-        #bouquet-section {
-            position: relative;
-            max-width: 52rem;
-            margin: 0 auto;
-            padding: 6rem 1.5rem;
-            z-index: 10;
-        }
-        .bouquet-section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-        .bouquet-section-title p {
-            font-size: 0.75rem;
-            letter-spacing: 0.2em;
-            color: #ff6584;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-        }
-        .bouquet-section-title h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
-        }
-        .bouquet-section-title h2 span { color: #ff6584; }
-
-        .bouquet-card {
-            background: rgba(20, 21, 30, 0.8);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 101, 132, 0.35);
-            border-radius: 2rem;
-            padding: 3rem 2rem;
-            text-align: center;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.6), 0 0 35px rgba(255, 101, 132, 0.15);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .bouquet-scene {
-            position: relative;
-            width: 100%;
-            height: 320px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 2rem;
-        }
-
-        .bouquet-flowers-wrapper {
-            position: relative;
-            width: 220px;
-            height: 260px;
-            opacity: 0;
-            transform: translateY(20px) scale(0.9);
-            transition: opacity 1s ease, transform 1s ease;
-        }
-        .bouquet-flowers-wrapper.bouquet-visible {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-
-        .bouquet-flower {
-            position: absolute;
-            width: 75px;
-            height: 75px;
-            opacity: 0;
-            transform: scale(0);
-            transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .bouquet-flower.bouquet-bloomed {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .bouquet-flower-1 { top: 10px; left: 72px; }
-        .bouquet-flower-2 { top: 60px; left: 15px; }
-        .bouquet-flower-3 { top: 60px; right: 15px; }
-
-        .bouquet-petal {
-            position: absolute;
-            width: 38px;
-            height: 38px;
-            background: linear-gradient(135deg, #ff8da1 0%, #ff5277 100%);
-            border-radius: 50% 50% 20% 50%;
-            box-shadow: inset 0 2px 6px rgba(255,255,255,0.3);
-        }
-        .bouquet-p1 { top: 0; left: 18px; transform: rotate(0deg); }
-        .bouquet-p2 { top: 18px; left: 36px; transform: rotate(90deg); }
-        .bouquet-p3 { top: 36px; left: 18px; transform: rotate(180deg); }
-        .bouquet-p4 { top: 18px; left: 0; transform: rotate(270deg); }
-        
-        .bouquet-center {
-            position: absolute;
-            top: 26px;
-            left: 26px;
-            width: 23px;
-            height: 23px;
-            background: radial-gradient(circle, #ffe600 0%, #ffb703 100%);
-            border-radius: 50%;
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
-            z-index: 2;
-        }
-
-        .bouquet-stem {
-            position: absolute;
-            background: linear-gradient(180deg, #4ade80 0%, #15803d 100%);
-            border-radius: 4px;
-        }
-        .bouquet-stem-1 { bottom: 10px; left: 104px; width: 6px; height: 140px; transform: rotate(-5deg); }
-        .bouquet-stem-2 { bottom: 20px; left: 88px; width: 5px; height: 120px; transform: rotate(12deg); }
-        .bouquet-stem-3 { bottom: 20px; right: 88px; width: 5px; height: 120px; transform: rotate(-12deg); }
-
-        .bouquet-ring-wrapper {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.2);
-            opacity: 0;
-            transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 1s ease;
-            z-index: 10;
-        }
-        .bouquet-ring-wrapper.bouquet-ring-revealed {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 1;
-        }
-
-        .bouquet-ring-glow {
-            position: absolute;
-            inset: -25px;
-            background: radial-gradient(circle, rgba(255,215,0,0.45) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: bouquetGlowPulse 2.5s infinite ease-in-out;
-        }
-        @keyframes bouquetGlowPulse {
-            0%, 100% { transform: scale(1); opacity: 0.7; }
-            50% { transform: scale(1.2); opacity: 1; }
-        }
-
-        .bouquet-ring-band {
-            width: 60px;
-            height: 60px;
-            border: 6px solid #e2e8f0;
-            border-radius: 50%;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5), inset 0 2px 4px rgba(255,255,255,0.6);
-            position: relative;
-        }
-
-        .bouquet-ring-diamond {
-            position: absolute;
-            top: -24px;
-            left: 14px;
-            width: 22px;
-            height: 22px;
-            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
-            transform: rotate(45deg);
-            box-shadow: 0 0 20px #ffffff, 0 0 35px rgba(255,105,180,0.8);
-        }
-
-        .bouquet-diamond-sparkle {
-            position: absolute;
-            inset: -8px;
-            background: radial-gradient(circle, #fff 20%, transparent 70%);
-            animation: bouquetSparkleAnim 1.5s infinite alternate;
-        }
-        @keyframes bouquetSparkleAnim {
-            0% { transform: scale(0.8); opacity: 0.5; }
-            100% { transform: scale(1.4); opacity: 1; }
-        }
-
-        .bouquet-floating-petals {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            overflow: hidden;
-        }
-        .bouquet-fpetal {
-            position: absolute;
-            font-size: 1.25rem;
-            animation: bouquetDrift 6s infinite linear;
-            opacity: 0;
-        }
-        .bouquet-fp-1 { top: 20%; left: 15%; animation-delay: 0s; }
-        .bouquet-fp-2 { top: 60%; right: 20%; animation-delay: 2.2s; }
-        .bouquet-fp-3 { top: 30%; right: 25%; animation-delay: 4.5s; }
-
-        @keyframes bouquetDrift {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-            20% { opacity: 0.8; }
-            80% { opacity: 0.8; }
-            100% { transform: translateY(-70px) rotate(360deg); opacity: 0; }
-        }
-
-        .bouquet-text-display {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #fff;
-            line-height: 1.5;
-            margin-bottom: 1.75rem;
-            min-height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transform: translateY(15px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-        .bouquet-text-display.bouquet-text-active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .bouquet-gift-btn {
-            background: linear-gradient(135deg, #ff6584 0%, #d946ef 100%);
-            border: none;
-            color: white;
-            padding: 0.9rem 2.25rem;
-            border-radius: 1rem;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            box-shadow: 0 6px 25px rgba(255, 101, 132, 0.4);
-            transition: all 0.3s ease;
-        }
-        .bouquet-gift-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(255, 101, 132, 0.6);
-        }
-
-        /* TICKETS & MODALS */
-        .tickets-container {
-            max-width: 64rem;
-            margin: 0 auto;
-            padding: 4rem 1.5rem;
-            position: relative;
-            z-index: 10;
-        }
-        .tickets-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-        }
-        @media (min-width: 768px) { .tickets-grid { grid-template-columns: repeat(2, 1fr); } }
-        .ticket-card {
-            background: rgba(20, 21, 30, 0.8);
-            backdrop-filter: blur(14px);
-            border: 1px dashed rgba(255, 101, 132, 0.4);
-            border-radius: 1.5rem;
-            padding: 1.75rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1.0rem;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            transition: transform 0.3s, border-color 0.3s;
-        }
-        .ticket-card:hover { transform: translateY(-3px); border-color: #ff6584; }
-        .ticket-header { display: flex; justify-content: space-between; align-items: center; }
-        .ticket-type-badge {
-            background: rgba(255, 101, 132, 0.12);
-            color: #ff6584;
-            font-size: 0.75rem;
-            padding: 0.3rem 0.8rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            border: 1px solid rgba(255, 101, 132, 0.25);
-        }
-        .ticket-title { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 700; color: #fff; }
-        .ticket-meta { display: flex; gap: 1.5rem; font-size: 0.85rem; color: #9ca3af; }
-        .ticket-note { font-size: 0.9rem; color: #d1d5db; }
-        .btn-sm-action {
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #d1d5db;
-            padding: 0.35rem 0.8rem;
-            border-radius: 0.5rem;
-            font-size: 0.75rem;
-            cursor: pointer;
-        }
-        .btn-sm-action:hover { background: #ff6584; color: #fff; }
-
-        /* LEITH ASSISTANT */
-        #leithAssistant {
-            position: fixed;
-            bottom: 2.0rem;
-            right: 2.0rem;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 0.75rem;
-        }
-        .leith-chat-head {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #ff6584 0%, #d946ef 100%);
-            border: 3px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 8px 30px rgba(255, 101, 132, 0.6);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.2rem;
-            position: relative;
-        }
-        .leith-unread-dot {
-            position: absolute;
-            top: 2px;
-            right: 2px;
-            width: 16px;
-            height: 16px;
-            background: #34d399;
-            border: 2px solid #14151e;
-            border-radius: 50%;
-            display: none;
-        }
-        .leith-unread-dot.active { display: block; }
-        .leith-speech-bubble {
-            background: rgba(20, 21, 30, 0.95);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 101, 132, 0.4);
-            border-radius: 1.25rem;
-            padding: 1.0rem 1.25rem;
-            max-width: min(320px, calc(100vw - 2.0rem));
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-            display: none;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-        .leith-speech-bubble.active { display: flex; }
-        .leith-bubble-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.8rem;
-            color: #ff6584;
-            font-weight: 600;
-        }
-        .leith-bubble-close { background: none; border: none; color: #9ca3af; cursor: pointer; font-size: 1.1rem; }
-        .leith-bubble-text { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 600; color: #fff; }
-        .leith-summary-box {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 0.75rem;
-            padding: 0.5rem 0.75rem;
-            font-size: 0.8rem;
-            color: #d1d5db;
-        }
-        .leith-actions-row { display: flex; gap: 0.4rem; flex-wrap: wrap; }
-        .leith-action-btn {
-            background: rgba(255, 101, 132, 0.12);
-            border: 1px solid rgba(255, 101, 132, 0.3);
-            color: #ffb3c1;
-            padding: 0.3rem 0.6rem;
-            border-radius: 0.5rem;
-            font-size: 0.75rem;
-            cursor: pointer;
-        }
-        .leith-sender-toggle { display: flex; gap: 0.5rem; background: rgba(0,0,0,0.3); padding: 0.25rem; border-radius: 0.5rem; }
-        .leith-sender-btn { flex: 1; background: none; border: none; color: #9ca3af; font-size: 0.75rem; font-weight: 600; padding: 0.3rem; border-radius: 0.4rem; cursor: pointer; }
-        .leith-sender-btn.active { background: #ff6584; color: #fff; }
-        .leith-input-row { display: flex; gap: 0.5rem; }
-        .leith-user-input {
-            flex: 1;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 0.6rem;
-            padding: 0.4rem 0.75rem;
-            color: #fff;
-            font-size: 0.85rem;
-            outline: none;
-        }
-        .leith-send-btn {
-            background: linear-gradient(135deg, #ff6584 0%, #d946ef 100%);
-            border: none;
-            color: white;
-            padding: 0.4rem 0.8rem;
-            border-radius: 0.6rem;
-            font-size: 0.85rem;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        .modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.82);
-            backdrop-filter: blur(12px);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1.0rem;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-        .modal.active { opacity: 1; pointer-events: auto; }
-        .modal-content {
-            background: rgba(20, 21, 30, 0.96);
-            border: 1px solid rgba(255, 101, 132, 0.35);
-            border-radius: 1.5rem;
-            padding: 2.5rem;
-            max-width: 400px;
-            width: 100%;
-            text-align: center;
-            position: relative;
-        }
-        .close-modal {
-            position: absolute;
-            top: 1.0rem;
-            right: 1.0rem;
-            background: none;
-            border: none;
-            color: #9ca3af;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        footer {
-            padding: 3.0rem 1.5rem;
-            text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            color: #6b7280;
-            font-size: 0.875rem;
-        }
-        footer span { color: #ff6584; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You ❤️ | Forever With You</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0c0d12;
+            color: #f3f4f6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, .font-serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* ------------------------------------------------------------- */
+        /* PASSWORD GATE STYLES (Secure Overlay)                         */
+        /* ------------------------------------------------------------- */
+        #passwordGateOverlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(12, 13, 18, 0.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            opacity: 1;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+
+        #passwordGateOverlay.unlocked {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .gate-card {
+            background: rgba(20, 21, 30, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 101, 132, 0.35);
+            border-radius: 2rem;
+            padding: 2.75rem 2rem;
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.7), 0 0 40px rgba(255, 101, 132, 0.15);
+            position: relative;
+            animation: gateFadeIn 0.8s ease;
+        }
+
+        @keyframes gateFadeIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .gate-heart-icon {
+            font-size: 2.75rem;
+            color: #ff6584;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        .gate-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.85rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .gate-subtitle {
+            font-size: 0.9rem;
+            color: #9ca3af;
+            margin-bottom: 2rem;
+        }
+
+        .gate-input-wrapper {
+            position: relative;
+            margin-bottom: 0.75rem;
+        }
+
+        .gate-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 1rem;
+            padding: 0.9rem 3rem 0.9rem 1.25rem;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            direction: auto;
+            unicode-bidi: plaintext;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .gate-input:focus {
+            border-color: #ff6584;
+            box-shadow: 0 0 15px rgba(255, 101, 132, 0.2);
+        }
+
+        .gate-toggle-btn {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 0.25rem;
+            transition: color 0.2s;
+        }
+
+        .gate-toggle-btn:hover {
+            color: #ff6584;
+        }
+
+        .gate-error-msg {
+            font-size: 0.85rem;
+            color: #f87171;
+            min-height: 1.25rem;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .gate-error-msg.visible {
+            opacity: 1;
+        }
+
+        @keyframes shakeInput {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        .gate-input.shake {
+            animation: shakeInput 0.4s ease;
+            border-color: #f87171 !important;
+        }
+
+        .gate-submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #ff6584 0%, #d946ef 100%);
+            border: none;
+            color: white;
+            padding: 0.9rem;
+            border-radius: 1rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 20px rgba(255, 101, 132, 0.35);
+        }
+
+        .gate-submit-btn:hover {
+            opacity: 0.95;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(255, 101, 132, 0.5);
+        }
+        /* ------------------------------------------------------------- */
+
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .floating-heart {
+            position: absolute;
+            color: rgba(255, 101, 132, 0.25);
+            animation: floatUp 8s linear infinite;
+            bottom: -50px;
+            font-size: 1.5rem;
+            user-select: none;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 0; }
+            20% { opacity: 0.85; }
+            80% { opacity: 0.85; }
+            100% { transform: translateY(-105vh) rotate(360deg) scale(1.3); opacity: 0; }
+        }
+
+        .glass-nav {
+            background: rgba(12, 13, 18, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo span {
+            color: #ff6584;
+            animation: pulse 2s infinite;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.2rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #d1d5db;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ff6584;
+        }
+
+        .glow-effect {
+            position: absolute;
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(255,101,132,0.18) 0%, rgba(217,70,239,0.06) 50%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+            filter: blur(70px);
+            pointer-events: none;
+        }
+
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 7.5rem 1rem 4rem 1rem;
+            z-index: 10;
+        }
+
+        .hero-intro {
+            margin-bottom: 1.5rem;
+        }
+
+        .small-title {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            color: #ff6584;
+            background: rgba(255, 101, 132, 0.1);
+            padding: 0.5rem 1.2rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 101, 132, 0.25);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-size: 2.75rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-lola {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff6584 0%, #fb7185 50%, #d946ef 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 4px 15px rgba(255,101,132,0.3));
+        }
+
+        .home-dashboard {
+            width: 100%;
+            max-width: 36rem;
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .dash-card {
+            background: rgba(20, 21, 30, 0.7);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            width: 100%;
+        }
+
+        .countdown-grid-creative {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.75rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+            width: 100%;
+        }
+
+        .countdown-card-item {
+            background: linear-gradient(135deg, rgba(255, 101, 132, 0.1) 0%, rgba(217, 70, 239, 0.05) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 101, 132, 0.3);
+            border-radius: 1rem;
+            padding: 1rem 0.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(255, 101, 132, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .countdown-card-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 0 28px rgba(255, 101, 132, 0.35);
+            border-color: rgba(255, 101, 132, 0.6);
+        }
+
+        .countdown-number-huge {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff 0%, #ff6584 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.1;
+            margin-bottom: 0.25rem;
+        }
+
+        @media (min-width: 640px) {
+            .countdown-number-huge { font-size: 2.75rem; }
+        }
+
+        .countdown-label-text {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #ffb3c1;
+            font-weight: 600;
+        }
+
+        .section {
+            position: relative;
+            padding: 6rem 1.5rem;
+            max-width: 64rem;
+            margin: 0 auto;
+            z-index: 10;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .section-title p {
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            color: #ff6584;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .section-title h2 span { color: #ff6584; }
+
+        .main-btn {
+            background: linear-gradient(135deg, #ff6584 0%, #d946ef 100%);
+            border: none;
+            color: white;
+            padding: 0.8rem 1.75rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(255, 101, 132, 0.3);
+        }
+
+        .main-btn:hover { 
+            opacity: 0.95; 
+            transform: translateY(-2px); 
+            box-shadow: 0 6px 20px rgba(255, 101, 132, 0.45);
+        }
+
+        .love-messages-container {
+            max-width: 44rem;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .love-msg-card {
+            background: rgba(20, 21, 30, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 101, 132, 0.35);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 0 35px rgba(255, 101, 132, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .love-msg-display {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #fff;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+
+        .love-msg-display.fade-out {
+            opacity: 0;
+            transform: translateY(-12px);
+        }
+
+        .todo-container {
+            max-width: 44rem;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 6rem 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .todo-card {
+            background: rgba(20, 21, 30, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .todo-input-group {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .todo-input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .todo-input:focus {
+            border-color: #ff6584;
+        }
+
+        .todo-list-items {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            max-height: 350px;
+            overflow-y: auto;
+            padding-right: 0.25rem;
+        }
+
+        .todo-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 0.85rem;
+            padding: 0.85rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            animation: fadeInItem 0.3s ease;
+            transition: background 0.2s;
+        }
+
+        .todo-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        @keyframes fadeInItem {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .todo-item-content {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex: 1;
+            word-break: break-word;
+            cursor: pointer;
+        }
+
+        .todo-item input[type="checkbox"] {
+            accent-color: #ff6584;
+            width: 1.1rem;
+            height: 1.1rem;
+            cursor: pointer;
+        }
+
+        .todo-item.completed span {
+            text-decoration: line-through;
+            color: #6b7280;
+        }
+
+        .todo-delete-btn {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 0.25rem;
+            transition: color 0.2s;
+        }
+
+        .todo-delete-btn:hover {
+            color: #f87171;
+        }
+
+        .gallery-container {
+            max-width: 72rem;
+            margin: 0 auto;
+            padding: 6rem 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .gallery-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+        }
+
+        .tab-btn {
+            background: rgba(20, 21, 30, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #d1d5db;
+            padding: 0.5rem 1.25rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active, .tab-btn:hover {
+            background: #ff6584;
+            border-color: #ff6584;
+            color: white;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 640px) { .photo-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .photo-grid { grid-template-columns: repeat(3, 1fr); } }
+
+        .photo-card {
+            background: rgba(20, 21, 30, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.25rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .photo-card:hover { transform: translateY(-5px); border-color: rgba(255, 101, 132, 0.4); }
+
+        .photo-img-wrapper {
+            width: 100%;
+            height: 240px;
+            overflow: hidden;
+            background: #181922;
+            position: relative;
+        }
+
+        .photo-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .photo-card:hover .photo-img-wrapper img { transform: scale(1.05); }
+
+        .photo-info {
+            padding: 1.25rem;
+        }
+
+        .photo-info h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .photo-info p {
+            font-size: 0.85rem;
+            color: #9ca3af;
+        }
+
+        .lightbox-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(12, 13, 18, 0.94);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .lightbox-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-container {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .lightbox-image-wrapper {
+            position: relative;
+            max-width: 85vw;
+            max-height: 70vh;
+            overflow: hidden;
+            border-radius: 1rem;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8);
+            background: #14151e;
+        }
+
+        .lightbox-image-wrapper img {
+            max-width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+            display: block;
+        }
+
+        .lightbox-caption {
+            margin-top: 1rem;
+            max-width: 600px;
+        }
+
+        .lightbox-caption h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 0.25rem;
+        }
+
+        .lightbox-caption p { color: #9ca3af; font-size: 0.9rem; }
+
+        .lightbox-close {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .lightbox-close:hover { background: rgba(255, 101, 132, 0.3); }
+
+        .lightbox-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(20, 21, 30, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            font-size: 1.25rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, transform 0.2s;
+            z-index: 10;
+        }
+
+        .lightbox-nav-btn:hover {
+            background: #ff6584;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .lightbox-prev { left: -20px; }
+        @media (min-width: 768px) { .lightbox-prev { left: -70px; } }
+        .lightbox-next { right: -20px; }
+        @media (min-width: 768px) { .lightbox-next { right: -70px; } }
+
+        /* TIME MESSAGE SECTION */
+        .time-msg-container {
+            max-width: 44rem;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .time-msg-card {
+            background: rgba(20, 21, 30, 0.8);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 101, 132, 0.35);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .time-msg-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .time-msg-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            text-align: left;
+        }
+
+        .time-msg-form-group label {
+            font-size: 0.85rem;
+            color: #d1d5db;
+            font-weight: 500;
+        }
+
+        .time-msg-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .time-msg-input:focus {
+            border-color: #ff6584;
+        }
+
+        .time-msg-display-box {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px dashed rgba(255, 101, 132, 0.4);
+            border-radius: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .tickets-container {
+            max-width: 64rem;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .tickets-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) { .tickets-grid { grid-template-columns: repeat(2, 1fr); } }
+
+        .ticket-card {
+            background: rgba(20, 21, 30, 0.8);
+            backdrop-filter: blur(14px);
+            border: 1px dashed rgba(255, 101, 132, 0.4);
+            border-radius: 1.5rem;
+            padding: 1.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.0rem;
+            position: relative;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .ticket-card:hover {
+            transform: translateY(-3px);
+            border-color: #ff6584;
+        }
+
+        .ticket-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ticket-type-badge {
+            background: rgba(255, 101, 132, 0.12);
+            color: #ff6584;
+            font-size: 0.75rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 101, 132, 0.25);
+        }
+
+        .ticket-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .ticket-meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.85rem;
+            color: #9ca3af;
+        }
+
+        .ticket-note {
+            font-size: 0.9rem;
+            color: #d1d5db;
+        }
+
+        .btn-sm-action {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #d1d5db;
+            padding: 0.35rem 0.8rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-sm-action:hover {
+            background: #ff6584;
+            border-color: #ff6584;
+            color: #fff;
+        }
+
+        .btn-sm-danger:hover {
+            background: #f87171 !important;
+            border-color: #f87171 !important;
+        }
+
+        /* ------------------------------------------------------------- */
+        /* LEITH 2.0 — MESSENGER STYLE FLOATING CHAT HEAD & BUBBLE       */
+        /* ------------------------------------------------------------- */
+        #leithAssistant {
+            position: fixed;
+            bottom: 2.0rem;
+            right: 2.0rem;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.75rem;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .leith-chat-head {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6584 0%, #d946ef 100%);
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 30px rgba(255, 101, 132, 0.6);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: leithIdleBreath 4s ease-in-out infinite;
+            user-select: none;
+        }
+
+        .leith-chat-head:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(255, 101, 132, 0.8);
+        }
+
+        @keyframes leithIdleBreath {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+        }
+
+        .leith-chat-head.mood-angry {
+            border-color: #ef4444;
+            box-shadow: 0 0 35px rgba(239, 68, 68, 0.8);
+            animation: leithAngryPulse 0.8s ease-in-out infinite;
+        }
+        @keyframes leithAngryPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); filter: brightness(1.2); }
+        }
+
+        .leith-chat-head.mood-love {
+            border-color: #f43f5e;
+            box-shadow: 0 0 35px rgba(244, 63, 94, 0.8);
+        }
+
+        .leith-chat-head.mood-sad {
+            border-color: #818cf8;
+            box-shadow: 0 0 25px rgba(129, 140, 248, 0.5);
+        }
+
+        .leith-chat-head.mood-tired, .leith-chat-head.mood-bored {
+            border-color: #a78bfa;
+            box-shadow: 0 0 20px rgba(167, 139, 250, 0.4);
+        }
+
+        .leith-chat-head.mood-stressed {
+            border-color: #fb923c;
+            box-shadow: 0 0 25px rgba(251, 146, 60, 0.6);
+        }
+
+        .leith-chat-head.mood-happy {
+            border-color: #fbbf24;
+            box-shadow: 0 0 25px rgba(251, 191, 36, 0.6);
+        }
+
+        .leith-unread-dot {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 16px;
+            height: 16px;
+            background: #34d399;
+            border: 2px solid #14151e;
+            border-radius: 50%;
+            display: none;
+        }
+        .leith-unread-dot.active { display: block; }
+
+        .leith-speech-bubble {
+            background: rgba(20, 21, 30, 0.95);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 101, 132, 0.4);
+            border-radius: 1.25rem;
+            padding: 1.0rem 1.25rem;
+            max-width: min(320px, calc(100vw - 2.0rem));
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 25px rgba(255, 101, 132, 0.2);
+            display: none;
+            flex-direction: column;
+            gap: 0.75rem;
+            position: relative;
+            animation: bubbleFadeIn 0.3s ease;
+        }
+
+        .leith-speech-bubble.active { display: flex; }
+
+        @keyframes bubbleFadeIn {
+            from { opacity: 0; transform: translateY(10px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .leith-bubble-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #ff6584;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding-bottom: 0.35rem;
+        }
+
+        .leith-bubble-close {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .leith-bubble-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #fff;
+            line-height: 1.4;
+        }
+
+        .leith-summary-box {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 0.75rem;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.8rem;
+            color: #d1d5db;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .leith-actions-row {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+            margin-top: 0.25rem;
+        }
+
+        .leith-action-btn {
+            background: rgba(255, 101, 132, 0.12);
+            border: 1px solid rgba(255, 101, 132, 0.3);
+            color: #ffb3c1;
+            padding: 0.3rem 0.6rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .leith-action-btn:hover {
+            background: #ff6584;
+            color: #fff;
+        }
+
+        .leith-sender-toggle {
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(0,0,0,0.3);
+            padding: 0.25rem;
+            border-radius: 0.5rem;
+        }
+
+        .leith-sender-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            color: #9ca3af;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.3rem;
+            border-radius: 0.4rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .leith-sender-btn.active {
+            background: #ff6584;
+            color: #fff;
+        }
+
+        .leith-input-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.25rem;
+        }
+
+        .leith-user-input {
+            flex: 1;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 0.6rem;
+            padding: 0.4rem 0.75rem;
+            color: #fff;
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .leith-user-input:focus {
+            border-color: #ff6584;
+        }
+
+        .leith-send-btn {
+            background: linear-gradient(135deg, #ff6584 0%, #d946ef 100%);
+            border: none;
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.6rem;
+            font-size: 0.85rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.82);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.0rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal.active { opacity: 1; pointer-events: auto; }
+
+        .modal-content {
+            background: rgba(20, 21, 30, 0.96);
+            border: 1px solid rgba(255, 101, 132, 0.35);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1.0rem;
+            right: 1.0rem;
+            background: none;
+            border: none;
+            color: #9ca3af;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        footer {
+            padding: 3.0rem 1.5rem;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+        footer span { color: #ff6584; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    
+/* TIME MESSAGE ENHANCEMENTS — additive only */
+.time-msg-tools{display:flex;gap:.55rem;flex-wrap:wrap;margin-top:.9rem}
+.time-msg-archive{margin-top:1rem;display:flex;flex-direction:column;gap:.55rem}
+.time-msg-history-item{display:flex;justify-content:space-between;gap:.75rem;align-items:center;padding:.75rem .85rem;border:1px solid rgba(255,255,255,.07);border-radius:.85rem;background:rgba(255,255,255,.025)}
+.time-msg-history-item .tmh-main{min-width:0}
+.time-msg-history-item .tmh-title{color:#fff;font-size:.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.time-msg-history-item .tmh-meta{color:#9ca3af;font-size:.68rem;margin-top:.2rem}
+.time-msg-history-item .tmh-actions{display:flex;gap:.35rem;flex-wrap:wrap}
+.time-msg-reply{margin-top:.75rem;display:flex;gap:.45rem}
+.time-msg-reply input{flex:1;min-width:0}
+.time-msg-notify{display:flex;align-items:center;justify-content:space-between;gap:.75rem;margin-top:.8rem;padding:.65rem .8rem;border:1px solid rgba(255,101,132,.16);border-radius:.8rem;background:rgba(255,101,132,.04);font-size:.72rem}
+.tm-toast{position:fixed;right:1rem;bottom:1rem;z-index:99999;max-width:min(360px,calc(100vw - 2rem));background:rgba(20,21,30,.96);border:1px solid rgba(255,101,132,.4);border-radius:1rem;padding:1rem;box-shadow:0 20px 50px rgba(0,0,0,.5);display:none}
+.tm-toast.active{display:block;animation:tmToastIn .25s ease}
+@keyframes tmToastIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:520px){.time-msg-history-item{align-items:flex-start;flex-direction:column}.time-msg-history-item .tmh-actions{width:100%}.time-msg-history-item .tmh-actions button{flex:1}}
+
+</style>
 </head>
 <body>
 
 <div id="passwordGateOverlay">
-    <div class="gate-card">
-        <div class="gate-heart-icon">♥</div>
-        <h2 class="gate-title">Welcome to Our Little World</h2>
-        <p class="gate-subtitle">Enter the password to continue</p>
-        
-        <div class="gate-input-wrapper">
-            <input type="password" id="gatePasswordInput" class="gate-input" placeholder="Enter password..." autocomplete="current-password">
-        </div>
-        
-        <button class="gate-submit-btn" onclick="verifyGatePassword()">Unlock ❤️</button>
-    </div>
+    <div class="gate-card">
+        <div class="gate-heart-icon">♥</div>
+        <h2 class="gate-title">Welcome to Our Little World</h2>
+        <p class="gate-subtitle">Enter the password to continue</p>
+        
+        <div class="gate-input-wrapper">
+            <input type="password" id="gatePasswordInput" class="gate-input" placeholder="Enter password..." autocomplete="current-password" onkeypress="handleGateKeypress(event)">
+            <button type="button" class="gate-toggle-btn" id="gateToggleBtn" onclick="toggleGatePasswordVisibility()" aria-label="Toggle password visibility">👁️</button>
+        </div>
+        
+        <div class="gate-error-msg" id="gateErrorMsg">الباسورد غلط ❤️ حاول تاني</div>
+        
+        <button class="gate-submit-btn" onclick="verifyGatePassword()">Unlock ❤️</button>
+    </div>
 </div>
 
 <div class="hearts-container" id="heartsContainer"></div>
 
 <nav class="glass-nav">
-    <div class="logo" onclick="window.scrollTo({top:0, behavior:'smooth'})">
-        For You <span>♥</span>
-    </div>
-    <div class="nav-links">
-        <a href="#home">Home</a>
-        <a href="#memories">Memories</a>
-        <a href="#futureSection">💍 Future</a>
-        <a href="#bouquet-section">💐 Bouquet</a>
-        <a href="#ticketsSection">Tickets</a>
-    </div>
+    <div class="logo" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+        For You <span>♥</span>
+    </div>
+    <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#memories">Memories</a>
+        <a href="#timeMessageSection">Time Message</a>
+        <a href="#ticketsSection">Tickets</a>
+    </div>
 </nav>
 
 <section id="home" class="hero">
-    <div class="glow-effect" style="top: -20px; left: -20px;"></div>
-    
-    <div class="hero-intro">
-        <p class="small-title">The best coincidence of my life</p>
-        <h1>To the girl who makes my world beautiful</h1>
-        <div class="hero-lola">Lola ❤️</div>
-    </div>
+    <div class="glow-effect" style="top: -20px; left: -20px;"></div>
+    
+    <div class="hero-intro">
+        <p class="small-title">The best coincidence of my life</p>
+        <h1>To the girl who makes my world beautiful</h1>
+        <div class="hero-lola">Lola ❤️</div>
+    </div>
 
-    <div class="home-dashboard">
-        <div class="dash-card">
-            <h3 class="font-serif" style="font-size: 1.25rem; color: #fff; margin-bottom: 0.5rem;">Together Since April 8, 2026 ❤️</h3>
-            <div class="countdown-grid-creative">
-                <div class="countdown-card-item">
-                    <div class="countdown-number-huge" id="daysCount">00</div>
-                    <span class="countdown-label-text">Days</span>
-                </div>
-                <div class="countdown-card-item">
-                    <div class="countdown-number-huge" id="hoursCount">00</div>
-                    <span class="countdown-label-text">Hours</span>
-                </div>
-                <div class="countdown-card-item">
-                    <div class="countdown-number-huge" id="minsCount">00</div>
-                    <span class="countdown-label-text">Mins</span>
-                </div>
-                <div class="countdown-card-item">
-                    <div class="countdown-number-huge" id="secsCount">00</div>
-                    <span class="countdown-label-text">Secs</span>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="home-dashboard">
+        <div class="dash-card">
+            <h3 class="font-serif" style="font-size: 1.25rem; color: #fff; margin-bottom: 0.5rem;">Together Since April 8, 2026 ❤️</h3>
+            <div class="countdown-grid-creative">
+                <div class="countdown-card-item">
+                    <div class="countdown-number-huge" id="daysCount">00</div>
+                    <span class="countdown-label-text">Days</span>
+                </div>
+                <div class="countdown-card-item">
+                    <div class="countdown-number-huge" id="hoursCount">00</div>
+                    <span class="countdown-label-text">Hours</span>
+                </div>
+                <div class="countdown-card-item">
+                    <div class="countdown-number-huge" id="minsCount">00</div>
+                    <span class="countdown-label-text">Mins</span>
+                </div>
+                <div class="countdown-card-item">
+                    <div class="countdown-number-huge" id="secsCount">00</div>
+                    <span class="countdown-label-text">Secs</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 <section class="love-messages-container">
-    <div class="section-title" style="margin-bottom: 2rem;">
-        <p>100 Reasons I Love You ❤️</p>
-        <h2>Love <span>Message</span></h2>
-    </div>
-    <div class="love-msg-card">
-        <div class="love-msg-display" id="loveMsgDisplay">"مفيش سبب، إنتِ تتحبي من غير حاجة ❤️"</div>
-        <button class="main-btn" onclick="nextLoveMessage()">
-            Another ❤️
-        </button>
-    </div>
+    <div class="section-title" style="margin-bottom: 2rem;">
+        <p>100 Reasons I Love You ❤️</p>
+        <h2>Love <span>Message</span></h2>
+    </div>
+    <div class="love-msg-card">
+        <div class="love-msg-display" id="loveMsgDisplay">"مفيش سبب، إنتِ تتحبي من غير حاجة ❤️"</div>
+        <button class="main-btn" onclick="nextLoveMessage()">
+            Another ❤️
+        </button>
+    </div>
 </section>
 
 <section class="todo-container">
-    <div class="section-title" style="margin-bottom: 2rem;">
-        <p>Our Special Plans</p>
-        <h2>Our <span>Todo List</span></h2>
-    </div>
-    <div class="todo-card">
-        <div class="todo-input-group">
-            <input type="text" id="todoInput" class="todo-input" placeholder="Add a new sweet task or plan..." onkeypress="handleTodoKeypress(event)">
-            <button class="main-btn" onclick="addTodoItem()">Add</button>
-        </div>
-        <div class="todo-list-items" id="todoListContainer">
-            <!-- Populated via JS -->
-        </div>
-    </div>
+    <div class="section-title" style="margin-bottom: 2rem;">
+        <p>Our Special Plans</p>
+        <h2>Our <span>Todo List</span></h2>
+    </div>
+    <div class="todo-card">
+        <div class="todo-input-group">
+            <input type="text" id="todoInput" class="todo-input" placeholder="Add a new sweet task or plan..." onkeypress="handleTodoKeypress(event)">
+            <button class="main-btn" onclick="addTodoItem()">Add</button>
+        </div>
+        <div class="todo-list-items" id="todoListContainer">
+            <!-- Populated via JS -->
+        </div>
+    </div>
 </section>
 
 <section id="memories" class="gallery-container">
-    <div class="section-title">
-        <p>Moments I want to keep forever</p>
-        <h2>Our <span>Memories</span></h2>
-    </div>
+    <div class="section-title">
+        <p>Moments I want to keep forever</p>
+        <h2>Our <span>Memories</span></h2>
+    </div>
 
-    <div class="gallery-tabs">
-        <button class="tab-btn active" onclick="filterGallery('lola', event)">❤️ لولا</button>
-        <button class="tab-btn" onclick="filterGallery('jojo', event)">❤️ جوجو</button>
-        <button class="tab-btn" onclick="filterGallery('together', event)">❤️ صورنا</button>
-    </div>
+    <div class="gallery-tabs">
+        <button class="tab-btn active" onclick="filterGallery('lola', event)">❤️ لولا</button>
+        <button class="tab-btn" onclick="filterGallery('jojo', event)">❤️ جوجو</button>
+        <button class="tab-btn" onclick="filterGallery('together', event)">❤️ صورنا</button>
+    </div>
 
-    <div class="photo-grid" id="photoGrid">
-        <!-- Populated via JS -->
-    </div>
-</section>
-
-<!-- FUTURE WITH YOU SECTION -->
-<section id="futureSection" class="future-section">
-    <div class="section-title">
-        <p>Where our path leads together</p>
-        <h2>💍 <span>Future With You</span></h2>
-    </div>
-    <div class="future-timeline-container" id="futureTimelineContainer">
-        <div class="future-timeline-line"></div>
-        <!-- Rendered via JS -->
-    </div>
-</section>
-
-<!-- Future Station Modal -->
-<div class="future-modal" id="futureModal">
-    <div class="future-modal-content">
-        <button class="future-modal-close" onclick="closeFutureModal()">×</button>
-        <div id="futureModalEmoji" style="font-size: 3rem; color: #ff6584; margin-bottom: 0.75rem;">💍</div>
-        <h3 id="futureModalTitle" class="font-serif" style="font-size: 1.85rem; color: #fff; margin-bottom: 0.75rem;"></h3>
-        <p id="futureModalMessage" style="color: #d1d5db; font-size: 1.05rem; line-height: 1.6; margin-bottom: 1.5rem;"></p>
-        <button class="main-btn" style="width: 100%; justify-content: center;" onclick="closeFutureModal()">
-            Forever Together ❤️
-        </button>
-    </div>
-</div>
-
-<!-- ISOLATED BOUQUET SECTION -->
-<section id="bouquet-section" class="bouquet-main-container">
-    <div class="bouquet-section-title">
-        <p>A gift made just for you</p>
-        <h2>💐 <span>A Bouquet for You</span> 💍</h2>
-    </div>
-
-    <div class="bouquet-card">
-        <div class="bouquet-scene" id="bouquetSceneContainer">
-            <!-- Digital Bouquet Flowers -->
-            <div class="bouquet-flowers-wrapper" id="bouquetFlowersWrapper">
-                <div class="bouquet-flower bouquet-flower-1" data-delay="200">
-                    <div class="bouquet-petal bouquet-p1"></div>
-                    <div class="bouquet-petal bouquet-p2"></div>
-                    <div class="bouquet-petal bouquet-p3"></div>
-                    <div class="bouquet-petal bouquet-p4"></div>
-                    <div class="bouquet-center"></div>
-                </div>
-                <div class="bouquet-flower bouquet-flower-2" data-delay="450">
-                    <div class="bouquet-petal bouquet-p1"></div>
-                    <div class="bouquet-petal bouquet-p2"></div>
-                    <div class="bouquet-petal bouquet-p3"></div>
-                    <div class="bouquet-petal bouquet-p4"></div>
-                    <div class="bouquet-center"></div>
-                </div>
-                <div class="bouquet-flower bouquet-flower-3" data-delay="700">
-                    <div class="bouquet-petal bouquet-p1"></div>
-                    <div class="bouquet-petal bouquet-p2"></div>
-                    <div class="bouquet-petal bouquet-p3"></div>
-                    <div class="bouquet-petal bouquet-p4"></div>
-                    <div class="bouquet-center"></div>
-                </div>
-                <div class="bouquet-stem bouquet-stem-1"></div>
-                <div class="bouquet-stem bouquet-stem-2"></div>
-                <div class="bouquet-stem bouquet-stem-3"></div>
-            </div>
-
-            <!-- Ring Reveal Component -->
-            <div class="bouquet-ring-wrapper" id="bouquetRingWrapper">
-                <div class="bouquet-ring-glow"></div>
-                <div class="bouquet-ring-band"></div>
-                <div class="bouquet-ring-diamond">
-                    <div class="bouquet-diamond-sparkle"></div>
-                </div>
-            </div>
-
-            <!-- Floating Petals Layer -->
-            <div class="bouquet-floating-petals" id="bouquetFloatingPetals">
-                <div class="bouquet-fpetal bouquet-fp-1">🌸</div>
-                <div class="bouquet-fpetal bouquet-fp-2">🌸</div>
-                <div class="bouquet-fpetal bouquet-fp-3">🌸</div>
-            </div>
-        </div>
-
-        <div class="bouquet-text-display" id="bouquetTextDisplay">
-            <p class="bouquet-primary-text">ورد ليكي يا لولا... 🌸<br>وخاتم لوحده مش كفاية يوصف اللي نفسي فيه... 💍❤️</p>
-        </div>
-
-        <div class="bouquet-action-wrap">
-            <button type="button" class="bouquet-gift-btn" id="bouquetGiftBtn">
-                افتحي الهدية 💌
-            </button>
-        </div>
-    </div>
+    <div class="photo-grid" id="photoGrid">
+        <!-- Populated via JS -->
+    </div>
 </section>
 
 <div class="lightbox-modal" id="lightboxModal">
-    <div class="lightbox-container">
-        <button class="lightbox-close" onclick="closeLightbox()">×</button>
-        <button class="lightbox-nav-btn lightbox-prev" onclick="prevPhoto()">‹</button>
-        <button class="lightbox-nav-btn lightbox-next" onclick="nextPhoto()">›</button>
-        
-        <div class="lightbox-image-wrapper">
-            <img id="lightboxImg" src="" alt="Enlarged memory" onerror="this.src='https://placehold.co/800x600/1e1b2e/ff6584?text=Photo';">
-        </div>
-        <div class="lightbox-caption">
-            <h3 id="lightboxTitle"></h3>
-            <p id="lightboxDesc"></p>
-        </div>
-    </div>
+    <div class="lightbox-container">
+        <button class="lightbox-close" onclick="closeLightbox()">×</button>
+        <button class="lightbox-nav-btn lightbox-prev" onclick="prevPhoto()">‹</button>
+        <button class="lightbox-nav-btn lightbox-next" onclick="nextPhoto()">›</button>
+        
+        <div class="lightbox-image-wrapper">
+            <img id="lightboxImg" src="" alt="Enlarged memory" onerror="this.src='https://placehold.co/800x600/1e1b2e/ff6584?text=Photo';">
+        </div>
+        <div class="lightbox-caption">
+            <h3 id="lightboxTitle"></h3>
+            <p id="lightboxDesc"></p>
+        </div>
+    </div>
 </div>
 
+<section id="timeMessageSection" class="time-msg-container">
+    <div class="section-title">
+        <p>Messages waiting for the right moment</p>
+        <h2>⏰ <span>Time Message</span></h2>
+    </div>
+
+    <div class="time-msg-card">
+        <div id="timeMessageFormContainer" class="time-msg-form">
+            <div class="time-msg-form-group">
+                <label>Message:</label>
+                <textarea id="inputTimeMsgText" class="time-msg-input" rows="3" placeholder="اكتب رسالتك هنا..."></textarea>
+            </div>
+            <div class="time-msg-form-group">
+                <label>Open Date:</label>
+                <input type="date" id="inputTimeMsgDate" class="time-msg-input">
+            </div>
+            <div class="time-msg-form-group">
+                <label>Open Time:</label>
+                <input type="time" id="inputTimeMsgTime" class="time-msg-input">
+            </div>
+            <button class="main-btn" style="justify-content: center; margin-top: 0.5rem;" onclick="saveTimeMessage()">💌 Save Time Message</button>
+        </div>
+
+        <div id="timeMessageViewContainer" style="display: none;" class="time-msg-display-box">
+            <!-- Rendered via JS -->
+        </div>
+        <div class="time-msg-tools">
+            <button class="btn-sm-action" type="button" onclick="openTimeMessageArchive()">🕰️ الأرشيف</button>
+            <button class="btn-sm-action" type="button" onclick="toggleTimeMessageRecurring()">🔁 تكرار سنوي</button>
+            <button class="btn-sm-action" type="button" onclick="requestTimeMessageNotifications()">🔔 تفعيل الإشعارات</button>
+        </div>
+        <div id="timeMessageNotifyStatus" class="time-msg-notify" style="display:none;"></div>
+        <div id="timeMessageArchive" class="time-msg-archive" style="display:none;"></div>
+
+    </div>
+</section>
+
 <section id="ticketsSection" class="tickets-container">
-    <div class="section-title">
-        <p>Tickets to the moments we'll never forget ❤️</p>
-        <h2>🎟️ <span>Memory Tickets</span></h2>
-    </div>
+    <div class="section-title">
+        <p>Tickets to the moments we'll never forget ❤️</p>
+        <h2>🎟️ <span>Memory Tickets</span></h2>
+    </div>
 
-    <div style="display: flex; justify-content: flex-end; margin-bottom: 1.5rem;">
-        <button class="main-btn" onclick="openAddTicketModal()">+ Add Memory</button>
-    </div>
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 1.5rem;">
+        <button class="main-btn" onclick="openAddTicketModal()">+ Add Memory</button>
+    </div>
 
-    <div class="tickets-grid" id="ticketsGridContainer">
-        <!-- Populated via JS -->
-    </div>
+    <div class="tickets-grid" id="ticketsGridContainer">
+        <!-- Populated via JS -->
+    </div>
 </section>
 
 <!-- Memory Tickets Modals -->
 <div class="modal" id="ticketModal">
-    <div class="modal-content">
-        <button class="close-modal" onclick="closeModals()">×</button>
-        <h3 class="font-serif" style="font-size: 1.75rem; color: #fff; margin-bottom: 1.25rem;" id="ticketModalTitle">Add Memory Ticket</h3>
-        <input type="hidden" id="editTicketIndex" value="-1">
-        <div style="margin-bottom: 1.25rem; text-align: left;">
-            <label style="display: block; font-size: 0.85rem; color: #d1d5db; margin-bottom: 0.4rem;">Memory Title</label>
-            <input type="text" id="inputTicketTitle" class="todo-input" placeholder="Cinema Night" style="width:100%;">
-        </div>
-        <div style="margin-bottom: 1.25rem; text-align: left;">
-            <label style="display: block; font-size: 0.85rem; color: #d1d5db; margin-bottom: 0.4rem;">Type</label>
-            <input type="text" id="inputTicketType" class="todo-input" placeholder="🎬 Cinema" style="width:100%;">
-        </div>
-        <div style="margin-bottom: 1.25rem; text-align: left;">
-            <label style="display: block; font-size: 0.85rem; color: #d1d5db; margin-bottom: 0.4rem;">Date</label>
-            <input type="text" id="inputTicketDate" class="todo-input" placeholder="15 August 2026" style="width:100%;">
-        </div>
-        <div style="margin-bottom: 1.25rem; text-align: left;">
-            <label style="display: block; font-size: 0.85rem; color: #d1d5db; margin-bottom: 0.4rem;">Place</label>
-            <input type="text" id="inputTicketPlace" class="todo-input" placeholder="Mall of Egypt" style="width:100%;">
-        </div>
-        <div style="margin-bottom: 1.25rem; text-align: left;">
-            <label style="display: block; font-size: 0.85rem; color: #d1d5db; margin-bottom: 0.4rem;">Short Note</label>
-            <input type="text" id="inputTicketNote" class="todo-input" placeholder="Our first movie night ❤️" style="width:100%;">
-        </div>
-        <div style="margin-bottom: 1.25rem; text-align: left;">
-            <label style="display: block; font-size: 0.85rem; color: #d1d5db; margin-bottom: 0.4rem;">Details</label>
-            <input type="text" id="inputTicketDetails" class="todo-input" placeholder="Longer memory description" style="width:100%;">
-        </div>
-        <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
-            <button class="main-btn" style="flex: 1; justify-content: center;" onclick="saveTicketItem()">Save</button>
-            <button class="btn-sm-action" style="flex: 1; padding: 0.8rem;" onclick="closeModals()">Cancel</button>
-        </div>
-    </div>
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeModals()">×</button>
+        <h3 class="font-serif" style="font-size: 1.75rem; color: #fff; margin-bottom: 1.25rem;" id="ticketModalTitle">Add Memory Ticket</h3>
+        <input type="hidden" id="editTicketIndex" value="-1">
+        <div class="money-form-group" style="margin-bottom: 1.25rem; text-align: left;">
+            <label style="display: block; font-size: 0.85rem; color: #d1d5db; margin-bottom: 0.4rem; font-weight: 500;">Memory Title</label>
+            <input type="text" id="inputTicketTitle" class="time-msg-input" placeholder="Cinema Night">
+        </div>
+        <div class="money-form-group" style="margin-bottom: 1.25rem; text-align: left;">
+            <label style="display: block; font-size: 0.85rem; color: #d1d5db; margin-bottom: 0.4rem; font-weight: 500;">Type</label>
+            <input type="text" id="inputTicketType" class="time-msg-input" placeholder="🎬 Cinema">
+        </div>
+        <div class="money-form-group" style="margin-bottom: 1.25rem; text-align: left;">
+            <label style="display: block; font-size: 0.85rem; color: #d1d5db; margin-bottom: 0.4rem; font-weight: 500;">Date</label>
+            <input type="text" id="inputTicketDate" class="time-msg-input" placeholder="15 August 2026">
+        </div>
+        <div class="money-form-group" style="margin-bottom: 1.25rem; text-align: left;">
+            <label style="display: block; font-size: 0.85rem; color: #d1d5db; margin-bottom: 0.4rem; font-weight: 500;">Place</label>
+            <input type="text" id="inputTicketPlace" class="time-msg-input" placeholder="Mall of Egypt">
+        </div>
+        <div class="money-form-group" style="margin-bottom: 1.25rem; text-align: left;">
+            <label style="display: block; font-size: 0.85rem; color: #d1d5db; margin-bottom: 0.4rem; font-weight: 500;">Short Note</label>
+            <input type="text" id="inputTicketNote" class="time-msg-input" placeholder="Our first movie night ❤️">
+        </div>
+        <div class="money-form-group" style="margin-bottom: 1.25rem; text-align: left;">
+            <label style="display: block; font-size: 0.85rem; color: #d1d5db; margin-bottom: 0.4rem; font-weight: 500;">Details</label>
+            <input type="text" id="inputTicketDetails" class="time-msg-input" placeholder="Longer memory description">
+        </div>
+        <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
+            <button class="main-btn" style="flex: 1; justify-content: center;" onclick="saveTicketItem()">Save</button>
+            <button class="btn-sm-action" style="flex: 1; padding: 0.8rem;" onclick="closeModals()">Cancel</button>
+        </div>
+    </div>
 </div>
 
 <div class="modal" id="ticketDetailsModal">
-    <div class="modal-content">
-        <button class="close-modal" onclick="closeModals()">×</button>
-        <div id="ticketDetailsContent" style="display: flex; flex-direction: column; gap: 1.0rem; text-align: left;">
-            <!-- Populated via JS -->
-        </div>
-    </div>
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeModals()">×</button>
+        <div id="ticketDetailsContent" style="display: flex; flex-direction: column; gap: 1.0rem; text-align: left;">
+            <!-- Populated via JS -->
+        </div>
+    </div>
 </div>
 
 <section class="section" style="text-align: center; padding-bottom: 8.0rem;">
-    <p class="small-title">One last thing...</p>
-    <h2 style="font-size: 2.5rem; margin-bottom: 2.0rem; font-family: 'Cormorant Garamond', serif;">
-        There's something I want to tell you
-    </h2>
-    <button class="main-btn" onclick="openSurprise()">
-        Open Surprise ❤️
-    </button>
+    <p class="small-title">One last thing...</p>
+    <h2 style="font-size: 2.5rem; margin-bottom: 2.0rem; font-family: 'Cormorant Garamond', serif;">
+        There's something I want to tell you
+    </h2>
+    <button class="main-btn" onclick="openSurprise()">
+        Open Surprise ❤️
+    </button>
 </section>
 
 <div class="modal" id="surpriseModal">
-    <div class="modal-content">
-        <button class="close-modal" onclick="closeSurprise()">×</button>
-        <div style="font-size: 3.0rem; color: #ff6584; margin-bottom: 1.0rem;">♥</div>
-        <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 2.0rem; margin-bottom: 1.0rem;">I Choose You.</h3>
-        <p style="color: #d1d5db; line-height: 1.6; margin-bottom: 1.5rem;">
-            Today.<br>Tomorrow.<br>And in every beautiful moment to come.
-        </p>
-        <button class="main-btn" style="width: 100%; justify-content: center;" onclick="closeSurprise()">
-            I Love You ❤️
-        </button>
-    </div>
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeSurprise()">×</button>
+        <div style="font-size: 3.0rem; color: #ff6584; margin-bottom: 1.0rem;">♥</div>
+        <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 2.0rem; margin-bottom: 1.0rem;">I Choose You.</h3>
+        <p style="color: #d1d5db; line-height: 1.6; margin-bottom: 1.5rem;">
+            Today.<br>Tomorrow.<br>And in every beautiful moment to come.
+        </p>
+        <button class="main-btn" style="width: 100%; justify-content: center;" onclick="closeSurprise()">
+            I Love You ❤️
+        </button>
+    </div>
 </div>
 
-<!-- LEITH WIDGET & CHAT HEAD -->
+<!-- LEITH 2.0 WIDGET & CHAT HEAD -->
 <div id="leithAssistant">
-    <div class="leith-speech-bubble" id="leithSpeechBubble">
-        <div class="leith-bubble-header">
-            <span id="leithMoodIndicatorTitle">🦁 Leith (هادية)</span>
-            <button class="leith-bubble-close" onclick="toggleLeithBubble()">×</button>
-        </div>
-        <div>
-            <div class="leith-bubble-text" id="leithMessageText">أهلاً يا لولا 🦁❤️ إزيك النهارده؟</div>
-            <div id="leithSenderDisplay" style="font-size: 0.75rem; color: #ffb3c1; font-weight: 600; margin-top: 0.2rem;">❤️ جوجو</div>
-            <div id="leithStreakDisplay" style="font-size: 0.75rem; color: #ffb3c1; font-weight: 600; margin-top: 0.2rem;"></div>
-        </div>
-        
-        <div class="leith-summary-box" id="leithSummaryBox"></div>
+    <!-- Speech Bubble -->
+    <div class="leith-speech-bubble" id="leithSpeechBubble">
+        <div class="leith-bubble-header">
+            <span id="leithMoodIndicatorTitle">🦁 Leith (هادية)</span>
+            <button class="leith-bubble-close" onclick="toggleLeithBubble()">×</button>
+        </div>
+        <div>
+            <div class="leith-bubble-text" id="leithMessageText">أهلاً يا لولا 🦁❤️ إزيك النهارده؟</div>
+            <div id="leithSenderDisplay" style="font-size: 0.75rem; color: #ffb3c1; font-weight: 600; margin-top: 0.2rem;">❤️ جوجو</div>
+            <div id="leithStreakDisplay" style="font-size: 0.75rem; color: #ffb3c1; font-weight: 600; margin-top: 0.2rem;"></div>
+        </div>
+        
+        <!-- Daily Summary Box -->
+        <div class="leith-summary-box" id="leithSummaryBox">
+            <!-- Populated via JS -->
+        </div>
 
-        <div class="leith-actions-row">
-            <button class="leith-action-btn" onclick="setLeithMood('happy')">😊 Happy</button>
-            <button class="leith-action-btn" onclick="setLeithMood('love')">😍 In Love</button>
-            <button class="leith-action-btn" onclick="setLeithMood('angry')">😡 Angry</button>
-            <button class="leith-action-btn" onclick="setLeithMood('sad')">😔 Sad</button>
-            <button class="leith-action-btn" onclick="setLeithMood('tired')">😴 Tired</button>
-            <button class="leith-action-btn" onclick="setLeithMood('bored')">😑 Bored</button>
-            <button class="leith-action-btn" onclick="triggerLeithSurprise()">🎁 Surprise</button>
-        </div>
+        <!-- Quick Actions Row -->
+        <div class="leith-actions-row">
+            <button class="leith-action-btn" onclick="setLeithMood('happy')">😊 Happy</button>
+            <button class="leith-action-btn" onclick="setLeithMood('love')">😍 In Love</button>
+            <button class="leith-action-btn" onclick="setLeithMood('angry')">😡 Angry</button>
+            <button class="leith-action-btn" onclick="setLeithMood('sad')">😔 Sad</button>
+            <button class="leith-action-btn" onclick="setLeithMood('tired')">😴 Tired</button>
+            <button class="leith-action-btn" onclick="setLeithMood('bored')">😑 Bored</button>
+            <button class="leith-action-btn" onclick="triggerLeithSurprise()">🎁 Surprise</button>
+        </div>
 
-        <div class="leith-sender-toggle">
-            <button type="button" class="leith-sender-btn active" id="senderBtnJojo" onclick="setLeithSender('jojo')">❤️ جوجو</button>
-            <button type="button" class="leith-sender-btn" id="senderBtnLola" onclick="setLeithSender('lola')">🤍 لولا</button>
-        </div>
+        <!-- Sender Toggle (Jojo / Lola) -->
+        <div class="leith-sender-toggle">
+            <button type="button" class="leith-sender-btn active" id="senderBtnJojo" onclick="setLeithSender('jojo')">❤️ جوجو</button>
+            <button type="button" class="leith-sender-btn" id="senderBtnLola" onclick="setLeithSender('lola')">🤍 لولا</button>
+        </div>
 
-        <div class="leith-input-row">
-            <input type="text" id="leithUserInput" class="leith-user-input" placeholder="اكتبي رسالة..." onkeypress="handleLeithKeypress(event)">
-            <button class="leith-send-btn" onclick="sendLeithMessage()">إرسال</button>
-        </div>
-    </div>
+        <!-- User to Leith Input -->
+        <div class="leith-input-row">
+            <input type="text" id="leithUserInput" class="leith-user-input" placeholder="اكتبي رسالة..." onkeypress="handleLeithKeypress(event)">
+            <button class="leith-send-btn" onclick="sendLeithMessage()">إرسال</button>
+        </div>
 
-    <div class="leith-chat-head" id="leithChatHead" onclick="toggleLeithBubble()" title="Leith Assistant">
-        <span id="leithHeadEmoji">🦁</span>
-        <span class="leith-unread-dot active" id="leithUnreadDot"></span>
-    </div>
+        <!-- Quick Reactions Row -->
+        <div class="leith-reactions-row" style="display: flex; justify-content: center; gap: 0.5rem; margin-top: 0.5rem;">
+            <button class="leith-action-btn" style="padding: 0.4rem 0.7rem;" onclick="sendLeithReaction('❤️')">❤️</button>
+            <button class="leith-action-btn" style="padding: 0.4rem 0.7rem;" onclick="sendLeithReaction('😂')">😂</button>
+            <button class="leith-action-btn" style="padding: 0.4rem 0.7rem;" onclick="sendLeithReaction('🥺')">🥺</button>
+        </div>
+    </div>
+
+    <!-- Floating Chat Head -->
+    <div class="leith-chat-head" id="leithChatHead" onclick="toggleLeithBubble()" title="Leith Assistant">
+        <span id="leithHeadEmoji">🦁</span>
+        <span class="leith-unread-dot active" id="leithUnreadDot"></span>
+    </div>
 </div>
 
 <footer>
-    <p>Designed with love, just for you.</p>
-    <span>♥</span>
+    <p>Designed with love, just for you.</p>
+    <span>♥</span>
 </footer>
 
-<!-- Supabase CDN -->
+<!-- LEITH SYNC — Supabase client (CDN only, does not affect rest of site) -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 
 <script>
-    const APP_STORAGE_KEY = 'lola_forever_app_state_v4';
-
-    let appState = {
-        leith: {
-            currentMood: "neutral",
-            latestMessage: "أهلاً يا لولا 🦁❤️ إزيك النهارده؟",
-            sender: "jojo",
-            isPersistentMsg: true
-        },
-        todos: [
-            { id: 1, text: "Drink water and smile ❤️", completed: false },
-            { id: 2, text: "Talk to Youssef ✨", completed: true }
-        ],
-        tickets: [
-            {
-                title: "Cinema Night",
-                type: "🎬 Cinema",
-                date: "15 August 2026",
-                place: "Mall of Egypt",
-                note: "Our first movie night ❤️",
-                details: "An amazing evening watching a wonderful movie together with popcorn and laughs."
-            }
-        ],
-        loveMsgIndex: 0
-    };
-
-    function saveAppState() {
-        try {
-            localStorage.setItem(APP_STORAGE_KEY, JSON.stringify(appState));
-        } catch(e) {
-            console.error("Storage error:", e);
-        }
-    }
-
-    function loadAppState() {
-        try {
-            const saved = localStorage.getItem(APP_STORAGE_KEY);
-            if (saved) {
-                const parsed = JSON.parse(saved);
-                if (parsed) {
-                    appState = Object.assign({}, appState, parsed);
-                }
-            } else {
-                saveAppState();
-            }
-        } catch(e) {
-            console.error("Error loading app state:", e);
-        }
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        const startupTasks = [
-            ['loadAppState', loadAppState],
-            ['initCountdown', initCountdown],
-            ['initLoveMessages', initLoveMessages],
-            ['initTodoList', initTodoList],
-            ['renderGallery', () => renderGallery('lola')],
-            ['renderFutureTimeline', renderFutureTimeline],
-            ['createFloatingHearts', createFloatingHearts],
-            ['renderTicketsModule', renderTicketsModule],
-            ['initLeith2Module', initLeith2Module]
-        ];
-        startupTasks.forEach(([name, task]) => {
-            try { task(); }
-            catch (error) { console.error(`Startup error in ${name}:`, error); }
-        });
-
-        const gate = document.getElementById('passwordGateOverlay');
-        if (gate) gate.classList.add('unlocked');
-    });
-
-    const futureStationsData = [
-        { title: "Now ❤️", emoji: "❤️", message: "دلوقتي إحنا هنا... وكل يوم بنعيشه سوا بيبقى ذكرى. ❤️" },
-        { title: "Army 🪖", emoji: "🪖", message: "حتى لو بعدنا شوية، قلبي مكانه ثابت معاكي. 🪖❤️" },
-        { title: "Work 💼", emoji: "💼", message: "بشتغل عشان بكرة يبقى أحسن ليكي وليا. 💼" },
-        { title: "Engagement 💍", emoji: "💍", message: "يوم ما هبقى واقف قصادك واقولك: خليكي معايا لبقية العمر. 💍" },
-        { title: "Apartment 🏠", emoji: "🏠", message: "بيت صغير، بس هيبقى فيه كل حاجة حلوة بينا. 🏠" },
-        { title: "Wedding 💒", emoji: "💒", message: "يوم ما هيبقى اسمك جمبي رسمي قدام الدنيا كلها. 💒" },
-        { title: "Our Life ❤️", emoji: "✨", message: "وبعدها... حياة كاملة، إحنا الاتنين بس. ❤️" }
-    ];
-
-    function renderFutureTimeline() {
-        const container = document.getElementById('futureTimelineContainer');
-        if (!container) return;
-
-        let html = '<div class="future-timeline-line"></div>';
-        futureStationsData.forEach((station, index) => {
-            html += `
-                <div class="future-station" onclick="openFutureModal(${index})">
-                    <div class="future-station-dot"></div>
-                    <div class="future-station-card">
-                        <div class="future-station-title">
-                            <span>${station.emoji}</span> ${escapeHtml(station.title)}
-                        </div>
-                        <div class="future-station-preview">Click to see memory & promise...</div>
-                    </div>
-                </div>
-            `;
-        });
-        container.innerHTML = html;
-    }
-
-    function openFutureModal(index) {
-        const station = futureStationsData[index];
-        if (!station) return;
-        document.getElementById('futureModalEmoji').textContent = station.emoji;
-        document.getElementById('futureModalTitle').textContent = station.title;
-        document.getElementById('futureModalMessage').textContent = station.message;
-        document.getElementById('futureModal').classList.add('future-active');
-    }
-
-    function closeFutureModal() {
-        const modal = document.getElementById('futureModal');
-        if (modal) modal.classList.remove('future-active');
-    }
-
-    (function() {
-        window.addEventListener('DOMContentLoaded', () => {
-            const flowersWrapper = document.getElementById('bouquetFlowersWrapper');
-            const flowerItems = document.querySelectorAll('.bouquet-flower');
-            const ringWrapper = document.getElementById('bouquetRingWrapper');
-            const textDisplay = document.getElementById('bouquetTextDisplay');
-            const giftBtn = document.getElementById('bouquetGiftBtn');
-            const sceneContainer = document.getElementById('bouquetSceneContainer');
-
-            if (!flowersWrapper || !giftBtn) return;
-
-            let bouquetSequenceStarted = false;
-
-            function startBouquetSequence() {
-                if (bouquetSequenceStarted) return;
-                bouquetSequenceStarted = true;
-
-                // Step 1: Fade in bouquet wrapper
-                flowersWrapper.classList.add('bouquet-visible');
-
-                // Step 2: Bloom flowers one by one with staggered delay
-                flowerItems.forEach((fl) => {
-                    const delay = parseInt(fl.getAttribute('data-delay') || '200', 10);
-                    setTimeout(() => {
-                        fl.classList.add('bouquet-bloomed');
-                    }, delay);
-                });
-
-                // Step 3 & 4: Reveal ring after flowers bloom
-                setTimeout(() => {
-                    if (ringWrapper) ringWrapper.classList.add('bouquet-ring-revealed');
-                }, 1200);
-
-                // Step 5: Show text display
-                setTimeout(() => {
-                    if (textDisplay) textDisplay.classList.add('bouquet-text-active');
-                }, 1800);
-            }
-
-            // Trigger sequence when section scrolls into view
-            const sectionEl = document.getElementById('bouquet-section');
-            if ('IntersectionObserver' in window && sectionEl) {
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            startBouquetSequence();
-                            observer.disconnect();
-                        }
-                    });
-                }, { threshold: 0.3 });
-                observer.observe(sectionEl);
-            } else {
-                setTimeout(startBouquetSequence, 1000);
-            }
-
-            // Button click interaction
-            giftBtn.addEventListener('click', () => {
-                if (ringWrapper) {
-                    ringWrapper.style.transform = 'translate(-50%, -50%) scale(1.15)';
-                    setTimeout(() => {
-                        ringWrapper.style.transform = 'translate(-50%, -50%) scale(1)';
-                    }, 400);
-                }
-                if (textDisplay) {
-                    textDisplay.style.opacity = '0';
-                    setTimeout(() => {
-                        textDisplay.innerHTML = `<p class="bouquet-primary-text">كل وردة هنا ليكي، وكل حاجة حلوة نفسي أقدمهالك يومًا ما. ❤️</p>`;
-                        textDisplay.style.opacity = '1';
-                    }, 300);
-                }
-                giftBtn.textContent = "بحبك يا لولا 💖";
-                giftBtn.disabled = true;
-                giftBtn.style.opacity = '0.8';
-            });
-        });
-    })();
-
-    function verifyGatePassword() {
-        const overlay = document.getElementById('passwordGateOverlay');
-        if (overlay) overlay.classList.add('unlocked');
-    }
-
-    function initCountdown() {
-        const startDate = new Date('2026-04-08T00:00:00');
-        setInterval(() => {
-            const now = new Date();
-            const diff = now - startDate;
-            if (diff < 0) return;
-
-            const dEl = document.getElementById('daysCount');
-            const hEl = document.getElementById('hoursCount');
-            const mEl = document.getElementById('minsCount');
-            const sEl = document.getElementById('secsCount');
-
-            if (dEl) dEl.textContent = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
-            if (hEl) hEl.textContent = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
-            if (mEl) mEl.textContent = String(Math.floor((diff / 1000 / 60) % 60)).padStart(2, '0');
-            if (sEl) sEl.textContent = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
-        }, 1000);
-    }
-
-    const loveReasonsArray = [
-        "مفيش سبب، إنتِ تتحبي من غير حاجة ❤️",
-        "هفضل معاكي ❤️",
-        "بحبك بعيوبك وبكل حاجة فيكي ❤️",
-        "إنتِ أذكى وأشطر من إنتِ متخيلة 🧠❤️",
-        "إنتِ ناجحة وأنا مؤمن بيكي 🎓❤️",
-        "You make my world better every day 🌎❤️",
-        "I love the way you care about the people you love 🥹❤️",
-        "Your smile can change my entire day 😊❤️",
-        "You are stronger than you think 💪❤️",
-        "I will always be proud of you 🫶❤️"
-    ];
-    for (let i = loveReasonsArray.length + 1; i <= 100; i++) {
-        loveReasonsArray.push(`سبب رقم ${i}: وجودك يملأ قلبي سعادة وسلامًا كل يوم ❤️`);
-    }
-
-    function initLoveMessages() {
-        const display = document.getElementById('loveMsgDisplay');
-        if (!display) return;
-        const idx = appState.loveMsgIndex || 0;
-        display.textContent = `"${loveReasonsArray[idx]}"`;
-    }
-
-    function nextLoveMessage() {
-        const display = document.getElementById('loveMsgDisplay');
-        if (!display) return;
-        display.classList.add('fade-out');
-        setTimeout(() => {
-            appState.loveMsgIndex = ((appState.loveMsgIndex || 0) + 1) % loveReasonsArray.length;
-            saveAppState();
-            display.textContent = `"${loveReasonsArray[appState.loveMsgIndex]}"`;
-            display.classList.remove('fade-out');
-        }, 500);
-    }
-
-    function initTodoList() {
-        renderTodoList();
-        const todoInput = document.getElementById('todoInput');
-        if (todoInput) {
-            todoInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    addTodoItem();
-                }
-            });
-        }
-    }
-
-    function renderTodoList() {
-        const container = document.getElementById('todoListContainer');
-        if (!container) return;
-
-        if (!appState.todos || appState.todos.length === 0) {
-            container.innerHTML = `<p style="text-align: center; color: #9ca3af; font-size: 0.9rem; padding: 1rem;">No tasks yet. Add something sweet above! ❤️</p>`;
-            return;
-        }
-
-        container.innerHTML = '';
-        appState.todos.forEach((item) => {
-            container.innerHTML += `
-                <div class="todo-item ${item.completed ? 'completed' : ''}">
-                    <div style="display:flex;align-items:center;gap:.75rem;flex:1;cursor:pointer;" onclick="toggleTodoItem(${item.id})">
-                        <input type="checkbox" ${item.completed ? 'checked' : ''} onclick="event.stopPropagation(); toggleTodoItem(${item.id})">
-                        <span style="font-size: 0.95rem; color: #f3f4f6;">${escapeHtml(item.text)}</span>
-                    </div>
-                    <button class="todo-delete-btn" onclick="deleteTodoItem(${item.id})" aria-label="Delete task">×</button>
-                </div>
-            `;
-        });
-        updateLeithDailySummary();
-    }
-
-    function addTodoItem() {
-        const input = document.getElementById('todoInput');
-        if (!input) return;
-        const text = input.value.trim();
-        if (!text) return;
-
-        const newItem = { id: Date.now(), text: text, completed: false };
-        appState.todos.unshift(newItem);
-        input.value = '';
-        saveAppState();
-        renderTodoList();
-    }
-
-    function toggleTodoItem(id) {
-        const item = appState.todos.find(t => t.id === id);
-        if (item) {
-            item.completed = !item.completed;
-            saveAppState();
-            renderTodoList();
-        }
-    }
-
-    function deleteTodoItem(id) {
-        appState.todos = appState.todos.filter(t => t.id !== id);
-        saveAppState();
-        renderTodoList();
-    }
-
-    function escapeHtml(str) {
-        return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-    }
-
-    const foldersData = {
-        lola: [
-            { id: "lola-1", file: "https://placehold.co/600x400/1e1b2e/ff6584?text=Lola+1", title: "Lola 1", description: "Beautiful moment ❤️" },
-            { id: "lola-2", file: "https://placehold.co/600x400/1e1b2e/ff6584?text=Lola+2", title: "Lola 2", description: "Gorgeous smile ✨" },
-            { id: "lola-3", file: "https://placehold.co/600x400/1e1b2e/ff6584?text=Lola+3", title: "Lola 3", description: "Precious memory 🌸" },
-            { id: "lola-4", file: "https://placehold.co/600x400/1e1b2e/ff6584?text=Lola+4", title: "Lola 4", description: "My favorite person 💖" }
-        ],
-        jojo: [
-            { id: "jojo-1", file: "https://placehold.co/600x400/1e1b2e/ff6584?text=Jojo+1", title: "Jojo 1", description: "Working hard 💻" },
-            { id: "jojo-2", file: "https://placehold.co/600x400/1e1b2e/ff6584?text=Jojo+2", title: "Jojo 2", description: "Ready for the day 🌟" },
-            { id: "jojo-3", file: "https://placehold.co/600x400/1e1b2e/ff6584?text=Jojo+3", title: "Jojo 3", description: "Focused & determined 💪" },
-            { id: "jojo-4", file: "https://placehold.co/600x400/1e1b2e/ff6584?text=Jojo+4", title: "Jojo 4", description: "Always by your side ❤️" }
-        ],
-        together: [
-            { id: "tog-1", file: "https://placehold.co/600x400/1e1b2e/ff6584?text=Together+1", title: "Together 1", description: "Our special day 🌹" },
-            { id: "tog-2", file: "https://placehold.co/600x400/1e1b2e/ff6584?text=Together+2", title: "Together 2", description: "Laughs & memories 🥂" },
-            { id: "tog-3", file: "https://placehold.co/600x400/1e1b2e/ff6584?text=Together+3", title: "Together 3", description: "Side by side 🤝" },
-            { id: "tog-4", file: "https://placehold.co/600x400/1e1b2e/ff6584?text=Together+4", title: "Together 4", description: "Forever with you ✨" }
-        ]
-    };
-
-    let activeFolder = 'lola';
-    let activeLightboxIndex = 0;
-
-    function renderGallery(folderKey) {
-        activeFolder = folderKey;
-        const grid = document.getElementById('photoGrid');
-        if (!grid) return;
-
-        document.querySelectorAll('.gallery-tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
-        if (typeof event !== 'undefined' && event && event.target && event.target.classList) {
-            event.target.classList.add('active');
-        }
-
-        const photos = foldersData[folderKey] || [];
-        grid.innerHTML = '';
-
-        photos.forEach((photo, idx) => {
-            grid.innerHTML += `
-                <div class="photo-card" onclick="openLightbox(${idx})">
-                    <div class="photo-img-wrapper">
-                        <img src="${photo.file}" alt="${photo.title}" loading="lazy" onerror="this.src='https://placehold.co/600x400/1e1b2e/ff6584?text=Photo';">
-                    </div>
-                    <div class="photo-info">
-                        <h3>${photo.title}</h3>
-                        <p>${photo.description}</p>
-                    </div>
-                </div>
-            `;
-        });
-    }
-
-    function filterGallery(folderKey, eventObj) {
-        activeFolder = folderKey;
-        const grid = document.getElementById('photoGrid');
-        if (!grid) return;
-
-        document.querySelectorAll('.gallery-tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
-        if (eventObj && eventObj.target && eventObj.target.classList) {
-            eventObj.target.classList.add('active');
-        }
-
-        const photos = foldersData[folderKey] || [];
-        grid.innerHTML = '';
-
-        photos.forEach((photo, idx) => {
-            grid.innerHTML += `
-                <div class="photo-card" onclick="openLightbox(${idx})">
-                    <div class="photo-img-wrapper">
-                        <img src="${photo.file}" alt="${photo.title}" loading="lazy" onerror="this.src='https://placehold.co/600x400/1e1b2e/ff6584?text=Photo';">
-                    </div>
-                    <div class="photo-info">
-                        <h3>${photo.title}</h3>
-                        <p>${photo.description}</p>
-                    </div>
-                </div>
-            `;
-        });
-    }
-
-    function openLightbox(index) {
-        activeLightboxIndex = index;
-        updateLightboxContent();
-        document.getElementById('lightboxModal').classList.add('active');
-    }
-
-    function closeLightbox() {
-        document.getElementById('lightboxModal').classList.remove('active');
-    }
-
-    function updateLightboxContent() {
-        const photos = foldersData[activeFolder] || [];
-        const photo = photos[activeLightboxIndex];
-        if (!photo) return;
-        document.getElementById('lightboxImg').src = photo.file;
-        document.getElementById('lightboxTitle').textContent = photo.title;
-        document.getElementById('lightboxDesc').textContent = photo.description;
-    }
-
-    function prevPhoto() {
-        const photos = foldersData[activeFolder] || [];
-        activeLightboxIndex = (activeLightboxIndex - 1 + photos.length) % photos.length;
-        updateLightboxContent();
-    }
-
-    function nextPhoto() {
-        const photos = foldersData[activeFolder] || [];
-        activeLightboxIndex = (activeLightboxIndex + 1) % photos.length;
-        updateLightboxContent();
-    }
-
-    function renderTicketsModule() {
-        const grid = document.getElementById('ticketsGridContainer');
-        if (!grid) return;
-
-        if (!appState.tickets || appState.tickets.length === 0) {
-            grid.innerHTML = `<p style="grid-column: span 2; text-align: center; color: #9ca3af; padding: 2rem;">No memory tickets added yet.</p>`;
-            return;
-        }
-
-        grid.innerHTML = '';
-        appState.tickets.forEach((ticket, idx) => {
-            grid.innerHTML += `
-                <div class="ticket-card" onclick="openTicketDetails(${idx})">
-                    <div class="ticket-header">
-                        <span class="ticket-type-badge">${escapeHtml(ticket.type || '❤️ Special')}</span>
-                        <div style="display: flex; gap: 0.4rem;" onclick="event.stopPropagation()">
-                            <button class="btn-sm-action" onclick="openEditTicketModal(${idx})">✏️</button>
-                            <button class="btn-sm-action" style="background:rgba(248,113,113,0.1);color:#f87171;" onclick="deleteTicketItem(${idx})">🗑️</button>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="ticket-title">${escapeHtml(ticket.title)}</h3>
-                        <div class="ticket-meta" style="margin-top: 0.5rem;">
-                            <span>📅 ${escapeHtml(ticket.date)}</span>
-                            <span>📍 ${escapeHtml(ticket.place)}</span>
-                        </div>
-                    </div>
-                    <p class="ticket-note">${escapeHtml(ticket.note)}</p>
-                </div>
-            `;
-        });
-    }
-
-    function openAddTicketModal() {
-        document.getElementById('ticketModalTitle').textContent = "Add Memory Ticket";
-        document.getElementById('editTicketIndex').value = "-1";
-        document.getElementById('inputTicketTitle').value = "";
-        document.getElementById('inputTicketType').value = "🎬 Cinema";
-        document.getElementById('inputTicketDate').value = "";
-        document.getElementById('inputTicketPlace').value = "";
-        document.getElementById('inputTicketNote').value = "";
-        document.getElementById('inputTicketDetails').value = "";
-        document.getElementById('ticketModal').classList.add('active');
-    }
-
-    function openEditTicketModal(index) {
-        const t = appState.tickets[index];
-        if (!t) return;
-        document.getElementById('ticketModalTitle').textContent = "Edit Memory Ticket";
-        document.getElementById('editTicketIndex').value = index;
-        document.getElementById('inputTicketTitle').value = t.title || "";
-        document.getElementById('inputTicketType').value = t.type || "";
-        document.getElementById('inputTicketDate').value = t.date || "";
-        document.getElementById('inputTicketPlace').value = t.place || "";
-        document.getElementById('inputTicketNote').value = t.note || "";
-        document.getElementById('inputTicketDetails').value = t.details || "";
-        document.getElementById('ticketModal').classList.add('active');
-    }
-
-    function saveTicketItem() {
-        const index = parseInt(document.getElementById('editTicketIndex').value, 10);
-        const title = document.getElementById('inputTicketTitle').value.trim();
-        const type = document.getElementById('inputTicketType').value.trim();
-        const date = document.getElementById('inputTicketDate').value.trim();
-        const place = document.getElementById('inputTicketPlace').value.trim();
-        const note = document.getElementById('inputTicketNote').value.trim();
-        const details = document.getElementById('inputTicketDetails').value.trim();
-
-        if (!title) return;
-
-        const obj = { title, type, date, place, note, details };
-        if (index === -1) {
-            appState.tickets.push(obj);
-        } else {
-            appState.tickets[index] = obj;
-        }
-
-        saveAppState();
-        renderTicketsModule();
-        closeModals();
-    }
-
-    function deleteTicketItem(index) {
-        appState.tickets.splice(index, 1);
-        saveAppState();
-        renderTicketsModule();
-    }
-
-    function openTicketDetails(index) {
-        const t = appState.tickets[index];
-        if (!t) return;
-        const content = document.getElementById('ticketDetailsContent');
-        content.innerHTML = `
-            <span class="ticket-type-badge" style="align-self: flex-start;">${escapeHtml(t.type)}</span>
-            <h3 class="font-serif" style="font-size: 2.0rem; color: #fff;">${escapeHtml(t.title)}</h3>
-            <div style="color: #9ca3af; font-size: 0.9rem; display: flex; gap: 1.5rem;">
-                <span>📅 ${escapeHtml(t.date)}</span>
-                <span>📍 ${escapeHtml(t.place)}</span>
-            </div>
-            <p style="color: #d1d5db; font-size: 1.0rem; margin-top: 0.5rem; background: rgba(255,255,255,0.03); padding: 1.0rem; border-radius: 1.0rem;">${escapeHtml(t.note)}</p>
-            ${t.details ? `<p style="color: #9ca3af; font-size: 0.9rem;">${escapeHtml(t.details)}</p>` : ''}
-            <button class="main-btn" style="width: 100%; justify-content: center; margin-top: 1.0rem;" onclick="closeModals()">Close</button>
-        `;
-        document.getElementById('ticketDetailsModal').classList.add('active');
-    }
-
-    function updateLeithStreak() {
-        if (!appState.leith) return;
-        const today = new Date().toISOString().slice(0, 10);
-        const last = appState.leith.lastInteractionDate || '';
-        if (last === today) return;
-
-        const yesterday = new Date();
-        yesterday.setDate(yesterday.getDate() - 1);
-        const yesterdayKey = yesterday.toISOString().slice(0, 10);
-
-        appState.leith.streak = last === yesterdayKey ? (Number(appState.leith.streak) || 0) + 1 : 1;
-        appState.leith.lastInteractionDate = today;
-        saveAppState();
-    }
-
-    function updateLeithDailySummary() {
-        const summaryBox = document.getElementById('leithSummaryBox');
-        if (!summaryBox) return;
-
-        const completedTasks = Array.isArray(appState.todos) ? appState.todos.filter(t => t.completed).length : 0;
-        const totalTasks = Array.isArray(appState.todos) ? appState.todos.length : 0;
-        summaryBox.innerHTML = `<div>🎯 Tasks: ${completedTasks} / ${totalTasks}</div><div>🔥 Streak: ${Number(appState.leith?.streak) || 0} day(s)</div>`;
-    }
-
-    const leithMoodDefinitions = {
-        angry: { name: "Angry", emoji: "😡", headEmoji: "🦁🔥", ringClass: "mood-angry", responses: ["متزعليش من جوجو ❤️", "جوجو بيحبك ❤️"] },
-        sad: { name: "Sad", emoji: "😔", headEmoji: "🦁💧", ringClass: "mood-sad", responses: ["متزعليش ❤️", "أنا معاكي ❤️"] },
-        love: { name: "In Love", emoji: "😍", headEmoji: "🦁💖", ringClass: "mood-love", responses: ["وأنا كمان بحبك ❤️", "إنتِ قلبي ❤️"] },
-        bored: { name: "Bored", emoji: "😑", headEmoji: "🦁🥱", ringClass: "mood-bored", responses: ["اطبخي يلا لجوجو 😂❤️", "كلمي جوجو 👀"] },
-        stressed: { name: "Stressed", emoji: "😰", headEmoji: "🦁💫", ringClass: "mood-stressed", responses: ["مالك مخنوقة ليه؟ ❤️", "خدي نفس كده... واحدة واحدة ❤️"] },
-        tired: { name: "Tired", emoji: "😴", headEmoji: "🦁💤", ringClass: "mood-tired", responses: ["كفاية سهر... نامي بدري 😴❤️"] },
-        happy: { name: "Happy", emoji: "😊", headEmoji: "🦁✨", ringClass: "mood-happy", responses: ["حلو إنك مبسوطة النهارده ❤️"] },
-        neutral: { name: "Neutral", emoji: "🤍", headEmoji: "🦁", ringClass: "mood-neutral", responses: ["أنا معاكي كالعادة 🦁❤️"] }
-    };
-
-    function initLeith2Module() {
-        const moodKey = appState.leith.currentMood || 'neutral';
-        applyLeithMoodUI(moodKey);
-        if (appState.leith.latestMessage) {
-            showLeithMessage(appState.leith.latestMessage, appState.leith.sender || 'jojo');
-        }
-        updateLeithDailySummary();
-        updateLeithStreak();
-    }
-
-    function toggleLeithBubble() {
-        const bubble = document.getElementById('leithSpeechBubble');
-        const dot = document.getElementById('leithUnreadDot');
-        if (bubble) {
-            bubble.classList.toggle('active');
-            if (bubble.classList.contains('active') && dot) dot.classList.remove('active');
-        }
-    }
-
-    function setLeithMood(moodKey) {
-        const def = leithMoodDefinitions[moodKey] || leithMoodDefinitions['neutral'];
-        appState.leith.currentMood = moodKey;
-        const randomResp = def.responses[Math.floor(Math.random() * def.responses.length)];
-        appState.leith.latestMessage = randomResp;
-        appState.leith.sender = 'jojo';
-        saveAppState();
-        applyLeithMoodUI(moodKey);
-        showLeithMessage(randomResp, 'jojo');
-    }
-
-    function applyLeithMoodUI(moodKey) {
-        const def = leithMoodDefinitions[moodKey] || leithMoodDefinitions['neutral'];
-        const head = document.getElementById('leithChatHead');
-        if (head) head.className = `leith-chat-head ${def.ringClass}`;
-        const headEmoji = document.getElementById('leithHeadEmoji');
-        if (headEmoji) headEmoji.textContent = def.emoji;
-        const title = document.getElementById('leithMoodIndicatorTitle');
-        if (title) title.textContent = `🦁 Leith (${def.name})`;
-    }
-
-    function setLeithSender(sender) {
-        appState.leith.sender = sender;
-        saveAppState();
-        const btnJojo = document.getElementById('senderBtnJojo');
-        const btnLola = document.getElementById('senderBtnLola');
-        if (btnJojo && btnLola) {
-            if (sender === 'jojo') {
-                btnJojo.classList.add('active');
-                btnLola.classList.remove('active');
-            } else {
-                btnLola.classList.add('active');
-                btnJojo.classList.remove('active');
-            }
-        }
-        const senderDisplay = document.getElementById('leithSenderDisplay');
-        if (senderDisplay) senderDisplay.textContent = sender === 'jojo' ? '❤️ جوجو' : '🤍 لولا';
-    }
-
-    function showLeithMessage(msg, sender = 'jojo') {
-        const textEl = document.getElementById('leithMessageText');
-        const dot = document.getElementById('leithUnreadDot');
-        if (textEl) textEl.textContent = msg;
-        if (dot) dot.classList.add('active');
-        setLeithSender(sender);
-    }
-
-    function triggerLeithSurprise() {
-        const surprises = ["وحشتيني ❤️", "جوجو بيحبك 😂❤️", "أجمل صدفة في عمري ❤️"];
-        const pick = surprises[Math.floor(Math.random() * surprises.length)];
-        appState.leith.latestMessage = pick;
-        saveAppState();
-        showLeithMessage(pick, 'jojo');
-    }
-
-    function handleLeithKeypress(e) {
-        if (e.key === 'Enter') sendLeithMessage();
-    }
-
-    function sendLeithMessage() {
-        const input = document.getElementById('leithUserInput');
-        if (!input) return;
-        const txt = input.value.trim();
-        if (!txt) return;
-        const currentSender = appState.leith.sender || 'jojo';
-        appState.leith.latestMessage = txt;
-        saveAppState();
-        input.value = '';
-        showLeithMessage(txt, currentSender);
-    }
-
-    function closeModals() {
-        document.querySelectorAll('.modal').forEach(m => {
-            if (m.id !== 'surpriseModal') m.classList.remove('active');
-        });
-    }
-
-    function openSurprise() { document.getElementById('surpriseModal').classList.add('active'); }
-    function closeSurprise() { document.getElementById('surpriseModal').classList.remove('active'); }
-
-    function createFloatingHearts() {
-        const container = document.getElementById('heartsContainer');
-        if (!container) return;
-        setInterval(() => {
-            const heart = document.createElement('div');
-            heart.classList.add('floating-heart');
-            heart.innerText = '♥';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.fontSize = (Math.random() * 1 + 1) + 'rem';
-            const duration = Math.random() * 5 + 5;
-            heart.style.animationDuration = duration + 's';
-            container.appendChild(heart);
-            setTimeout(() => heart.remove(), duration * 1000);
-        }, 1000);
-    }
+    // -------------------------------------------------------------
+    // CENTRAL APP PERSISTENCE STORAGE ENGINE
+    // -------------------------------------------------------------
+    const APP_STORAGE_KEY = 'lola_forever_app_state_v4';
+
+    let appState = {
+        leith: {
+            currentMood: "neutral",
+            latestMessage: "أهلاً يا لولا 🦁❤️ إزيك النهارده؟",
+            sender: "jojo",
+            isPersistentMsg: true
+        },
+        timeMessage: {
+            message: "",
+            openDate: "",
+            openTime: ""
+        },
+        todos: [
+            { id: 1, text: "Drink water and smile ❤️", completed: false },
+            { id: 2, text: "Talk to Youssef ✨", completed: true }
+        ],
+        tickets: [
+            {
+                title: "Cinema Night",
+                type: "🎬 Cinema",
+                date: "15 August 2026",
+                place: "Mall of Egypt",
+                note: "Our first movie night ❤️",
+                details: "An amazing evening watching a wonderful movie together with popcorn and laughs."
+            }
+        ],
+        loveMsgIndex: 0
+    };
+
+    function saveAppState() {
+        try {
+            localStorage.setItem(APP_STORAGE_KEY, JSON.stringify(appState));
+        } catch(e) {
+            console.error("Storage error:", e);
+        }
+    }
+
+    function loadAppState() {
+        try {
+            const saved = localStorage.getItem(APP_STORAGE_KEY);
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                if (parsed) {
+                    appState = Object.assign({}, appState, parsed);
+                }
+            } else {
+                saveAppState();
+            }
+        } catch(e) {
+            console.error("Error loading app state:", e);
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const startupTasks = [
+            ['loadAppState', loadAppState],
+            ['initCountdown', initCountdown],
+            ['initLoveMessages', initLoveMessages],
+            ['initTodoList', initTodoList],
+            ['renderGallery', () => renderGallery('lola')],
+            ['renderTimeMessageSection', renderTimeMessageSection],
+            ['initTimeMessageSync', initTimeMessageSync],
+            ['createFloatingHearts', createFloatingHearts],
+            ['renderTicketsModule', renderTicketsModule],
+            ['initLeith2Module', initLeith2Module]
+        ];
+        startupTasks.forEach(([name, task]) => {
+            try { task(); }
+            catch (error) { console.error(`Startup error in ${name}:`, error); }
+        });
+
+        ensureTimeMessageState();
+        if ('Notification' in window) updateTimeMessageNotificationStatus(Notification.permission);
+        document.addEventListener('pointerdown', () => { window.__tmAudioUnlocked = true; }, { once:true, passive:true });
+        checkTimeMessageUnlock();
+        advanceRecurringTimeMessageIfNeeded();
+        timeMessageUnlockTimer = setInterval(() => {
+            try {
+                advanceRecurringTimeMessageIfNeeded();
+                checkTimeMessageUnlock();
+            } catch(e) { console.warn('Time Message timer error:', e); }
+        }, 15000);
+
+        const gate = document.getElementById('passwordGateOverlay');
+        if (gate) gate.classList.add('unlocked');
+    });
+
+    function toggleGatePasswordVisibility() {}
+    function verifyGatePassword() {
+        const overlay = document.getElementById('passwordGateOverlay');
+        if (overlay) overlay.classList.add('unlocked');
+    }
+    function handleGateKeypress() { }
+
+    function initCountdown() {
+        const startDate = new Date('2026-04-08T00:00:00');
+        setInterval(() => {
+            const now = new Date();
+            const diff = now - startDate;
+            if (diff < 0) return;
+
+            const dEl = document.getElementById('daysCount');
+            const hEl = document.getElementById('hoursCount');
+            const mEl = document.getElementById('minsCount');
+            const sEl = document.getElementById('secsCount');
+
+            if (dEl) dEl.textContent = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
+            if (hEl) hEl.textContent = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
+            if (mEl) mEl.textContent = String(Math.floor((diff / 1000 / 60) % 60)).padStart(2, '0');
+            if (sEl) sEl.textContent = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
+        }, 1000);
+    }
+
+    const loveReasonsArray = [
+        "مفيش سبب، إنتِ تتحبي من غير حاجة ❤️",
+        "هفضل معاكي ❤️",
+        "بحبك بعيوبك وبكل حاجة فيكي ❤️",
+        "إنتِ أذكى وأشطر من إنتِ متخيلة 🧠❤️",
+        "إنتِ ناجحة وأنا مؤمن بيكي 🎓❤️",
+        "You make my world better every day 🌎❤️",
+        "I love the way you care about the people you love 🥹❤️",
+        "Your smile can change my entire day 😊❤️",
+        "You are stronger than you think 💪❤️",
+        "I will always be proud of you 🫶❤️"
+    ];
+    for (let i = loveReasonsArray.length + 1; i <= 100; i++) {
+        loveReasonsArray.push(`سبب رقم ${i}: وجودك يملأ قلبي سعادة وسلامًا كل يوم ❤️`);
+    }
+
+    function initLoveMessages() {
+        const display = document.getElementById('loveMsgDisplay');
+        if (!display) return;
+        const idx = appState.loveMsgIndex || 0;
+        display.textContent = `"${loveReasonsArray[idx]}"`;
+    }
+
+    function nextLoveMessage() {
+        const display = document.getElementById('loveMsgDisplay');
+        if (!display) return;
+        display.classList.add('fade-out');
+        setTimeout(() => {
+            appState.loveMsgIndex = ((appState.loveMsgIndex || 0) + 1) % loveReasonsArray.length;
+            saveAppState();
+            display.textContent = `"${loveReasonsArray[appState.loveMsgIndex]}"`;
+            display.classList.remove('fade-out');
+        }, 500);
+    }
+
+    function initTodoList() {
+        renderTodoList();
+        initTodoSync();
+    
+        const todoInput = document.getElementById('todoInput');
+        if (todoInput) {
+            todoInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addTodoItem();
+                }
+            });
+        }
+    }
+
+    function renderTodoList() {
+        const container = document.getElementById('todoListContainer');
+        if (!container) return;
+
+        if (!appState.todos || appState.todos.length === 0) {
+            container.innerHTML = `<p style="text-align: center; color: #9ca3af; font-size: 0.9rem; padding: 1rem;">No tasks yet. Add something sweet above! ❤️</p>`;
+            return;
+        }
+
+        container.innerHTML = '';
+        appState.todos.forEach((item) => {
+            container.innerHTML += `
+                <div class="todo-item ${item.completed ? 'completed' : ''}">
+                    <div class="todo-item-content" onclick="toggleTodoItem(${item.id})">
+                        <input type="checkbox" ${item.completed ? 'checked' : ''} onclick="event.stopPropagation(); toggleTodoItem(${item.id})">
+                        <span style="font-size: 0.95rem; color: #f3f4f6;">${escapeHtml(item.text)}</span>
+                    </div>
+                    <button class="todo-delete-btn" onclick="deleteTodoItem(${item.id})" aria-label="Delete task">×</button>
+                </div>
+            `;
+        });
+        updateLeithDailySummary();
+    }
+
+    function addTodoItem() {
+        const input = document.getElementById('todoInput');
+        if (!input) return;
+        const text = input.value.trim();
+        if (!text) return;
+
+        const newItem = {
+            id: Date.now(),
+            text: text,
+            completed: false
+        };
+
+        appState.todos.unshift(newItem);
+        input.value = '';
+        saveAppState();
+        renderTodoList();
+        pushTodoStateToSupabase();
+    }
+
+    function handleTodoKeypress(e) {
+        if (e.key === 'Enter') {
+            addTodoItem();
+        }
+    }
+
+    function toggleTodoItem(id) {
+        const item = appState.todos.find(t => t.id === id);
+        if (item) {
+            item.completed = !item.completed;
+            saveAppState();
+            renderTodoList();
+            pushTodoStateToSupabase();
+        }
+    }
+
+    function deleteTodoItem(id) {
+        appState.todos = appState.todos.filter(t => t.id !== id);
+        saveAppState();
+        renderTodoList();
+        pushTodoStateToSupabase();
+    }
+
+    function escapeHtml(str) {
+        return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    const foldersData = {
+        lola: [
+            { id: "lola-1", file: "images/lola/lola1.jpg", title: "Lola 1", description: "Beautiful moment ❤️" },
+            { id: "lola-2", file: "images/lola/lola2.jpg", title: "Lola 2", description: "Gorgeous smile ✨" },
+            { id: "lola-3", file: "images/lola/lola3.jpg", title: "Lola 3", description: "Precious memory 🌸" },
+            { id: "lola-4", file: "images/lola/lola4.jpg", title: "Lola 4", description: "My favorite person 💖" }
+        ],
+        jojo: [
+            { id: "jojo-1", file: "images/jojo/jojo1.jpg", title: "Jojo 1", description: "Working hard 💻" },
+            { id: "jojo-2", file: "images/jojo/jojo2.jpg", title: "Jojo 2", description: "Ready for the day 🌟" },
+            { id: "jojo-3", file: "images/jojo/jojo3.jpg", title: "Jojo 3", description: "Focused & determined 💪" },
+            { id: "jojo-4", file: "images/jojo/jojo4.jpg", title: "Jojo 4", description: "Always by your side ❤️" }
+        ],
+        together: [
+            { id: "tog-1", file: "images/together/together1.jpg", title: "Together 1", description: "Our special day 🌹" },
+            { id: "tog-2", file: "images/together/together2.jpg", title: "Together 2", description: "Laughs & memories 🥂" },
+            { id: "tog-3", file: "images/together/together3.jpg", title: "Together 3", description: "Side by side 🤝" },
+            { id: "tog-4", file: "images/together/together4.jpg", title: "Together 4", description: "Forever with you ✨" }
+        ]
+    };
+
+    let activeFolder = 'lola';
+    let activeLightboxIndex = 0;
+
+    function renderGallery(folderKey) {
+        activeFolder = folderKey;
+        const grid = document.getElementById('photoGrid');
+        if (!grid) return;
+
+        document.querySelectorAll('.gallery-tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
+        if (typeof event !== 'undefined' && event && event.target && event.target.classList) {
+            event.target.classList.add('active');
+        }
+
+        const photos = foldersData[folderKey] || [];
+        grid.innerHTML = '';
+
+        photos.forEach((photo, idx) => {
+            grid.innerHTML += `
+                <div class="photo-card" onclick="openLightbox(${idx})">
+                    <div class="photo-img-wrapper">
+                        <img src="${photo.file}" alt="${photo.title}" loading="lazy" onerror="this.src='https://placehold.co/600x400/1e1b2e/ff6584?text=Photo';">
+                    </div>
+                    <div class="photo-info">
+                        <h3>${photo.title}</h3>
+                        <p>${photo.description}</p>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function filterGallery(folderKey, eventObj) {
+        activeFolder = folderKey;
+        const grid = document.getElementById('photoGrid');
+        if (!grid) return;
+
+        document.querySelectorAll('.gallery-tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
+        if (eventObj && eventObj.target && eventObj.target.classList) {
+            eventObj.target.classList.add('active');
+        }
+
+        const photos = foldersData[folderKey] || [];
+        grid.innerHTML = '';
+
+        photos.forEach((photo, idx) => {
+            grid.innerHTML += `
+                <div class="photo-card" onclick="openLightbox(${idx})">
+                    <div class="photo-img-wrapper">
+                        <img src="${photo.file}" alt="${photo.title}" loading="lazy" onerror="this.src='https://placehold.co/600x400/1e1b2e/ff6584?text=Photo';">
+                    </div>
+                    <div class="photo-info">
+                        <h3>${photo.title}</h3>
+                        <p>${photo.description}</p>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function openLightbox(index) {
+        activeLightboxIndex = index;
+        updateLightboxContent();
+        document.getElementById('lightboxModal').classList.add('active');
+    }
+
+    function closeLightbox() {
+        document.getElementById('lightboxModal').classList.remove('active');
+    }
+
+    function updateLightboxContent() {
+        const photos = foldersData[activeFolder] || [];
+        const photo = photos[activeLightboxIndex];
+        if (!photo) return;
+        document.getElementById('lightboxImg').src = photo.file;
+        document.getElementById('lightboxTitle').textContent = photo.title;
+        document.getElementById('lightboxDesc').textContent = photo.description;
+    }
+
+    function prevPhoto() {
+        const photos = foldersData[activeFolder] || [];
+        activeLightboxIndex = (activeLightboxIndex - 1 + photos.length) % photos.length;
+        updateLightboxContent();
+    }
+
+    function nextPhoto() {
+        const photos = foldersData[activeFolder] || [];
+        activeLightboxIndex = (activeLightboxIndex + 1) % photos.length;
+        updateLightboxContent();
+    }
+
+    const TIME_MESSAGE_TABLE = 'time_message_state';
+    let timeMessageSupabaseClient = null;
+    let timeMessageLastUpdatedAt = null;
+    let timeMessageApplyingRemote = false;
+    let timeMessageUnlockTimer = null;
+    let timeMessageLastNotifiedId = null;
+
+    function ensureTimeMessageState() {
+        if (!appState.timeMessage || typeof appState.timeMessage !== 'object') {
+            appState.timeMessage = { message:"", openDate:"", openTime:"", id:null, history:[], recurring:false, replies:[] };
+        }
+        if (!Array.isArray(appState.timeMessage.history)) appState.timeMessage.history = [];
+        if (!Array.isArray(appState.timeMessage.replies)) appState.timeMessage.replies = [];
+        if (typeof appState.timeMessage.recurring !== 'boolean') appState.timeMessage.recurring = false;
+        return appState.timeMessage;
+    }
+
+    function getTimeMessageId() {
+        const tm = ensureTimeMessageState();
+        return tm.id || `${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
+    }
+
+    function formatTimeMessageDate(dateStr, timeStr) {
+        try {
+            return new Date(`${dateStr}T${timeStr || '00:00'}:00`).toLocaleString('ar-EG', {
+                dateStyle:'medium', timeStyle:'short'
+            });
+        } catch(e) { return `${dateStr || ''} ${timeStr || ''}`; }
+    }
+
+    function isTimeMessageUnlocked(tm) {
+        if (!tm || !tm.message || !tm.openDate) return false;
+        const target = new Date(`${tm.openDate}T${tm.openTime || '00:00'}:00`);
+        return !Number.isNaN(target.getTime()) && new Date() >= target;
+    }
+
+    function showTimeMessageToast(message) {
+        const toast = document.getElementById('timeMessageToast');
+        const txt = document.getElementById('timeMessageToastText');
+        if (!toast || !txt) return;
+        txt.textContent = message;
+        toast.classList.add('active');
+        setTimeout(() => toast.classList.remove('active'), 9000);
+    }
+
+    async function requestTimeMessageNotifications() {
+        if (!('Notification' in window)) {
+            showTimeMessageToast('المتصفح ده مش بيدعم إشعارات النظام، لكن إشعار الموقع الداخلي شغال ❤️');
+            return;
+        }
+        try {
+            const permission = await Notification.requestPermission();
+            updateTimeMessageNotificationStatus(permission);
+            if (permission === 'granted') {
+                new Notification('💌 Time Message', { body:'الإشعارات اتفعلت. هقولك لما رسالة وقتها ييجي ❤️' });
+            }
+        } catch(e) {
+            console.warn('Notification permission error:', e);
+        }
+    }
+
+    function updateTimeMessageNotificationStatus(permission) {
+        const box = document.getElementById('timeMessageNotifyStatus');
+        if (!box) return;
+        if (permission === 'granted') {
+            box.style.display = 'flex';
+            box.innerHTML = '<span>🔔 الإشعارات مفعلة</span><span>جاهزين 💗</span>';
+        } else if (permission === 'denied') {
+            box.style.display = 'flex';
+            box.innerHTML = '<span>🔕 الإشعارات مرفوضة من المتصفح</span><span>الإشعار داخل الصفحة شغال</span>';
+        } else {
+            box.style.display = 'flex';
+            box.innerHTML = '<span>🔔 الإشعارات غير مفعلة</span><span>اضغط تفعيل</span>';
+        }
+    }
+
+    function notifyTimeMessageUnlocked(tm) {
+        if (!tm) return;
+        const id = tm.id || `${tm.openDate}|${tm.openTime}|${tm.message}`;
+        const seenKey = 'jojo_lola_tm_notified_' + id;
+        if (localStorage.getItem(seenKey) === '1') return;
+        localStorage.setItem(seenKey, '1');
+        timeMessageLastNotifiedId = id;
+
+        showTimeMessageToast(`رسالة مؤجلة فتحت ❤️: ${tm.message}`);
+
+        if ('Notification' in window && Notification.permission === 'granted') {
+            try { new Notification('💌 رسالة وقتها جه', { body: tm.message }); } catch(e) {}
+        }
+
+        try {
+            if (document.visibilityState === 'visible' && window.__tmAudioUnlocked) {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.frequency.value = 880;
+                gain.gain.value = 0.045;
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.start(); osc.stop(ctx.currentTime + 0.16);
+            }
+        } catch(e) {}
+    }
+
+    function checkTimeMessageUnlock() {
+        ensureTimeMessageState();
+        const tm = appState.timeMessage;
+        if (tm.message && tm.openDate && isTimeMessageUnlocked(tm)) {
+            notifyTimeMessageUnlocked(tm);
+            renderTimeMessageSection();
+        }
+    }
+
+    function renderTimeMessageSection() {
+        const formContainer = document.getElementById('timeMessageFormContainer');
+        const viewContainer = document.getElementById('timeMessageViewContainer');
+        if (!formContainer || !viewContainer) return;
+
+        const tm = ensureTimeMessageState();
+        if (!tm.message || !tm.openDate) {
+            formContainer.style.display = 'flex';
+            viewContainer.style.display = 'none';
+            return;
+        }
+
+        const isUnlocked = isTimeMessageUnlocked(tm);
+        formContainer.style.display = 'none';
+        viewContainer.style.display = 'flex';
+
+        if (isUnlocked) {
+            viewContainer.innerHTML = `
+                <span class="ticket-type-badge">💌 Time Message Unlocked</span>
+                <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:#fff;font-weight:600;line-height:1.5;">
+                    "${escapeHtml(tm.message)}"
+                </div>
+                <div style="color:#9ca3af;font-size:.85rem;display:flex;gap:1.5rem;margin-top:.5rem;flex-wrap:wrap;">
+                    <span>📅 ${escapeHtml(tm.openDate)}</span>
+                    <span>⏰ ${escapeHtml(tm.openTime || '00:00')}</span>
+                </div>
+                <div class="time-msg-reply">
+                    <input id="timeMessageReplyInput" class="time-msg-input" placeholder="اكتب ردك ❤️">
+                    <button class="btn-sm-action" onclick="replyToTimeMessage()">رد</button>
+                </div>
+                <div style="margin-top:.6rem;color:#d1d5db;font-size:.76rem;">
+                    ${renderTimeMessageReplies(tm.id)}
+                </div>
+                <div class="time-msg-tools">
+                    <button class="btn-sm-action" onclick="editTimeMessage()">✏️ تعديل</button>
+                    <button class="btn-sm-action" onclick="archiveCurrentTimeMessage()">🗃️ أرشفة</button>
+                </div>
+            `;
+        } else {
+            viewContainer.innerHTML = `
+                <span class="ticket-type-badge">🔒 رسالة مؤجلة</span>
+                <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:#fff;font-weight:600;">
+                    "في رسالة مستنياكي... ❤️"
+                </div>
+                <div style="color:#ff6584;font-size:.9rem;margin-top:.5rem;">
+                    تفتح في: ${escapeHtml(tm.openDate)} عند الساعة ${escapeHtml(tm.openTime || '00:00')}
+                </div>
+                ${tm.recurring ? '<div style="color:#fbbf24;font-size:.75rem;margin-top:.45rem;">🔁 بتتكرر سنويًا</div>' : ''}
+                <button class="btn-sm-action" style="margin-top:1rem;" onclick="editTimeMessage()">✏️ تعديل</button>
+            `;
+        }
+    }
+
+    function saveTimeMessage() {
+        ensureTimeMessageState();
+        const textEl = document.getElementById('inputTimeMsgText');
+        const dateEl = document.getElementById('inputTimeMsgDate');
+        const timeEl = document.getElementById('inputTimeMsgTime');
+        const text = textEl?.value.trim() || '';
+        const date = dateEl?.value.trim() || '';
+        const time = timeEl?.value.trim() || '00:00';
+        if (!text || !date) return;
+
+        const old = appState.timeMessage;
+        const id = old.id || getTimeMessageId();
+        const newMessage = {
+            id, message:text, openDate:date, openTime:time,
+            recurring: !!old.recurring, replies: Array.isArray(old.replies) ? old.replies : [],
+            createdAt: old.createdAt || new Date().toISOString()
+        };
+
+        if (old.message && old.openDate) {
+            appState.timeMessage.history.push({
+                id: old.id || getTimeMessageId(),
+                message: old.message, openDate: old.openDate, openTime: old.openTime || '00:00',
+                recurring: !!old.recurring, replies: old.replies || [],
+                archivedAt: new Date().toISOString()
+            });
+            if (appState.timeMessage.history.length > 50) appState.timeMessage.history = appState.timeMessage.history.slice(-50);
+        }
+
+        appState.timeMessage = newMessage;
+        saveAppState();
+        renderTimeMessageSection();
+        pushTimeMessageStateToSupabase();
+    }
+
+    function editTimeMessage() {
+        const tm = ensureTimeMessageState();
+        const formContainer = document.getElementById('timeMessageFormContainer');
+        const viewContainer = document.getElementById('timeMessageViewContainer');
+        if (!formContainer || !viewContainer) return;
+        document.getElementById('inputTimeMsgText').value = tm.message || "";
+        document.getElementById('inputTimeMsgDate').value = tm.openDate || "";
+        document.getElementById('inputTimeMsgTime').value = tm.openTime || "";
+        formContainer.style.display = 'flex';
+        viewContainer.style.display = 'none';
+    }
+
+    function archiveCurrentTimeMessage() {
+        const tm = ensureTimeMessageState();
+        if (!tm.message || !tm.openDate) return;
+        tm.history.push({
+            id: tm.id || getTimeMessageId(), message:tm.message, openDate:tm.openDate,
+            openTime:tm.openTime || '00:00', recurring:!!tm.recurring, replies:tm.replies || [],
+            archivedAt:new Date().toISOString()
+        });
+        tm.history = tm.history.slice(-50);
+        appState.timeMessage = { message:"", openDate:"", openTime:"", id:null, history:tm.history, recurring:false, replies:[] };
+        saveAppState();
+        renderTimeMessageSection();
+        renderTimeMessageArchive();
+        pushTimeMessageStateToSupabase();
+    }
+
+    function openTimeMessageArchive() {
+        const box = document.getElementById('timeMessageArchive');
+        if (!box) return;
+        box.style.display = box.style.display === 'none' ? 'flex' : 'none';
+        if (box.style.display !== 'none') renderTimeMessageArchive();
+    }
+
+    function renderTimeMessageArchive() {
+        const box = document.getElementById('timeMessageArchive');
+        if (!box) return;
+        const history = ensureTimeMessageState().history.slice().reverse();
+        if (!history.length) {
+            box.innerHTML = '<div style="color:#9ca3af;font-size:.75rem;text-align:center;">الأرشيف لسه فاضي ❤️</div>';
+            return;
+        }
+        box.innerHTML = history.map((item, idx) => `
+            <div class="time-msg-history-item">
+                <div class="tmh-main">
+                    <div class="tmh-title">${escapeHtml(item.message || '')}</div>
+                    <div class="tmh-meta">${escapeHtml(formatTimeMessageDate(item.openDate,item.openTime))}${item.recurring ? ' • 🔁 سنوي' : ''}</div>
+                </div>
+                <div class="tmh-actions">
+                    <button class="btn-sm-action" onclick="restoreTimeMessageFromArchive(${history.length-1-idx})">↩️ استرجاع</button>
+                    <button class="btn-sm-action" onclick="deleteTimeMessageArchive(${history.length-1-idx})">🗑️</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function restoreTimeMessageFromArchive(index) {
+        const tm = ensureTimeMessageState();
+        const item = tm.history[index];
+        if (!item) return;
+        appState.timeMessage = {
+            id:item.id || getTimeMessageId(), message:item.message || '',
+            openDate:item.openDate || '', openTime:item.openTime || '00:00',
+            recurring:!!item.recurring, replies:item.replies || [],
+            history:tm.history
+        };
+        saveAppState();
+        renderTimeMessageSection();
+        pushTimeMessageStateToSupabase();
+    }
+
+    function deleteTimeMessageArchive(index) {
+        const tm = ensureTimeMessageState();
+        if (!tm.history[index]) return;
+        tm.history.splice(index,1);
+        saveAppState();
+        renderTimeMessageArchive();
+        pushTimeMessageStateToSupabase();
+    }
+
+    function toggleTimeMessageRecurring() {
+        const tm = ensureTimeMessageState();
+        if (!tm.message || !tm.openDate) {
+            showTimeMessageToast('احفظ رسالة الأول وبعدها فعل التكرار السنوي ❤️');
+            return;
+        }
+        tm.recurring = !tm.recurring;
+        saveAppState();
+        renderTimeMessageSection();
+        pushTimeMessageStateToSupabase();
+        showTimeMessageToast(tm.recurring ? 'التكرار السنوي اتفعل 🔁❤️' : 'التكرار السنوي اتقفل');
+    }
+
+    function renderTimeMessageReplies(messageId) {
+        const tm = ensureTimeMessageState();
+        const replies = (tm.replies || []).filter(r => r.messageId === messageId);
+        if (!replies.length) return '<span style="color:#9ca3af;">مفيش ردود لسه.</span>';
+        return replies.slice(-5).map(r => `
+            <div style="margin-top:.35rem;padding:.45rem .55rem;border-radius:.65rem;background:rgba(255,255,255,.03);">
+                <strong style="color:#ffb3c1;">${escapeHtml(r.sender || '❤️')}</strong>
+                <span>${escapeHtml(r.text || '')}</span>
+            </div>
+        `).join('');
+    }
+
+    function replyToTimeMessage() {
+        const input = document.getElementById('timeMessageReplyInput');
+        const text = input?.value.trim() || '';
+        if (!text) return;
+        const tm = ensureTimeMessageState();
+        if (!tm.id) tm.id = getTimeMessageId();
+        tm.replies.push({
+            id:getTimeMessageId(), messageId:tm.id, text,
+            sender:localStorage.getItem('jojo_lola_sender') || '❤️',
+            date:new Date().toISOString()
+        });
+        tm.replies = tm.replies.slice(-30);
+        saveAppState();
+        renderTimeMessageSection();
+        pushTimeMessageStateToSupabase();
+    }
+
+    function advanceRecurringTimeMessageIfNeeded() {
+        const tm = ensureTimeMessageState();
+        if (!tm.recurring || !tm.message || !tm.openDate || !isTimeMessageUnlocked(tm)) return;
+        const target = new Date(`${tm.openDate}T${tm.openTime || '00:00'}:00`);
+        const next = new Date(target);
+        next.setFullYear(next.getFullYear() + 1);
+        if (new Date() >= next) {
+            tm.openDate = next.toISOString().slice(0,10);
+            saveAppState();
+            pushTimeMessageStateToSupabase();
+        }
+    }
+
+    function initTimeMessageSync() {
+        try {
+            if (typeof window.supabase === 'undefined') return;
+            if (!LEITH_SUPABASE_URL || !LEITH_SUPABASE_ANON_KEY ||
+                LEITH_SUPABASE_URL.indexOf('YOUR_') === 0 || LEITH_SUPABASE_ANON_KEY.indexOf('YOUR_') === 0) return;
+
+            timeMessageSupabaseClient = getSharedSupabaseClient();
+            if (!timeMessageSupabaseClient) return;
+            fetchTimeMessageStateFromSupabase();
+            try {
+                timeMessageSupabaseClient
+                    .channel('time_message_state_channel')
+                    .on('postgres_changes',
+                        { event:'*', schema:'public', table:TIME_MESSAGE_TABLE, filter:'id=eq.1' },
+                        payload => { if (payload.new) applyRemoteTimeMessageState(payload.new); }
+                    )
+                    .subscribe();
+            } catch(wsErr) {
+                console.warn("WebSocket not allowed or failed for time message channel:", wsErr);
+            }
+        } catch(e) {
+            console.warn('Time Message sync init skipped (running in Canvas offline/sandboxed mode).');
+        }
+    }
+
+    async function fetchTimeMessageStateFromSupabase() {
+        if (!timeMessageSupabaseClient) return;
+        try {
+            const {data,error} = await timeMessageSupabaseClient
+                .from(TIME_MESSAGE_TABLE).select('id,state,updated_at').eq('id',1).maybeSingle();
+            if (error) {
+                return;
+            }
+            if (data) {
+                applyRemoteTimeMessageState(data);
+            } else {
+                await pushTimeMessageStateToSupabase();
+            }
+        } catch(e) {}
+    }
+
+    function applyRemoteTimeMessageState(row) {
+        if (!row || !row.state) return;
+        if (timeMessageLastUpdatedAt && row.updated_at &&
+            new Date(row.updated_at).getTime() <= new Date(timeMessageLastUpdatedAt).getTime()) return;
+        timeMessageLastUpdatedAt = row.updated_at || timeMessageLastUpdatedAt;
+        timeMessageApplyingRemote = true;
+        const remote = typeof row.state === 'string' ? JSON.parse(row.state) : row.state;
+        appState.timeMessage = Object.assign({
+            message:"",openDate:"",openTime:"",id:null,history:[],recurring:false,replies:[]
+        }, remote || {});
+        ensureTimeMessageState();
+        saveAppState();
+        renderTimeMessageSection();
+        renderTimeMessageArchive();
+        timeMessageApplyingRemote = false;
+    }
+
+    async function pushTimeMessageStateToSupabase() {
+        if (!timeMessageSupabaseClient || timeMessageApplyingRemote) return;
+        try {
+            const nowIso = new Date().toISOString();
+            const stateSnapshot = JSON.parse(JSON.stringify(ensureTimeMessageState()));
+            timeMessageLastUpdatedAt = nowIso;
+            const {error} = await timeMessageSupabaseClient.from(TIME_MESSAGE_TABLE).upsert({
+                id:1,
+                state:stateSnapshot,
+                updated_at:nowIso
+            });
+            if (error) {}
+        } catch(e) {}
+    }
+
+    // Memory Tickets Module with App State Persistence
+    function renderTicketsModule() {
+        const grid = document.getElementById('ticketsGridContainer');
+        if (!grid) return;
+
+        if (!appState.tickets || appState.tickets.length === 0) {
+            grid.innerHTML = `<p style="grid-column: span 2; text-align: center; color: #9ca3af; padding: 2rem;">No memory tickets added yet.</p>`;
+            return;
+        }
+
+        grid.innerHTML = '';
+        appState.tickets.forEach((ticket, idx) => {
+            grid.innerHTML += `
+                <div class="ticket-card" onclick="openTicketDetails(${idx})">
+                    <div class="ticket-header">
+                        <span class="ticket-type-badge">${escapeHtml(ticket.type || '❤️ Special')}</span>
+                        <div style="display: flex; gap: 0.4rem;" onclick="event.stopPropagation()">
+                            <button class="btn-sm-action" onclick="openEditTicketModal(${idx})">✏️</button>
+                            <button class="btn-sm-action btn-sm-danger" onclick="deleteTicketItem(${idx})">🗑️</button>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="ticket-title">${escapeHtml(ticket.title)}</h3>
+                        <div class="ticket-meta" style="margin-top: 0.5rem;">
+                            <span>📅 ${escapeHtml(ticket.date)}</span>
+                            <span>📍 ${escapeHtml(ticket.place)}</span>
+                        </div>
+                    </div>
+                    <p class="ticket-note">${escapeHtml(ticket.note)}</p>
+                </div>
+            `;
+        });
+    }
+
+    function openAddTicketModal() {
+        document.getElementById('ticketModalTitle').textContent = "Add Memory Ticket";
+        document.getElementById('editTicketIndex').value = "-1";
+        document.getElementById('inputTicketTitle').value = "";
+        document.getElementById('inputTicketType').value = "🎬 Cinema";
+        document.getElementById('inputTicketDate').value = "";
+        document.getElementById('inputTicketPlace').value = "";
+        document.getElementById('inputTicketNote').value = "";
+        document.getElementById('inputTicketDetails').value = "";
+        document.getElementById('ticketModal').classList.add('active');
+    }
+
+    function openEditTicketModal(index) {
+        const t = appState.tickets[index];
+        if (!t) return;
+        document.getElementById('ticketModalTitle').textContent = "Edit Memory Ticket";
+        document.getElementById('editTicketIndex').value = index;
+        document.getElementById('inputTicketTitle').value = t.title || "";
+        document.getElementById('inputTicketType').value = t.type || "";
+        document.getElementById('inputTicketDate').value = t.date || "";
+        document.getElementById('inputTicketPlace').value = t.place || "";
+        document.getElementById('inputTicketNote').value = t.note || "";
+        document.getElementById('inputTicketDetails').value = t.details || "";
+        document.getElementById('ticketModal').classList.add('active');
+    }
+
+    function saveTicketItem() {
+        const index = parseInt(document.getElementById('editTicketIndex').value, 10);
+        const title = document.getElementById('inputTicketTitle').value.trim();
+        const type = document.getElementById('inputTicketType').value.trim();
+        const date = document.getElementById('inputTicketDate').value.trim();
+        const place = document.getElementById('inputTicketPlace').value.trim();
+        const note = document.getElementById('inputTicketNote').value.trim();
+        const details = document.getElementById('inputTicketDetails').value.trim();
+
+        if (!title) return;
+
+        const obj = { title, type, date, place, note, details };
+
+        if (index === -1) {
+            appState.tickets.push(obj);
+        } else {
+            appState.tickets[index] = obj;
+        }
+
+        saveAppState();
+        renderTicketsModule();
+        closeModals();
+    }
+
+    function deleteTicketItem(index) {
+        if (confirm("Are you sure you want to delete this memory?")) {
+            appState.tickets.splice(index, 1);
+            saveAppState();
+            renderTicketsModule();
+        }
+    }
+
+    function openTicketDetails(index) {
+        const t = appState.tickets[index];
+        if (!t) return;
+        const content = document.getElementById('ticketDetailsContent');
+        content.innerHTML = `
+            <span class="ticket-type-badge" style="align-self: flex-start;">${escapeHtml(t.type)}</span>
+            <h3 class="font-serif" style="font-size: 2.0rem; color: #fff;">${escapeHtml(t.title)}</h3>
+            <div style="color: #9ca3af; font-size: 0.9rem; display: flex; gap: 1.5rem;">
+                <span>📅 ${escapeHtml(t.date)}</span>
+                <span>📍 ${escapeHtml(t.place)}</span>
+            </div>
+            <p style="color: #d1d5db; font-size: 1.0rem; margin-top: 0.5rem; background: rgba(255,255,255,0.03); padding: 1.0rem; border-radius: 1.0rem;">${escapeHtml(t.note)}</p>
+            ${t.details ? `<p style="color: #9ca3af; font-size: 0.9rem;">${escapeHtml(t.details)}</p>` : ''}
+            <button class="main-btn" style="width: 100%; justify-content: center; margin-top: 1.0rem;" onclick="closeModals()">Close</button>
+        `;
+        document.getElementById('ticketDetailsModal').classList.add('active');
+    }
+
+    function updateLeithStreak() {
+        if (!appState.leith) return;
+        const today = new Date().toISOString().slice(0, 10);
+        const last = appState.leith.lastInteractionDate || '';
+        if (last === today) return;
+
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        const yesterdayKey = yesterday.toISOString().slice(0, 10);
+
+        appState.leith.streak = last === yesterdayKey
+            ? (Number(appState.leith.streak) || 0) + 1
+            : 1;
+        appState.leith.lastInteractionDate = today;
+        saveAppState();
+
+        const streakEl = document.getElementById('leithStreak');
+        if (streakEl) streakEl.textContent = `🔥 ${appState.leith.streak} يوم`;
+    }
+
+    function renderLeithStreak() {
+        const streakEl = document.getElementById('leithStreak');
+        if (streakEl) {
+            streakEl.textContent = `🔥 ${Number(appState.leith.streak) || 0} يوم`;
+        }
+    }
+
+    function addLeithQuickReactions() {
+        const input = document.getElementById('leithUserInput');
+        if (!input || document.getElementById('leithQuickReactions')) return;
+
+        const wrap = document.createElement('div');
+        wrap.id = 'leithQuickReactions';
+        wrap.style.cssText = 'display:flex;gap:.45rem;flex-wrap:wrap;margin:.5rem 0;';
+        [
+            ['❤️', 'حب'],
+            ['😊', 'مبسوطة'],
+            ['😔', 'زعلانة'],
+            ['😴', 'تعبانة'],
+            ['😡', 'متضايقة']
+        ].forEach(([emoji, label]) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'btn-sm-action';
+            btn.textContent = `${emoji} ${label}`;
+            btn.style.cssText = 'padding:.35rem .6rem;font-size:.72rem;';
+            btn.addEventListener('click', () => {
+                const moodMap = {
+                    '❤️': 'love',
+                    '😊': 'happy',
+                    '😔': 'sad',
+                    '😴': 'tired',
+                    '😡': 'angry'
+                };
+                const mood = moodMap[emoji];
+                if (mood && leithMoodDefinitions[mood]) setLeithMood(mood);
+                else sendLeithReaction(emoji);
+            });
+            wrap.appendChild(btn);
+        });
+        input.parentElement?.parentElement?.insertBefore(wrap, input.parentElement);
+    }
+
+    function getLeithContextHint() {
+        const tasks = Array.isArray(appState.todos) ? appState.todos : [];
+        const remaining = tasks.filter(t => !t.completed).length;
+        const completed = tasks.filter(t => t.completed).length;
+        if (remaining > 0) return `عندك ${remaining} مهمة لسه، خلينا نخلص واحدة ❤️`;
+        if (completed > 0) return `خلصتي ${completed} مهمة النهارده 👏❤️`;
+        return '';
+    }
+
+    function updateLeithDailySummary() {
+        const summaryBox = document.getElementById('leithSummaryBox');
+        if (!summaryBox) return;
+
+        const completedTasks = Array.isArray(appState.todos)
+            ? appState.todos.filter(t => t.completed).length
+            : 0;
+        const totalTasks = Array.isArray(appState.todos) ? appState.todos.length : 0;
+
+        const hint = getLeithContextHint();
+        summaryBox.innerHTML = `
+            <div>🎯 Tasks: ${completedTasks} / ${totalTasks}</div>
+            <div>🔥 Streak: ${Number(appState.leith?.streak) || 0} day(s)</div>
+            ${hint ? `<div style="margin-top:.35rem;color:#ffb4c2;">${escapeHtml(hint)}</div>` : ''}
+        `;
+        renderLeithStreak();
+        addLeithQuickReactions();
+    }
+
+    const LEITH_SUPABASE_URL = "https://gdngjpzkatjxzydxpqrm.supabase.co";
+    const LEITH_SUPABASE_ANON_KEY = "sb_publishable_3iOeehVNl6Djk1Ut2M6n_g_wQ6Nmwfh";
+
+    let sharedSupabaseClient = null;
+    function getSharedSupabaseClient() {
+        if (typeof window.supabase === 'undefined') return null;
+        if (!sharedSupabaseClient) {
+            sharedSupabaseClient = window.supabase.createClient(
+                LEITH_SUPABASE_URL,
+                LEITH_SUPABASE_ANON_KEY
+            );
+        }
+        return sharedSupabaseClient;
+    }
+
+    let leithSupabaseClient = null;
+    let leithLastUpdatedAt = null;
+    let leithApplyingRemote = false;
+
+    function initLeithSync() {
+        try {
+            if (typeof window.supabase === 'undefined') return;
+            if (!LEITH_SUPABASE_URL || !LEITH_SUPABASE_ANON_KEY ||
+                LEITH_SUPABASE_URL.indexOf('YOUR_') === 0 || LEITH_SUPABASE_ANON_KEY.indexOf('YOUR_') === 0) {
+                return;
+            }
+            leithSupabaseClient = getSharedSupabaseClient();
+            if (!leithSupabaseClient) return;
+            fetchLeithStateFromSupabase();
+            subscribeToLeith();
+        } catch (e) {
+            console.warn("Leith sync init skipped (running in Canvas offline/sandboxed mode).");
+        }
+    }
+
+    async function fetchLeithStateFromSupabase() {
+        if (!leithSupabaseClient) return;
+        try {
+            const { data, error } = await leithSupabaseClient
+                .from('leith_state')
+                .select('*')
+                .eq('id', 1)
+                .maybeSingle();
+            if (error) { return; }
+            if (data) applyRemoteLeithState(data);
+        } catch (e) {}
+    }
+
+    function subscribeToLeith() {
+        if (!leithSupabaseClient) return;
+        try {
+            leithSupabaseClient
+                .channel('leith_state_channel')
+                .on('postgres_changes',
+                    { event: '*', schema: 'public', table: 'leith_state', filter: 'id=eq.1' },
+                    (payload) => { if (payload.new) applyRemoteLeithState(payload.new); }
+                )
+                .subscribe();
+        } catch(wsErr) {
+            console.warn("WebSocket not allowed for leith channel:", wsErr);
+        }
+    }
+
+    function applyRemoteLeithState(row) {
+        if (!row) return;
+        if (leithLastUpdatedAt && row.updated_at &&
+            new Date(row.updated_at).getTime() <= new Date(leithLastUpdatedAt).getTime()) {
+            return;
+        }
+        leithLastUpdatedAt = row.updated_at || leithLastUpdatedAt;
+        leithApplyingRemote = true;
+
+        appState.leith.currentMood = row.mood || appState.leith.currentMood;
+        appState.leith.latestMessage = row.message || appState.leith.latestMessage;
+        appState.leith.sender = row.sender || appState.leith.sender;
+        appState.leith.isPersistentMsg = true;
+        if (typeof row.streak_count === 'number') appState.leith.streakCount = row.streak_count;
+        if (row.last_active_date) appState.leith.lastActiveDate = row.last_active_date;
+        saveAppState();
+
+        applyLeithMoodUI(appState.leith.currentMood);
+        showLeithMessage(appState.leith.latestMessage, appState.leith.sender);
+        renderLeithStreak();
+
+        leithApplyingRemote = false;
+    }
+
+    async function pushLeithStateToSupabase() {
+        if (!leithSupabaseClient || leithApplyingRemote) return;
+        try {
+            const nowIso = new Date().toISOString();
+            leithLastUpdatedAt = nowIso;
+            const { error } = await leithSupabaseClient
+                .from('leith_state')
+                .upsert({
+                    id: 1,
+                    mood: appState.leith.currentMood,
+                    message: appState.leith.latestMessage,
+                    sender: appState.leith.sender,
+                    streak_count: appState.leith.streakCount || 0,
+                    last_active_date: appState.leith.lastActiveDate || null,
+                    updated_at: nowIso
+                });
+            if (error) {}
+        } catch (e) {}
+    }
+
+    let todoSupabaseClient = null;
+    let todoLastUpdatedAt = null;
+    let todoApplyingRemote = false;
+
+    function initTodoSync() {
+        try {
+            if (typeof window.supabase === 'undefined') return;
+            if (!LEITH_SUPABASE_URL || !LEITH_SUPABASE_ANON_KEY ||
+                LEITH_SUPABASE_URL.indexOf('YOUR_') === 0 || LEITH_SUPABASE_ANON_KEY.indexOf('YOUR_') === 0) {
+                return;
+            }
+            todoSupabaseClient = getSharedSupabaseClient();
+            if (!todoSupabaseClient) return;
+            fetchTodoStateFromSupabase();
+            subscribeToTodo();
+        } catch (e) {
+            console.warn("Todo sync init skipped (running in Canvas offline/sandboxed mode).");
+        }
+    }
+
+    async function fetchTodoStateFromSupabase() {
+        if (!todoSupabaseClient) return;
+        try {
+            const { data, error } = await todoSupabaseClient
+                .from('todo_state')
+                .select('*')
+                .eq('id', 1)
+                .maybeSingle();
+            if (error) { return; }
+            if (data) applyRemoteTodoState(data);
+        } catch (e) {}
+    }
+
+    function subscribeToTodo() {
+        if (!todoSupabaseClient) return;
+        try {
+            todoSupabaseClient
+                .channel('todo_state_channel')
+                .on('postgres_changes',
+                    { event: '*', schema: 'public', table: 'todo_state', filter: 'id=eq.1' },
+                    (payload) => { if (payload.new) applyRemoteTodoState(payload.new); }
+                )
+                .subscribe();
+        } catch(wsErr) {
+            console.warn("WebSocket not allowed for todo channel:", wsErr);
+        }
+    }
+
+    function applyRemoteTodoState(row) {
+        if (!row) return;
+        if (todoLastUpdatedAt && row.updated_at &&
+            new Date(row.updated_at).getTime() <= new Date(todoLastUpdatedAt).getTime()) {
+            return;
+        }
+        todoLastUpdatedAt = row.updated_at || todoLastUpdatedAt;
+        todoApplyingRemote = true;
+
+        if (Array.isArray(row.todos)) {
+            appState.todos = row.todos;
+            saveAppState();
+            renderTodoList();
+        }
+
+        todoApplyingRemote = false;
+    }
+
+    async function pushTodoStateToSupabase() {
+        if (!todoSupabaseClient || todoApplyingRemote) return;
+        try {
+            const nowIso = new Date().toISOString();
+            todoLastUpdatedAt = nowIso;
+            const { error } = await todoSupabaseClient
+                .from('todo_state')
+                .upsert({
+                    id: 1,
+                    todos: appState.todos,
+                    updated_at: nowIso
+                });
+            if (error) {}
+        } catch (e) {}
+    }
+
+    const leithMoodDefinitions = {
+        angry: { name: "Angry", emoji: "😡", headEmoji: "🦁🔥", ringClass: "mood-angry", responses: ["متزعليش من جوجو ❤️", "جوجو بيحبك ❤️", "خلاص يا بت 😂❤️", "اهدي بس ❤️"] },
+        sad: { name: "Sad", emoji: "😔", headEmoji: "🦁💧", ringClass: "mood-sad", responses: ["متزعليش ❤️", "أنا معاكي ❤️", "تعالي هنا 🤍", "مالك بس؟ ❤️"] },
+        love: { name: "In Love", emoji: "😍", headEmoji: "🦁💖", ringClass: "mood-love", responses: ["وأنا كمان بحبك ❤️", "إنتِ قلبي ❤️", "وأنا بحبك أكتر 😂❤️"] },
+        bored: { name: "Bored", emoji: "😑", headEmoji: "🦁🥱", ringClass: "mood-bored", responses: ["اطبخي يلا لجوجو 😂❤️", "يلا برموت، كلمي جوجو 😂", "تعالي نعمل حاجة بدل الزهق 👀"] },
+        stressed: { name: "Stressed", emoji: "😰", headEmoji: "🦁💫", ringClass: "mood-stressed", responses: ["مالك مخنوقة ليه؟ ❤️", "كلمي جوجو، متفضليش مخنوقة لوحدك ❤️", "خدي نفس كده... واحدة واحدة ❤️"] },
+        tired: { name: "Tired", emoji: "😴", headEmoji: "🦁💤", ringClass: "mood-tired", responses: ["كفاية سهر... نامي بدري 😴❤️"] },
+        happy: { name: "Happy", emoji: "😊", headEmoji: "🦁✨", ringClass: "mood-happy", responses: ["حلو إنك مبسوطة النهارده ❤️"] },
+        neutral: { name: "Neutral", emoji: "🤍", headEmoji: "🦁", ringClass: "mood-neutral", responses: ["أنا معاكي كالعادة 🦁❤️"] }
+    };
+
+    let leithSecretTaps = 0;
+
+    function initLeith2Module() {
+        const moodKey = appState.leith.currentMood || 'neutral';
+        applyLeithMoodUI(moodKey);
+        
+        if (appState.leith.latestMessage) {
+            showLeithMessage(appState.leith.latestMessage, appState.leith.sender || 'jojo');
+        } else {
+            checkLeithContextualMessage();
+        }
+        updateLeithDailySummary();
+        updateLeithStreak();
+        initLeithSync();
+    }
+
+    function toggleLeithBubble() {
+        const bubble = document.getElementById('leithSpeechBubble');
+        const dot = document.getElementById('leithUnreadDot');
+        if (bubble) {
+            bubble.classList.toggle('active');
+            if (bubble.classList.contains('active') && dot) {
+                dot.classList.remove('active');
+            }
+        }
+        
+        leithSecretTaps++;
+        if (leithSecretTaps === 5) {
+            showLeithMessage("إنتِ اكتشفتي السر؟ 👀🦁", 'jojo');
+            leithSecretTaps = 0;
+        }
+    }
+
+    function setLeithMood(moodKey, save = true) {
+        const def = leithMoodDefinitions[moodKey] || leithMoodDefinitions['neutral'];
+        appState.leith.currentMood = moodKey;
+
+        let randomResp = def.responses[Math.floor(Math.random() * def.responses.length)];
+        const patternMsg = checkLeithMoodPattern(moodKey);
+        if (patternMsg) randomResp = patternMsg;
+        recordLeithMoodHistory(moodKey);
+
+        appState.leith.latestMessage = randomResp;
+        appState.leith.sender = 'jojo';
+        appState.leith.isPersistentMsg = true;
+
+        if (save) saveAppState();
+
+        applyLeithMoodUI(moodKey);
+        showLeithMessage(randomResp, 'jojo');
+        updateLeithStreak();
+        pushLeithStateToSupabase();
+    }
+
+    function recordLeithMoodHistory(moodKey) {
+        if (!appState.leith.moodHistory) appState.leith.moodHistory = [];
+        appState.leith.moodHistory.push({ mood: moodKey, date: new Date().toISOString() });
+        if (appState.leith.moodHistory.length > 30) {
+            appState.leith.moodHistory = appState.leith.moodHistory.slice(-30);
+        }
+    }
+
+    function checkLeithMoodPattern(moodKey) {
+        if (moodKey === 'neutral' || moodKey === 'happy' || moodKey === 'love') return null;
+        const history = appState.leith.moodHistory || [];
+        const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+        const recentSame = history.filter(h => h.mood === moodKey && new Date(h.date).getTime() >= weekAgo);
+        if (recentSame.length >= 2) {
+            const patternMsgs = {
+                tired: "لاحظت إنك تعبانة كتير الأسبوع ده، خدي بالك من نفسك يا لولا ❤️",
+                stressed: "إنتِ مخنوقة كتير الأيام دي... كلمي جوجو، متفضليش لوحدك ❤️",
+                sad: "حاسس إنك زعلانة كتير الفترة دي، إحنا هنا نسمعك ❤️",
+                bored: "شكلك زهقانة الأسبوع ده كله، يلا نعمل حاجة مختلفة 👀",
+                angry: "لاحظت إنك بتعصبي كتير الأيام دي، احكيلي إيه اللي مضايقك ❤️"
+            };
+            return patternMsgs[moodKey] || null;
+        }
+        return null;
+    }
+
+    function sendLeithReaction(emoji) {
+        const currentSender = appState.leith.sender || 'jojo';
+        appState.leith.latestMessage = emoji;
+        appState.leith.sender = currentSender;
+        appState.leith.isPersistentMsg = true;
+        saveAppState();
+        showLeithMessage(emoji, currentSender);
+        updateLeithStreak();
+        pushLeithStateToSupabase();
+    }
+
+    function applyLeithMoodUI(moodKey) {
+        const def = leithMoodDefinitions[moodKey] || leithMoodDefinitions['neutral'];
+        const head = document.getElementById('leithChatHead');
+        if (head) {
+            head.className = `leith-chat-head ${def.ringClass}`;
+        }
+
+        const headEmoji = document.getElementById('leithHeadEmoji');
+        if (headEmoji) headEmoji.textContent = def.emoji;
+
+        const title = document.getElementById('leithMoodIndicatorTitle');
+        if (title) title.textContent = `🦁 Leith (${def.name})`;
+    }
+
+    function setLeithSender(sender) {
+        appState.leith.sender = sender;
+        saveAppState();
+
+        const btnJojo = document.getElementById('senderBtnJojo');
+        const btnLola = document.getElementById('senderBtnLola');
+        if (btnJojo && btnLola) {
+            if (sender === 'jojo') {
+                btnJojo.classList.add('active');
+                btnLola.classList.remove('active');
+            } else {
+                btnLola.classList.add('active');
+                btnJojo.classList.remove('active');
+            }
+        }
+        const senderDisplay = document.getElementById('leithSenderDisplay');
+        if (senderDisplay) {
+            senderDisplay.textContent = sender === 'jojo' ? '❤️ جوجو' : '🤍 لولا';
+        }
+    }
+
+    function showLeithMessage(msg, sender = 'jojo') {
+        const textEl = document.getElementById('leithMessageText');
+        const senderDisplay = document.getElementById('leithSenderDisplay');
+        const dot = document.getElementById('leithUnreadDot');
+
+        if (textEl) textEl.textContent = msg;
+        if (senderDisplay) {
+            senderDisplay.textContent = sender === 'jojo' ? '❤️ جوجو' : '🤍 لولا';
+        }
+        if (dot) dot.classList.add('active');
+
+        setLeithSender(sender);
+    }
+
+    function checkLeithContextualMessage() {
+        if (appState.leith.isPersistentMsg && appState.leith.latestMessage) {
+            showLeithMessage(appState.leith.latestMessage, appState.leith.sender || 'jojo');
+            return;
+        }
+
+        const hour = new Date().getHours();
+        let timeMsg = "أهلاً يا لولا 🦁❤️ إزيك النهارده؟";
+        if (hour >= 5 && hour < 12) {
+            timeMsg = "صباح الخير يا آلاء ❤️ يلا نبدأ اليوم بهدوء";
+        } else if (hour >= 12 && hour < 17) {
+            timeMsg = "يومك ماشي إزاي؟ عملتي إيه لحد دلوقتي؟ 👀";
+        } else if (hour >= 17 && hour < 22) {
+            timeMsg = "مساء الخير يا آلاء ❤️ شوفي إيه اللي لسه ناقصك.";
+        } else {
+            timeMsg = "قبل ما تنامي، متنسيش وردك 🤍 نامي بدري يا لولا.";
+        }
+
+        showLeithMessage(timeMsg, 'jojo');
+    }
+
+    function triggerLeithSurprise() {
+        const surprises = [
+            "وحشتيني ❤️",
+            "قومي اعملي حاجة حلوة النهارده 👀",
+            "جوجو بيحبك 😂❤️",
+            "أجمل صدفة في عمري ❤️",
+            "ركزي في مستقبلك عشان تبقي دكتورة قد الدنيا 💊❤️"
+        ];
+        const pick = surprises[Math.floor(Math.random() * surprises.length)];
+        appState.leith.latestMessage = pick;
+        appState.leith.sender = 'jojo';
+        appState.leith.isPersistentMsg = true;
+        saveAppState();
+        showLeithMessage(pick, 'jojo');
+        updateLeithStreak();
+        pushLeithStateToSupabase();
+    }
+
+    function handleLeithKeypress(e) {
+        if (e.key === 'Enter') {
+            sendLeithMessage();
+        }
+    }
+
+    function sendLeithMessage() {
+        const input = document.getElementById('leithUserInput');
+        if (!input) return;
+        const txt = input.value.trim();
+        if (!txt) return;
+
+        const currentSender = appState.leith.sender || 'jojo';
+
+        appState.leith.latestMessage = txt;
+        appState.leith.sender = currentSender;
+        appState.leith.isPersistentMsg = true;
+        if (!Array.isArray(appState.leith.messageHistory)) appState.leith.messageHistory = [];
+        appState.leith.messageHistory.push({
+            text: txt,
+            sender: currentSender,
+            date: new Date().toISOString()
+        });
+        if (appState.leith.messageHistory.length > 20) {
+            appState.leith.messageHistory = appState.leith.messageHistory.slice(-20);
+        }
+        saveAppState();
+
+        input.value = '';
+        showLeithMessage(txt, currentSender);
+        updateLeithStreak();
+        pushLeithStateToSupabase();
+    }
+
+    function closeModals() {
+        document.querySelectorAll('.modal').forEach(m => {
+            if (m.id !== 'surpriseModal') {
+                m.classList.remove('active');
+            }
+        });
+    }
+
+    function openSurprise() { document.getElementById('surpriseModal').classList.add('active'); }
+    function closeSurprise() { document.getElementById('surpriseModal').classList.remove('active'); }
+
+    function createFloatingHearts() {
+        const container = document.getElementById('heartsContainer');
+        if (!container) return;
+        setInterval(() => {
+            const heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            heart.innerText = '♥';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 1 + 1) + 'rem';
+            const duration = Math.random() * 5 + 5;
+            heart.style.animationDuration = duration + 's';
+            container.appendChild(heart);
+            setTimeout(() => heart.remove(), duration * 1000);
+        }, 1000);
+    }
 </script>
+
+<div id="timeMessageToast" class="tm-toast">
+    <div style="color:#ff6584;font-weight:700;margin-bottom:.3rem;">💌 Time Message</div>
+    <div id="timeMessageToastText" style="color:#fff;line-height:1.5;"></div>
+    <button class="btn-sm-action" style="margin-top:.7rem;" onclick="document.getElementById('timeMessageToast')?.classList.remove('active')">حاضر ❤️</button>
+</div>
 </body>
-</html>
+</html> 
