@@ -1577,17 +1577,23 @@
     }
 
     /* ================================================================= */
-    /* ISOLATED SUPABASE REALTIME SYNC MODULE (prefixed with "sync")     */
+    /* SUPABASE REALTIME SYNC — works with existing tables:              */
+    /*   leith_state (id, mood, message, sender, updated_at,             */
+    /*                streak_count, last_active_date)                    */
+    /*   todo_state  (id, todos, updated_at)                             */
     /* ================================================================= */
 
-    // ⚠️ REQUIRED: paste your Supabase anon public key below.
-    // Find it in: Supabase Dashboard → Project Settings → API → "anon public"
     const SYNC_SUPABASE_URL = 'https://gdngjpzkatjxzydxpqrm.supabase.co';
     const SYNC_SUPABASE_ANON_KEY = 'sb_publishable_3iOeehVNl6Djk1Ut2M6n_g_wQ6Nmwfh';
 
+    // The single shared row id used in both tables.
+    const SYNC_ROW_ID = 'main';
+
     let syncClient = null;
-    let syncPushTimer = null;
+    let syncLeithTimer = null;
+    let syncTodoTimer = null;
     let syncReady = false;
+    let syncApplyingRemote = false;
     const syncInstanceId = 'inst_' + Date.now() + '_' + Math.random().toString(36).slice(2);
 
     function syncInit() {
@@ -1596,99 +1602,174 @@
                 console.warn('[sync] Supabase library not loaded, staying localStorage-only.');
                 return;
             }
-            if (!SYNC_SUPABASE_ANON_KEY || SYNC_SUPABASE_ANON_KEY === 'PASTE_YOUR_ANON_PUBLIC_KEY_HERE') {
-                console.warn('[sync] No Supabase anon key set, staying localStorage-only.');
-                return;
-            }
             syncClient = window.supabase.createClient(SYNC_SUPABASE_URL, SYNC_SUPABASE_ANON_KEY);
             syncReady = true;
+            console.log('[sync] Supabase client ready.');
         } catch (e) {
             console.warn('[sync] Failed to init Supabase client:', e);
             syncReady = false;
         }
     }
 
+    // Called by saveAppState() — pushes both tables (debounced)
     function syncPushState() {
         if (!syncReady || !syncClient) return;
-        clearTimeout(syncPushTimer);
-        syncPushTimer = setTimeout(async () => {
+        if (syncApplyingRemote) return; // don't echo back what we just received
+        syncPushLeith();
+        syncPushTodos();
+    }
+
+    function syncPushLeith() {
+        clearTimeout(syncLeithTimer);
+        syncLeithTimer = setTimeout(async () => {
             try {
-                const payloadState = Object.assign({}, appState, { _syncOrigin: syncInstanceId });
+                const l = appState.leith || {};
                 const { error } = await syncClient
-                    .from('lola_app_state')
-                    .upsert({ id: 1, state: payloadState, updated_at: new Date().toISOString() });
-                if (error) console.warn('[sync] push error:', error.message);
+                    .from('leith_state')
+                    .upsert({
+                        id: SYNC_ROW_ID,
+                        mood: l.currentMood || 'neutral',
+                        message: l.latestMessage || '',
+                        sender: l.sender || 'jojo',
+                        streak_count: Number(l.streak) || 0,
+                        last_active_date: l.lastInteractionDate || null,
+                        updated_at: new Date().toISOString()
+                    });
+                if (error) console.warn('[sync] leith push error:', error.message);
             } catch (e) {
-                console.warn('[sync] push failed:', e);
+                console.warn('[sync] leith push failed:', e);
+            }
+        }, 500);
+    }
+
+    function syncPushTodos() {
+        clearTimeout(syncTodoTimer);
+        syncTodoTimer = setTimeout(async () => {
+            try {
+                const { error } = await syncClient
+                    .from('todo_state')
+                    .upsert({
+                        id: SYNC_ROW_ID,
+                        todos: appState.todos || [],
+                        updated_at: new Date().toISOString()
+                    });
+                if (error) console.warn('[sync] todo push error:', error.message);
+            } catch (e) {
+                console.warn('[sync] todo push failed:', e);
             }
         }, 500);
     }
 
     async function syncPullInitial() {
         if (!syncReady || !syncClient) return;
+
+        // Pull Leith state
         try {
             const { data, error } = await syncClient
-                .from('lola_app_state')
-                .select('state, updated_at')
-                .eq('id', 1)
+                .from('leith_state')
+                .select('*')
+                .eq('id', SYNC_ROW_ID)
                 .maybeSingle();
 
             if (error) {
-                console.warn('[sync] pull error:', error.message);
-                return;
-            }
-
-            if (data && data.state) {
-                syncApplyRemoteState(data.state);
+                console.warn('[sync] leith pull error:', error.message);
+            } else if (data) {
+                syncApplyLeithRow(data);
             } else {
-                // No remote row yet — create it from current local state
-                syncPushState();
+                syncPushLeith(); // no row yet, create it
             }
         } catch (e) {
-            console.warn('[sync] pull failed:', e);
+            console.warn('[sync] leith pull failed:', e);
+        }
+
+        // Pull Todos
+        try {
+            const { data, error } = await syncClient
+                .from('todo_state')
+                .select('*')
+                .eq('id', SYNC_ROW_ID)
+                .maybeSingle();
+
+            if (error) {
+                console.warn('[sync] todo pull error:', error.message);
+            } else if (data) {
+                syncApplyTodoRow(data);
+            } else {
+                syncPushTodos(); // no row yet, create it
+            }
+        } catch (e) {
+            console.warn('[sync] todo pull failed:', e);
         }
     }
 
-    function syncApplyRemoteState(remoteState) {
-        if (!remoteState) return;
-        // Ignore our own echoed writes
-        if (remoteState._syncOrigin === syncInstanceId) return;
-
-        const clean = Object.assign({}, remoteState);
-        delete clean._syncOrigin;
-
-        appState = Object.assign({}, appState, clean);
+    function syncApplyLeithRow(row) {
+        if (!row) return;
+        syncApplyingRemote = true;
         try {
-            localStorage.setItem(APP_STORAGE_KEY, JSON.stringify(appState));
-        } catch (e) {
-            console.warn('[sync] local save after remote apply failed:', e);
-        }
+            appState.leith = appState.leith || {};
+            if (row.mood) appState.leith.currentMood = row.mood;
+            if (typeof row.message === 'string') appState.leith.latestMessage = row.message;
+            if (row.sender) appState.leith.sender = row.sender;
+            if (row.streak_count !== null && row.streak_count !== undefined) {
+                appState.leith.streak = Number(row.streak_count) || 0;
+            }
+            if (row.last_active_date) appState.leith.lastInteractionDate = row.last_active_date;
 
-        // Re-render using existing render functions only
-        try { renderTodoList(); } catch (e) {}
-        try { renderTicketsModule(); } catch (e) {}
-        try { initLoveMessages(); } catch (e) {}
-        try {
-            if (appState.leith) {
-                applyLeithMoodUI(appState.leith.currentMood || 'neutral');
+            try {
+                localStorage.setItem(APP_STORAGE_KEY, JSON.stringify(appState));
+            } catch (e) {}
+
+            try { applyLeithMoodUI(appState.leith.currentMood || 'neutral'); } catch (e) {}
+            try {
                 if (appState.leith.latestMessage) {
                     showLeithMessage(appState.leith.latestMessage, appState.leith.sender || 'jojo');
                 }
+            } catch (e) {}
+            try { updateLeithDailySummary(); } catch (e) {}
+        } finally {
+            syncApplyingRemote = false;
+        }
+    }
+
+    function syncApplyTodoRow(row) {
+        if (!row) return;
+        syncApplyingRemote = true;
+        try {
+            let incoming = row.todos;
+            // todos column may come back as a JSON string instead of an array
+            if (typeof incoming === 'string') {
+                try { incoming = JSON.parse(incoming); } catch (e) { incoming = null; }
             }
-        } catch (e) {}
+            if (Array.isArray(incoming)) {
+                appState.todos = incoming;
+                try {
+                    localStorage.setItem(APP_STORAGE_KEY, JSON.stringify(appState));
+                } catch (e) {}
+                try { renderTodoList(); } catch (e) {}
+            }
+        } finally {
+            syncApplyingRemote = false;
+        }
     }
 
     function syncSubscribe() {
         if (!syncReady || !syncClient) return;
         try {
             syncClient
-                .channel('sync-lola-app-state')
-                .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'lola_app_state', filter: 'id=eq.1' }, (payload) => {
-                    if (payload && payload.new && payload.new.state) {
-                        syncApplyRemoteState(payload.new.state);
-                    }
-                })
-                .subscribe();
+                .channel('lola-realtime')
+                .on('postgres_changes',
+                    { event: '*', schema: 'public', table: 'leith_state' },
+                    (payload) => {
+                        if (payload && payload.new) syncApplyLeithRow(payload.new);
+                    })
+                .on('postgres_changes',
+                    { event: '*', schema: 'public', table: 'todo_state' },
+                    (payload) => {
+                        if (payload && payload.new) syncApplyTodoRow(payload.new);
+                    })
+                .subscribe((status) => {
+                    console.log('[sync] realtime status:', status);
+                });
         } catch (e) {
             console.warn('[sync] subscribe failed:', e);
         }
